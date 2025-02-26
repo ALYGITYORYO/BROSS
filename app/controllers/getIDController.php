@@ -65,4 +65,22 @@
                 return "CT0001"; // Valor inicial si no hay registros
             }
 	}
+
+	public function remisionGetIDControlador(){
+        $consecutivo=$this->ejecutarConsulta("SELECT `ID`,`FOLIO` FROM remision ORDER BY `ID` DESC;");
+        if ($consecutivo->rowCount() > 0) {
+            $fila = $consecutivo->fetch();
+            $ultimoNovehiculo = $fila['FOLIO'];
+
+            // Extraer el número y sumarle 1
+            $numero = intval(ltrim(substr($ultimoNovehiculo, 2), '0')) + 1; //Elimina "BR" y los 0 a la izquierda.
+
+            $nuevoNovehiculo = "RE" . str_pad($numero, 4, "0", STR_PAD_LEFT); //Formatea el nuevo número.
+
+            return $nuevoNovehiculo;
+        } else {
+            return "RE0001"; // Valor inicial si no hay registros
+        }
+}
+    
 }

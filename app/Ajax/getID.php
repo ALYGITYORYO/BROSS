@@ -20,6 +20,9 @@
 
 		if($_GET['variable']=="cotizadorGet_ID"){
 			echo $folios->cotizadorGetIDControlador();
+		}
+		if($_GET['variable']=="remisionGet_ID"){
+			echo $folios->remisionGetIDControlador();
 		}		
 		
 	}

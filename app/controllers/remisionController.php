@@ -5,10 +5,11 @@ use app\models\mainModel;
 
 class remisionController extends mainModel{
 
-    function remisionLeer($ID){
+    function remisionLeer(){
+        $ID=$_POST["ID"];
         $lista = array();
         $autoincrement=1;
-        $drop_list=$this->ejecutarConsulta("SELECT co.`ID`,co.`FOLIO`,co.`PUNTO_INICIO_EDO`,co.`PUNTO_INICIO_CIUDAD`,co.`DIR_INICIO`,co.`PUNTO_FINAL_EDO`,co.`PUNTO_FINAL_CIUDAD`,co.`DIR_FINAL`,co.`PESO`,co.`FECHA_CARGA`,co.`FECHA_DESCARGA`,co.`DIAS`,co.`PRECIO`,c.NOMBRE AS CLIENTE, m.NOMBRE AS MATERIAL FROM `cotizador`co INNER JOIN clientes c ON CLIENTE = c.ID INNER JOIN d_material m ON MATERIAL = m.ID WHERE co.ID=".$ID);			
+        $drop_list=$this->ejecutarConsulta("SELECT * FROM `cotizador` WHERE ID=".$ID);			
         $fila = $drop_list->fetchall();
 
         foreach ($fila as $row) {
@@ -24,9 +25,16 @@ class remisionController extends mainModel{
                 "DIR_FINAL" => $row["DIR_FINAL"],
                 "MATERIAL" => $row["MATERIAL"],
                 "PESO" => $row["PESO"],
+                "PRECIO" => $row["PRECIO"],
                 "FECHA_CARGA" => $row["FECHA_CARGA"],
                 "FECHA_DESCARGA" => $row["FECHA_DESCARGA"],
-                "PRECIO" => $row["PRECIO"]
+                "LINK_INICIO" => $row["LINK_INICIO"],
+                "LINK_FINAL" => $row["LINK_FINAL"],
+                "NOTAS" => $row["NOTAS"],
+                "TIPO_FISCAL" => $row["TIPO_FISCAL"],
+                "DIAS_CREDITO" => $row["DIAS_CREDITO"],
+                "CONDICION" => $row["CONDICION"]
+
                 );
         }
 
