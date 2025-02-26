@@ -27,10 +27,10 @@ $(document).ready(function() {
                 <div class="card-body">
 
 
-                <form class="row g-3 needs-validation FormularioAjax"
-                    action="<?php echo APP_URL; ?>app/ajax/cotizadorAjax.php" method="POST" autocomplete="off"
-                    id="cotizador" enctype="multipart/form-data">
-                    <input type="hidden" name="moduloCotizador" value="registrar">
+                    <form class="row g-3 needs-validation FormularioAjax"
+                        action="<?php echo APP_URL; ?>app/ajax/cotizadorAjax.php" method="POST" autocomplete="off"
+                        id="cotizador" enctype="multipart/form-data">
+                        <input type="hidden" name="moduloCotizador" value="registrar">
 
                         <div class="row gx-3">
                             <div class="col-xxl-6 col-lg-4 col-sm-6">
@@ -92,7 +92,14 @@ $(document).ready(function() {
                                                         },
                                                         RFC: {
                                                             type: "string"
+                                                        },
+                                                        DIAS: {
+                                                            type: "string"
+                                                        },
+                                                        CONDICIONES: {
+                                                            type: "string"
                                                         }
+
                                                     }
                                                 }
                                             }
@@ -103,13 +110,88 @@ $(document).ready(function() {
                                             dataTextField: "NOMBRE",
                                             dataValueField: "ID",
                                             dataSource: operador_data,
+                                            change: onChange,
                                             filter: "contains",
+
                                         });
 
+                                        function onChange() {
+                                            var dropdownlist_clientes_venta = $("#cliente").data(
+                                                "kendoComboBox");
+                                            var selectedDataItem_cliente = dropdownlist_clientes_venta
+                                            .dataItem();
+
+                                            const dias = selectedDataItem_cliente.DIAS;
+                                            const condiciones = selectedDataItem_cliente.CONDICIONES;
+                                            if (condiciones == "credito") {
+                                                $("#diasCreditoContainer").show();
+                                                $("#diasCredito").val(dias);
+                                                $("#aCredito").prop('checked', true);
+                                                $("#containerespacio").hide();
+                                            } else {
+                                                $("#alContado").prop('checked', true);
+                                                $("#diasCreditoContainer").hide();
+                                                $("#diasCredito").val("0");
+                                                $("#containerespacio").show();
+
+                                            }
+                                        }
                                     });
                                     </script>
                                 </div>
                             </div>
+
+
+                            <div class="col-xxl-6 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">Condiciones de ventas pactada
+                                    </label>
+                                    <div class="m-0">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="condiciones"
+                                                id="alContado" value="contado">
+                                            <label class="form-check-label" for="alContado">Al Contado</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="condiciones"
+                                                id="aCredito" value="credito">
+                                            <label class="form-check-label" for="aCredito">A Crédito</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-6 col-lg-4 col-sm-6" id="diasCreditoContainer" style="display: none;">
+                                <div class="mb-3">
+                                    <label class="form-label" for="diasCredito">Días de Crédito </label>
+                                    <input type="number" class="form-control" id="diasCredito" name="diasCredito"
+                                        min="1">
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-6 col-lg-4 col-sm-6" id="containerespacio">
+                                <div class="mb-3">
+                                    <label class="form-label" for="">&nbsp; </label>
+
+                                </div>
+                            </div>
+
+                            <script>
+                            $(document).ready(function() {
+                                $('input[name="condiciones"]').change(function() {
+                                    if ($(this).val() === 'credito') {
+                                        $('#diasCreditoContainer').show();
+                                        $("#containerespacio").hide();
+                                    } else {
+                                        $('#diasCreditoContainer').hide();
+                                        $("#diasCredito").val("0"); //limpiar el input
+                                        $("#containerespacio").show();
+                                    }
+                                });
+                            });
+                            </script>
+
+
                             <div class="col-xxl-3 col-lg-4 col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label">PUNTO DE INICIO (ESTADO)</label>
@@ -344,7 +426,8 @@ $(document).ready(function() {
                                 <div class="mb-3">
                                     <div class="input-group">
                                         <span class="input-group-text">Dirección Inicio</span>
-                                        <textarea class="form-control" id="abc14" name="dirinicio" aria-label="With textarea"></textarea>
+                                        <textarea class="form-control" id="abc14" name="dirinicio"
+                                            aria-label="With textarea"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -352,7 +435,27 @@ $(document).ready(function() {
                                 <div class="mb-3">
                                     <div class="input-group">
                                         <span class="input-group-text">Dirección Final</span>
-                                        <textarea class="form-control" id="abc14" name="dirfinal" aria-label="With textarea"></textarea>
+                                        <textarea class="form-control" id="abc14" name="dirfinal"
+                                            aria-label="With textarea"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-6 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Link GoogleMaps Inicio</span>
+                                        <textarea class="form-control" id="abc14" name="diriniciogoogle"
+                                            aria-label="With textarea"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-xxl-6 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">Link GoogleMaps Final</span>
+                                        <textarea class="form-control" id="abc14" name="dirfinalgoogle"
+                                            aria-label="With textarea"></textarea>
                                     </div>
                                 </div>
                             </div>
@@ -377,7 +480,7 @@ $(document).ready(function() {
                                     <div class="modal-content">
                                         <div class="modal-header">
                                             <h5 class="modal-title" id="exampleModalXlLabel">
-                                            Viajes hechos
+                                                Viajes hechos
                                             </h5>
                                             <button type="button" class="btn-close" data-bs-dismiss="modal"
                                                 aria-label="Close"></button>
@@ -463,7 +566,8 @@ $(document).ready(function() {
                             <div class="col-xxl-6 col-lg-4 col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="material">MATERIAL</label>
-                                    <input class="form-control" id="tipos_material" name="material" style="width: 100%;" />
+                                    <input class="form-control" id="tipos_material" name="material"
+                                        style="width: 100%;" />
                                 </div>
                                 <script id="noDataTemplatetipos_material" type="text/x-kendo-tmpl">
                                     <div>No se encontró dentro de la base de datos desea guardar a : - '#: instance.text() #' ?</div>
@@ -635,12 +739,46 @@ $(document).ready(function() {
 
                                 </div>
                             </div>
+
+
                             <div class="col-xxl-6 col-lg-4 col-sm-6">
                                 <div class="input-group" style="PADDING-TOP: 6%;">
                                     <span class="input-group-text">$</span>
-                                    <input type="number" class="form-control" id="precio" placeholder="Precio" name="precio">
+                                    <input type="number" class="form-control" id="precio" placeholder="Precio"
+                                        name="precio">
                                 </div>
                             </div>
+
+                            <div class="col-xxl-12 col-lg-12 col-sm-12">
+                                <div class="mb-3">
+                                    <div class="input-group">
+                                        <span class="input-group-text">NOTAS</span>
+                                        <textarea class="form-control" id="abc14" name="notas"
+                                            aria-label="With textarea"></textarea>
+                                    </div>
+                                </div>
+                            </div>
+
+
+                            <div class="col-xxl-6 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label">FISCAL / NO FISCAL
+                                    </label>
+                                    <div class="m-0">
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="fiscal"
+                                                id="fiscal" value="fiscal">
+                                            <label class="form-check-label" for="fiscal">Fiscal</label>
+                                        </div>
+                                        <div class="form-check form-check-inline">
+                                            <input class="form-check-input" type="radio" name="fiscal"
+                                                id="nofiscal" value="no fiscal">
+                                            <label class="form-check-label" for="nofiscal">No fiscal</label>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+
 
                             <div class="col-12">
                                 <div class="d-flex gap-2 justify-content-end">

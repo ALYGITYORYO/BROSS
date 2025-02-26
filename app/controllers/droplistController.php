@@ -116,14 +116,15 @@
 		public function listaClienteControlador(){
 
 			$lista = array();
-				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOMBRE`,`RFC` FROM `clientes` WHERE 1");			
+				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOMBRE`,`RFC`,`CREDITO`,`CONDICIONES` FROM `clientes` WHERE 1");			
 				$fila = $drop_list->fetchall();
 				foreach ($fila as $row) {
 					$lista[]= array(
 						"ID" => $row["ID"],
 						"NOMBRE" => $row["NOMBRE"],
-						"RFC" => $row["RFC"]
-						
+						"RFC" => $row["RFC"],
+						"DIAS" => $row["CREDITO"],
+						"CONDICIONES" => $row["CONDICIONES"]
 
 						);
 				}

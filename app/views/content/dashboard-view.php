@@ -479,7 +479,7 @@
             pageSize: 10,
             schema: {
                 model: {
-                    id: "ID",
+                    ID: "ID",
                     fields: {
                         FOLIO: {
                             type: "string"
@@ -506,11 +506,8 @@
 
                     }
                 }
-            },
-            sort: {
-                field: 'FECHAPEDIDO',
-                dir: 'desc'
             }
+           
         });
         var element = $("#grid_cotizaciones").kendoGrid({
             dataSource: dataSourceR,

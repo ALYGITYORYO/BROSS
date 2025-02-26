@@ -14,6 +14,16 @@
 			$ciudadfinal =$_POST['ciudadfinal'];
 			$dirinicio =$_POST['dirinicio'];
 			$dirfinal =$_POST['dirfinal'];
+			
+			$iniciolink =addslashes($_POST['diriniciogoogle']);
+			$finallink =addslashes($_POST['dirfinalgoogle']);
+			$notas =$_POST['notas'];
+			
+			$fiscal =$_POST['fiscal'];
+			$condiciones =$_POST['condiciones'];
+			$diasCredito =$_POST['diasCredito'];
+
+			
 			$material =$_POST['material'];
 			$peso =$_POST['peso'];
 			$fechaInicio =$_POST['fechaInicio'];
@@ -25,6 +35,34 @@
 					"campo_nombre"=>"FOLIO",
 					"campo_marcador"=>":FOLIO",
 					"campo_valor"=>$folio
+				],
+				[
+					"campo_nombre"=>"TIPO_FISCAL",
+					"campo_marcador"=>":TIPO_FISCAL",
+					"campo_valor"=>$fiscal
+				],
+				[
+					"campo_nombre"=>"CONDICION",
+					"campo_marcador"=>":CONDICION",
+					"campo_valor"=>$condiciones
+				],
+				[
+					"campo_nombre"=>"DIAS_CREDITO",
+					"campo_marcador"=>":DIAS_CREDITO",
+					"campo_valor"=>$diasCredito
+				],
+				[
+					"campo_nombre"=>"LINK_FINAL",
+					"campo_marcador"=>":LINK_FINAL",
+					"campo_valor"=>$iniciolink
+				],[
+					"campo_nombre"=>"LINK_INICIO",
+					"campo_marcador"=>":LINK_INICIO",
+					"campo_valor"=>$finallink
+				],[
+					"campo_nombre"=>"NOTAS",
+					"campo_marcador"=>":NOTAS",
+					"campo_valor"=>$notas
 				],
 				[
 					"campo_nombre"=>"CLIENTE",
@@ -96,13 +134,13 @@
 
         public function leerCotizacionControlador(){
                 $lista = array();
-                $autoincrement=1;
-				$drop_list=$this->ejecutarConsulta("SELECT r.FOLIO,r.FECHA,r.USUARIO, c.NOMBRE AS CLIENTE, m.NOMBRE AS MATERIAL, CONCAT(r.PUNTO_INICIO_EDO, ' - ', r.PUNTO_FINAL_EDO) AS VIAJE, r.PRECIO FROM cotizador r INNER JOIN clientes c ON r.CLIENTE = c.ID INNER JOIN d_material m ON r.MATERIAL = m.ID;");			
+                
+				$drop_list=$this->ejecutarConsulta("SELECT r.ID,r.FOLIO,r.FECHA,r.USUARIO, c.NOMBRE AS CLIENTE, m.NOMBRE AS MATERIAL, CONCAT(r.PUNTO_INICIO_EDO, ' - ', r.PUNTO_FINAL_EDO) AS VIAJE, r.PRECIO FROM cotizador r INNER JOIN clientes c ON r.CLIENTE = c.ID INNER JOIN d_material m ON r.MATERIAL = m.ID ORDER BY ID");			
 				$fila = $drop_list->fetchall();
 
 				foreach ($fila as $row) {
 					$lista[]= array(
-						"ID" => $autoincrement++,
+						"ID" => $row["ID"],
 						"FOLIO" => $row["FOLIO"],
 						"CLIENTE" => $row["CLIENTE"],
 						"VIAJE" => $row["VIAJE"],
