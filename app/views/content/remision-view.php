@@ -24,7 +24,8 @@ $(document).ready(function() {
             // Manejar la respuesta del servidor
             if (info) {
                 $('#folio_id_remision').val(info);
-                $('#folio_id_remision').val(info);
+                $('#folio_remision').val(info);
+                
             } else {
                 // $("#resultado").html("Error: " + response.message);
             }
@@ -54,6 +55,7 @@ $(document).ready(function() {
             if (data_cotizacion.length == 1) {
                 data_set = data_cotizacion[0];
                 $("#folio_id_cotizacion").val(data_set.FOLIO);
+                $("#folio_cotizacion").val(data_set.FOLIO);
                 $("#cliente").data("kendoComboBox").value(data_set.CLIENTE);
 
                 if (data_set.CONDICION == "credito") {
@@ -92,21 +94,20 @@ $(document).ready(function() {
                 $('#ciudadFinal').val(data_set.PUNTO_FINAL_CIUDAD);
 
                 $("#dirinicio").text(data_set.DIR_INICIO);
-                $("#dirfinal").text(data_set.DIR_FINAL);                
+                $("#dirfinal").text(data_set.DIR_FINAL);
                 $("#notas").text(data_set.NOTAS);
                 $("#linkinicio").text(data_set.LINK_INICIO);
                 $("#linkfinal").text(data_set.LINK_FINAL);
 
                 $('#peso').val(data_set.PESO);
-                $('#precio').val(data_set.PRECIO);                
-                $("#tipos_material").data("kendoComboBox").value(data_set.MATERIAL);            
+                $('#precio').val(data_set.PRECIO);
+                $("#tipos_material").data("kendoComboBox").value(data_set.MATERIAL);
                 if (data_set.TIPO_FISCAL == "no fiscal") {
                     $("#nofiscal").prop("checked", true);
-                }
-                else{
+                } else {
                     $("#fiscal").prop("checked", true);
                 }
-                
+
             }
 
         }
@@ -127,8 +128,8 @@ $(document).ready(function() {
 
                     <form class="row g-3 needs-validation FormularioAjax"
                         action="<?php echo APP_URL; ?>app/ajax/remisionAjax.php" method="POST" autocomplete="off"
-                        id="cotizador" enctype="multipart/form-data">
-                        <input type="hidden" name="moduloRemision" value="registrar">
+                        id="remisiones" enctype="multipart/form-data">
+                        <input type="hidden" name="remision" value="registrar">
 
                         <div class="row gx-3">
                             <div class="col-xxl-3 col-lg-4 col-sm-6">
@@ -136,6 +137,7 @@ $(document).ready(function() {
                                     <label class="form-label" for="folio">FOLIO COTIZACIÓN</label>
                                     <input type="text" class="form-control" id="folio_id_cotizacion" name="folio_id"
                                         disabled>
+                                    <input type="hidden" class="form-control" id="folio_cotizacion" name="folio_cotizacion">
                                 </div>
                             </div>
 
@@ -144,6 +146,7 @@ $(document).ready(function() {
                                     <label class="form-label" for="folio">FOLIO REMISIÓN</label>
                                     <input type="text" class="form-control" id="folio_id_remision" name="folio_id"
                                         value="<?php echo $FOLIO; ?>" disabled>
+                                        <input type="hidden" class="form-control" id="folio_remision" name="folio_remision">
                                 </div>
                             </div>
 
@@ -302,7 +305,7 @@ $(document).ready(function() {
                                 <div class="mb-3">
                                     <label for="regimen" class="form-label">Vehículos</label>
                                     <div id="grid"></div>
-                                    <input type="hidden" id="domicilios" name="domicilios">
+                                    <input type="hidden" id="vehiculo" name="vehiculo">
 
 
                                     <script>
@@ -520,7 +523,7 @@ $(document).ready(function() {
                                                 if (item.ID !== selectedId) {
                                                     row.addClass(
                                                         "k-state-disabled"
-                                                        ); // Agregar clase para deshabilitar visualmente
+                                                    ); // Agregar clase para deshabilitar visualmente
                                                     row.find("input[type='checkbox']").prop("disabled",
                                                         true); // Deshabilitar el checkbox
                                                 } else {
@@ -536,8 +539,8 @@ $(document).ready(function() {
                                             grid.tbody.find("input[type='checkbox']").prop("disabled", false);
                                         }
 
-                                        console.log("The selected product ids are: [" + this.selectedKeyNames().join(
-                                            ", ") + "]");
+                                        $("#vehiculo").val(this.selectedKeyNames());
+                    console.log("The selected product ids are: [" + this.selectedKeyNames().join(", ") + "]");
                                     }
                                     </script>
 
@@ -632,8 +635,8 @@ $(document).ready(function() {
                                 <div class="mb-3">
                                     <label class="form-label">PUNTO DE INICIO (CIUDAD)</label>
                                     <select class="form-select" id="ciudadInicio" name="ciudadinicio">
-                                        <option >
-                                            </option>
+                                        <option>
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -651,7 +654,7 @@ $(document).ready(function() {
                                     <label class="form-label">PUNTO DE FINAL (CIUDAD)</label>
                                     <select class="form-select" id="ciudadFinal" name="ciudadfinal">
                                         <option>
-                                           </option>
+                                        </option>
                                     </select>
                                 </div>
                             </div>
@@ -821,18 +824,13 @@ $(document).ready(function() {
                                                 class="ri-arrow-right-s-fill"></i> Duración</span></label>
                                     <div class="k-w-300">
                                         <div id="daterangepicker" class="form-control" title="daterangepicker"></div>
-                                        <input type="date" id="fechaInicio" name="fechaInicio" style="display: none;"
-                                            >
-                                        <input type="date" id="fechaFin" name="fechaFin" style="display: none;"
-                                            >
+                                        <input type="date" id="fechaInicio" name="fechaInicio" style="display: none;">
+                                        <input type="date" id="fechaFin" name="fechaFin" style="display: none;">
                                     </div>
                                     <script>
                                     $(document).ready(function() {
-                                       
-
-
                                         var datarange = $("#daterangepicker").kendoDateRangePicker({
-                                            
+
                                             "messages": {
                                                 "startLabel": "Fecha de Carga",
                                                 "endLabel": "Fecha Descarga"
@@ -846,42 +844,32 @@ $(document).ready(function() {
                                             var range = this.range();
                                             console.log("Change :: start - " + kendo.toString(range.start,
                                                 'yyyy') + " end - " + kendo.toString(range.end, 'd'));
-
                                             $("#fechaInicio").val(kendo.toString(range.start, 'yyyy') + "-" +
                                                 kendo.toString(range.start, 'MM') + "-" + kendo.toString(
                                                     range.start, 'dd'));
                                             $("#fechaFin").val(kendo.toString(range.end, 'yyyy') + "-" + kendo
                                                 .toString(range.end, 'MM') + "-" + kendo.toString(range.end,
                                                     'dd'));
-
                                             const diffEnMilisegundos = new Date($("#fechaFin").val()) -
                                                 new Date($("#fechaInicio").val());
                                             const diffEnDias = Math.ceil(diffEnMilisegundos / (1000 * 60 * 60 *
                                                 24));
-
                                             $('.dias').text('Duración de ' + (diffEnDias + 1) + " días");
-
-
                                         }
-
-
-
-
-
                                     });
                                     </script>
                                 </div>
                             </div>
 
                             <div class="col-xxl-6 col-lg-4 col-sm-6">
-                            <div class="mb-3">
-                                <div class="input-group" style="PADDING-TOP: 6%;">
-                                    <span class="input-group-text">$</span>
-                                    <input type="number" class="form-control" id="precio" placeholder="Precio"
-                                        name="precio" >
+                                <div class="mb-3">
+                                    <div class="input-group" style="PADDING-TOP: 6%;">
+                                        <span class="input-group-text">$</span>
+                                        <input type="number" class="form-control" id="precio" placeholder="Precio"
+                                            name="precio">
+                                    </div>
                                 </div>
-                                </div>
-                                </div>
+                            </div>
 
 
                             <div class="col-xxl-12 col-lg-12 col-sm-12">
@@ -911,6 +899,77 @@ $(document).ready(function() {
                                             <label class="form-check-label" for="nofiscal">No fiscal</label>
                                         </div>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="col-md-12">
+                                <div class="mb-3">
+                                    <label for="razon_social" class="form-label">Razón Social Propietario</label>
+                                    <input class="form-control" id="razon_social" name="razon_social"
+                                        style="width: 100%;">
+                                    <div class="invalid-feedback">Por favor, ingresa la razón social del propietario.
+                                    </div>
+                                    <script>
+                                    $(document).ready(function() {
+                                        var operador = [];
+                                        var crudServiceBaseUrl =
+                                            "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                        var operador_data = new kendo.data.DataSource({
+                                            transport: {
+                                                read: function(e) {
+                                                    $.getJSON(crudServiceBaseUrl +
+                                                        "?catalogo_droplist=leer_razon",
+                                                        function(result) {
+                                                            var data = JSON.stringify(result,
+                                                                null, 2);
+                                                            operador = result;
+
+                                                            sampleDataNextoperador = operador
+                                                                .length;
+
+                                                            e.success(operador);
+
+                                                        });
+
+                                                },
+
+                                                parameterMap: function(options, operation) {
+                                                    if (operation !== "read" && options.models) {
+                                                        return {
+                                                            models: kendo.stringify(options.models)
+                                                        };
+                                                    }
+                                                }
+                                            },
+                                            schema: {
+                                                model: {
+                                                    id: "ID",
+                                                    fields: {
+                                                        ID: {
+                                                            type: "number"
+                                                        },
+                                                        NOMBRE: {
+                                                            type: "string"
+                                                        },
+                                                        RFC: {
+                                                            type: "string"
+                                                        }
+                                                    }
+                                                }
+                                            }
+                                        });
+                                        $("#razon_social").kendoComboBox({
+
+                                            template: '<span class="ID">#= RFC #</span> #= NOMBRE #',
+                                            dataTextField: "NOMBRE",
+                                            dataValueField: "ID",
+                                            dataSource: operador_data,
+                                            filter: "contains",
+                                        });
+
+                                    });
+                                    </script>
+
                                 </div>
                             </div>
 

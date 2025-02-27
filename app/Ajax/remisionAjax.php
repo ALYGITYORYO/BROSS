@@ -10,6 +10,9 @@
 		if($_POST['remision']=="leer"){
 			echo $remision->remisionLeer();
 		}
+		if($_POST['remision']=="registrar"){
+			echo $remision->remisionRegistrarController();
+		}
 	}else{
 		session_destroy();
 		header("Location: ".APP_URL."login/");
