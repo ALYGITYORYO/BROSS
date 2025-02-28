@@ -148,11 +148,17 @@ class remisionController extends mainModel{
 
     $registrar_vehiculo=$this->guardarDatos("remision",$datos_remision);
 //DESHABILITAR TRACTO Y REMISION
-    
+
+$last_id=$this->ejecutarConsulta("SELECT ID FROM `remision` WHERE FOLIO='$folio'");
+$last_id_remi = $last_id->fetch();
+$update_cotizacion=$this->ejecutarConsulta("UPDATE `cotizador` SET `ESTATUS` = '".$last_id_remi['ID']."' WHERE `cotizador`.`FOLIO` ='".$folio."'");
+$update_vehiculo=$this->ejecutarConsulta("UPDATE `vehiculos` SET `ESTATUS` = '1' WHERE `vehiculos`.`ID` =".$vehiculo);
+$inser_viaje=$this->ejecutarConsulta("INSERT INTO `viajes` (`ID`, `ID_VEHICULO`, `ID_REMISION`, `ESTAUS`, `COLOR`) VALUES (NULL, '".$vehiculo."', ".$last_id_remi['ID'].", 'VIAJE', 'BLANCO')");
+
     $alerta=[
         "tipo"=>"limpiar",
         "titulo"=>"El Vehículo fue registrado",
-        "texto"=>"El Vehículo ".$folio." se registro con exito",
+        "texto"=>"El Vehículo ".$folio_remision." se registro con exito",
         "icono"=>"success"
     ];
     return json_encode($alerta);

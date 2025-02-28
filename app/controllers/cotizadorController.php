@@ -135,7 +135,7 @@
         public function leerCotizacionControlador(){
                 $lista = array();
                 
-				$drop_list=$this->ejecutarConsulta("SELECT r.ID,r.FOLIO,r.FECHA,r.USUARIO, c.NOMBRE AS CLIENTE, m.NOMBRE AS MATERIAL, CONCAT(r.PUNTO_INICIO_EDO, ' - ', r.PUNTO_FINAL_EDO) AS VIAJE, r.PRECIO FROM cotizador r INNER JOIN clientes c ON r.CLIENTE = c.ID INNER JOIN d_material m ON r.MATERIAL = m.ID ORDER BY ID");			
+				$drop_list=$this->ejecutarConsulta("SELECT r.ID,r.FOLIO,r.FECHA,r.USUARIO, c.NOMBRE AS CLIENTE, m.NOMBRE AS MATERIAL, CONCAT(r.PUNTO_INICIO_EDO, ' - ', r.PUNTO_FINAL_EDO) AS VIAJE, r.PRECIO FROM cotizador r INNER JOIN clientes c ON r.CLIENTE = c.ID INNER JOIN d_material m ON r.MATERIAL = m.ID WHERE ESTATUS=0 ORDER BY ID ");			
 				$fila = $drop_list->fetchall();
 
 				foreach ($fila as $row) {
