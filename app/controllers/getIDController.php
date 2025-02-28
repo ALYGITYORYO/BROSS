@@ -28,8 +28,6 @@
 			
 		}
 
-
-
 		/*----------       ID COLABORADOR            ----------*/
 		public function colaboradorGetIDControlador(){
 			$consecutivo=$this->ejecutarConsulta("SELECT `ID`,`NOEMPLADO` FROM colaborador ORDER BY `ID` DESC");
@@ -48,7 +46,6 @@
             }
 		}
 
-
 		public function cotizadorGetIDControlador(){
 			$consecutivo=$this->ejecutarConsulta("SELECT `ID`,`FOLIO` FROM cotizador ORDER BY `ID` DESC;");
             if ($consecutivo->rowCount() > 0) {
@@ -64,7 +61,7 @@
             } else {
                 return "CT0001"; // Valor inicial si no hay registros
             }
-	}
+	    }
 
 	public function remisionGetIDControlador(){
         $consecutivo=$this->ejecutarConsulta("SELECT `ID`,`FOLIO_REMISION` FROM remision ORDER BY `ID` DESC;");

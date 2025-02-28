@@ -119,7 +119,7 @@ $(document).ready(function() {
                                             var dropdownlist_clientes_venta = $("#cliente").data(
                                                 "kendoComboBox");
                                             var selectedDataItem_cliente = dropdownlist_clientes_venta
-                                            .dataItem();
+                                                .dataItem();
 
                                             const dias = selectedDataItem_cliente.DIAS;
                                             const condiciones = selectedDataItem_cliente.CONDICIONES;
@@ -464,7 +464,7 @@ $(document).ready(function() {
                                 <div class="d-flex gap-2 ">
 
                                     <button type="button" class="btn btn-outline-info" data-bs-toggle="modal"
-                                        data-bs-target="#exampleModalXl">
+                                        data-bs-target="#exampleModalXl" id="viajes">
                                         Ver Viajes
                                     </button>
                                 </div>
@@ -486,81 +486,115 @@ $(document).ready(function() {
                                                 aria-label="Close"></button>
                                         </div>
                                         <div class="modal-body">
-                                            <div id="grid"></div>
+                                            <div id="grid_viajes"></div>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-
-
-
-
-
                             <script>
                             $(document).ready(function() {
-                                $("#grid").kendoGrid({
+                                $("#viajes").on("click", function() {
+
+                                    var comboBox = $("#cliente").data("kendoComboBox");
+                                    var idcliente = comboBox.value();
+                                    var ciudad_inicio = $("#ciudadInicio").val();
+                                    var ciudad_final = $("#ciudadFinal").val();
+                                    LoadDataViajes(idcliente, ciudad_inicio, ciudad_final)
+                                });
+                            });
+                            async function LoadDataViajes(idcliente, ciudad_inicio, ciudad_final) {
+                                console.log('ID CLIENTE: ', idcliente);
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/viajesAjax.php";
+
+
+                                let viajes = await $.ajax({
+                                    type: "post",
+                                    url: crudServiceBaseUrl,
+                                    data: {
+                                        viajesControllers: "viajes",
+                                        cliente: idcliente,
+                                        ciudad_inicio: ciudad_inicio,
+                                        ciudad_final: ciudad_final
+                                    },
+                                    dataType: "json",
+                                });
+                                console.log(viajes);
+
+                                var element = $("#grid_viajes").kendoGrid({
                                     dataSource: {
-                                        type: "odata",
-                                        transport: {
-                                            read: "https://demos.telerik.com/kendo-ui/service/Northwind.svc/Orders"
-                                        },
+                                        data: viajes,
+                                        aggregate: [{
+                                                field: "CANTIDAD",
+                                                aggregate: "sum"
+                                            },
+                                            {
+                                                field: "TOTAL",
+                                                aggregate: "sum"
+                                            },
+                                            {
+                                                field: "PRECIO",
+                                                aggregate: "sum"
+                                            }
+                                        ],
                                         schema: {
                                             model: {
+                                                ID: "ID",
                                                 fields: {
-                                                    OrderID: {
-                                                        type: "number"
-                                                    },
-                                                    Freight: {
-                                                        type: "number"
-                                                    },
-                                                    ShipName: {
+                                                    FOLIO: {
                                                         type: "string"
                                                     },
-                                                    OrderDate: {
+                                                    CLIENTE: {
+                                                        type: "string"
+                                                    },
+                                                    VIAJE: {
+                                                        type: "string"
+                                                    },
+                                                    MATERIAL: {
+                                                        type: "string"
+                                                    },
+                                                    FECHA: {
                                                         type: "date"
                                                     },
-                                                    ShipCity: {
-                                                        type: "string"
+                                                    PRECIO: {
+                                                        type: "number",
+                                                        format: "{0:c}"
                                                     }
                                                 }
                                             }
-                                        },
-                                        pageSize: 20,
-                                        serverPaging: true,
-                                        serverFiltering: true,
-                                        serverSorting: true
+                                        }
                                     },
-                                    height: 550,
-                                    filterable: true,
                                     sortable: true,
-                                    pageable: true,
+                                    filterable: true,
+                                    columnMenu: true,
                                     columns: [{
-                                            field: "OrderID",
-                                            filterable: false
-                                        },
-                                        {
-                                            field: "ShipName",
+                                            field: "FOLIO",
+                                            title: "FOLIO"
+                                        }, {
+                                            field: "CLIENTE",
                                             title: "CLIENTE"
                                         },
                                         {
-                                            field: "ShipCity",
-                                            title: "Ciudad"
+                                            field: "VIAJE",
+                                            title: "VIAJE"
                                         },
                                         {
-                                            field: "Freight",
+                                            field: "MATERIAL",
+                                            title: "MATERIAL"
+                                        },
+                                        {
+                                            field: "FECHA",
+                                            title: "FECHA COTIZACION",
+                                            format: "{0: MMM dd yyyy-HH:mm}"
+                                        },
+                                        {
+                                            field: "PRECIO",
                                             title: "PRECIO",
                                             format: "{0:c}"
-                                        },
-                                        {
-                                            field: "OrderDate",
-                                            title: "FECHA",
-                                            format: "{0:MM/dd/yyyy}"
                                         }
                                     ]
                                 });
-                            });
+                            }
                             </script>
-
                             <br>
                             <br>
                             <div class="col-xxl-6 col-lg-4 col-sm-6">
@@ -766,13 +800,13 @@ $(document).ready(function() {
                                     </label>
                                     <div class="m-0">
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="fiscal"
-                                                id="fiscal" value="fiscal">
+                                            <input class="form-check-input" type="radio" name="fiscal" id="fiscal"
+                                                value="fiscal">
                                             <label class="form-check-label" for="fiscal">Fiscal</label>
                                         </div>
                                         <div class="form-check form-check-inline">
-                                            <input class="form-check-input" type="radio" name="fiscal"
-                                                id="nofiscal" value="no fiscal">
+                                            <input class="form-check-input" type="radio" name="fiscal" id="nofiscal"
+                                                value="no fiscal">
                                             <label class="form-check-label" for="nofiscal">No fiscal</label>
                                         </div>
                                     </div>
