@@ -16,7 +16,9 @@ class razonController extends mainModel{
 		$ciudad =$_POST['ciudad'];
 		$estado =$_POST['estado'];
 		$cp =$_POST['cp'];
-		$actividad =$_POST['actividad'];
+		$telefono =$_POST['telefono'];
+		$correo =$_POST['correo'];
+		$regimen =$_POST['regimen_input'];
 		$vigenciaCaat =$_POST['vigenciaCaat'];
 		$caat =$_POST['caat'];
 
@@ -125,11 +127,19 @@ class razonController extends mainModel{
 				"campo_nombre"=>"CP",
 				"campo_marcador"=>":CP",
 				"campo_valor"=>$cp
+			],[
+				"campo_nombre"=>"TELEFONO",
+				"campo_marcador"=>":TELEFONO",
+				"campo_valor"=>$telefono
+			],[
+				"campo_nombre"=>"CORREO",
+				"campo_marcador"=>":CORREO",
+				"campo_valor"=>$correo
 			],
 			[
-				"campo_nombre"=>"ACTIVIDAD",
-				"campo_marcador"=>":ACTIVIDAD",
-				"campo_valor"=>$actividad
+				"campo_nombre"=>"REGIMEN",
+				"campo_marcador"=>":REGIMEN",
+				"campo_valor"=>$regimen
 			],
 			[
 				"campo_nombre"=>"CAAT",

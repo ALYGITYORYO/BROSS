@@ -21,6 +21,7 @@
 			$cp =$_POST['cp'];
 			$regimen =$_POST['regimen_input'];
 			$correo =$_POST['correo'];
+			$telefono =$_POST['telefono'];
 			$domicilios =$_POST['domicilios'];
 			$credito =$_POST['diasCredito'];
 			$condiciones =$_POST['condiciones'];
@@ -81,6 +82,10 @@
 					"campo_nombre"=>"CORREO",
 					"campo_marcador"=>":CORREO",
 					"campo_valor"=>$correo
+				],[
+					"campo_nombre"=>"TELEFONO",
+					"campo_marcador"=>":TELEFONO",
+					"campo_valor"=>$telefono
 				],
 				[
 					"campo_nombre"=>"CONDICIONES",

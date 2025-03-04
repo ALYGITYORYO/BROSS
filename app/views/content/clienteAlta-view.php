@@ -35,208 +35,191 @@
 
                         <div class="col-md-12">
                             <label for="domicilio" class="form-label">Domicilio Fiscal</label>
-                          </div>
+                        </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="calle" class="form-label">Calle</label>
                             <input type="text" class="form-control" id="calle" name="calle" required>
                             <div class="invalid-feedback">Por favor, ingresa la calle.</div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="numero_interior" class="form-label">Número Interior</label>
                             <input type="text" class="form-control" id="numero_interior" name="numero_interior">
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="numero_exterior" class="form-label">Número Exterior</label>
                             <input type="text" class="form-control" id="numero_exterior" name="numero_exterior"
-                                required>
+                                >
                             <div class="invalid-feedback">Por favor, ingresa el número exterior.</div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="colonia" class="form-label">Colonia</label>
                             <input type="text" class="form-control" id="colonia" name="colonia" required>
                             <div class="invalid-feedback">Por favor, ingresa la colonia.</div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
                             <label for="municipio" class="form-label">Municipio</label>
                             <input type="text" class="form-control" id="municipio" name="municipio" required>
                             <div class="invalid-feedback">Por favor, ingresa el municipio.</div>
                         </div>
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
+                            <label for="estado" class="form-label">Estado</label>
+                            <input type="text" class="form-control" id="estado" name="estado" required>
+                            <div class="invalid-feedback">Por favor, ingresa la estado.</div>
+                        </div>
+
+                        <div class="col-md-3">
                             <label for="ciudad" class="form-label">Ciudad</label>
                             <input type="text" class="form-control" id="ciudad" name="ciudad" required>
                             <div class="invalid-feedback">Por favor, ingresa la ciudad.</div>
                         </div>
 
-                        <div class="col-md-4">
-                            <label for="estado" class="form-label">Estado</label>
-                            <input type="text" class="form-control" id="estado" name="estado" required>
-                            <div class="invalid-feedback">Por favor, ingresa la estado.</div>
-                        </div>
-                        <div class="col-md-4">
+
+                        <div class="col-md-3">
                             <label for="cp" class="form-label">Código Postal</label>
                             <input type="text" class="form-control" id="cp" name="cp" required>
                             <div class="invalid-feedback">Por favor, ingresa la cp.</div>
                         </div>
 
 
-                        <div class="col-md-4">
+                        <div class="col-md-3">
 
                             <label for="correo" class="form-label">Correo Electrónico</label>
                             <input type="email" class="form-control" id="correo" name="correo">
                             <div class="invalid-feedback">Por favor, ingresa un correo electrónico válido.</div>
                         </div>
 
+                        <div class="col-md-3">
+
+                            <label for="correo" class="form-label">Teléfono</label>
+                            <input type="text" class="form-control" id="telefono" name="telefono">
+                            <div class="invalid-feedback">Por favor, ingresa un teléfono.</div>
+                        </div>
+
 
 
                         <div class="col-md-12">
-                        <div class="k-d-flex k-justify-content-center">
-                            <div class="k-w-300">
-                                <label for="regimen">Régimen</label>
-                                <input class="form-control" id="regimen" name="regimen" style="width: 100%;" />
+                            <div class="k-d-flex k-justify-content-center">
+                                <div class="k-w-300">
+                                    <label for="regimen">Régimen</label>
+                                    <input class="form-control" id="regimen" name="regimen" style="width: 100%;" />
+                                </div>
                             </div>
-                        </div>
-                        <script id="noDataTemplateregimen" type="text/x-kendo-tmpl">
-                            <div>No se encontró dentro de la base de datos desea guardar a : - '#: instance.text() #' ?</div>
+                            <script id="noDataTemplateregimen" type="text/x-kendo-tmpl">
+                                <div>No se encontró dentro de la base de datos desea guardar a : - '#: instance.text() #' ?</div>
                         <br />
                         <button class="k-button" onclick="addNewregimen('#: instance.element[0].id #', '#: instance.text() #')">¿Agregar nuevo regimen? </button>
                     </script>
-                        <!-- segunda seccion  -->
-                        <script>
-                        var regimen = [];
-                        var sampleDataNextregimen = 0;
+                            <!-- segunda seccion  -->
+                            <script>
+                            var regimen = [];
+                            var sampleDataNextregimen = 0;
 
-                        function getIndexByIdregimen(id) {
-                            var idx, l = regimen.length;
-                            for (var j = 0; j < l; j++) {
-                                if (regimen[j].ID == id) {
-                                    return j;
+                            function getIndexByIdregimen(id) {
+                                var idx, l = regimen.length;
+                                for (var j = 0; j < l; j++) {
+                                    if (regimen[j].ID == id) {
+                                        return j;
+                                    }
                                 }
+                                return null;
                             }
-                            return null;
-                        }
 
-                        function addNewregimen(widgetId, value) {
-                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
-                            var widget = $('#' + widgetId).getKendoComboBox();
-                            var dataSource = widget.dataSource;
-                            var id = getIndexByIdregimen(sampleDataNextregimen);
-                            if (confirm('¿Está seguro?')) {
-                                dataSource.add({
-                                    ID: id,
-                                    NOMBRE: value
-                                });
-                                dataSource.one('sync', function() {
-                                    widget.close();
-                                });
-                                dataSource.sync();
-                                $.ajax({
-                                    url: crudServiceBaseUrl + "?catalogo_droplist=registrar",
-                                    data: {
-                                        TABLA: 'd_regimen',
-                                        VALUE: value
-                                    },
-                                    type: 'post',
-                                    success: function(data) {
-                                        alert('la inserción: ' + data);
-                                    }
-                                });
-                            }
-                        };
-                        </script>
-                        <script>
-                        $(document).ready(function() {
-                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
-                            var regimen_data = new kendo.data.DataSource({
-                                transport: {
-                                    read: function(e) {
-                                        $.getJSON(crudServiceBaseUrl +
-                                            "?catalogo_droplist=leer&TABLA=d_regimen",
-                                            function(result) {
-                                                var data = JSON.stringify(result, null, 2);
-                                                regimen = result;
-                                                console.log(regimen);
-                                                sampleDataNextregimen = regimen.length;
-                                                console.log(regimen);
-                                                e.success(regimen);
-
-                                            });
-
-                                    },
-                                    create: function(e) {
-                                        e.data.ID = sampleDataNextregimen++;
-                                        regimen.push(e.data);
-                                        console.log(regimen);
-                                        e.success(e.data);
-                                    },
-                                    parameterMap: function(options, operation) {
-                                        if (operation !== "read" && options.models) {
-                                            return {
-                                                models: kendo.stringify(options.models)
-                                            };
+                            function addNewregimen(widgetId, value) {
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var widget = $('#' + widgetId).getKendoComboBox();
+                                var dataSource = widget.dataSource;
+                                var id = getIndexByIdregimen(sampleDataNextregimen);
+                                if (confirm('¿Está seguro?')) {
+                                    dataSource.add({
+                                        ID: id,
+                                        NOMBRE: value
+                                    });
+                                    dataSource.one('sync', function() {
+                                        widget.close();
+                                    });
+                                    dataSource.sync();
+                                    $.ajax({
+                                        url: crudServiceBaseUrl + "?catalogo_droplist=registrar",
+                                        data: {
+                                            TABLA: 'd_regimen',
+                                            VALUE: value
+                                        },
+                                        type: 'post',
+                                        success: function(data) {
+                                            alert('la inserción: ' + data);
                                         }
-                                    }
-                                },
-                                schema: {
-                                    model: {
-                                        id: "ID",
-                                        fields: {
-                                            ID: {
-                                                type: "number"
-                                            },
-                                            NOMBRE: {
-                                                type: "string"
+                                    });
+                                }
+                            };
+                            </script>
+                            <script>
+                            $(document).ready(function() {
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var regimen_data = new kendo.data.DataSource({
+                                    transport: {
+                                        read: function(e) {
+                                            $.getJSON(crudServiceBaseUrl +
+                                                "?catalogo_droplist=leer&TABLA=d_regimen",
+                                                function(result) {
+                                                    var data = JSON.stringify(result, null, 2);
+                                                    regimen = result;
+                                                    console.log(regimen);
+                                                    sampleDataNextregimen = regimen.length;
+                                                    console.log(regimen);
+                                                    e.success(regimen);
+
+                                                });
+
+                                        },
+                                        create: function(e) {
+                                            e.data.ID = sampleDataNextregimen++;
+                                            regimen.push(e.data);
+                                            console.log(regimen);
+                                            e.success(e.data);
+                                        },
+                                        parameterMap: function(options, operation) {
+                                            if (operation !== "read" && options.models) {
+                                                return {
+                                                    models: kendo.stringify(options.models)
+                                                };
+                                            }
+                                        }
+                                    },
+                                    schema: {
+                                        model: {
+                                            id: "ID",
+                                            fields: {
+                                                ID: {
+                                                    type: "number"
+                                                },
+                                                NOMBRE: {
+                                                    type: "string"
+                                                }
                                             }
                                         }
                                     }
-                                }
+                                });
+                                $("#regimen").kendoComboBox({
+                                    filter: "startswith",
+                                    dataTextField: "NOMBRE",
+                                    dataValueField: "ID",
+                                    dataSource: regimen_data,
+                                  
+                                    noDataTemplate: $("#noDataTemplateregimen").html()
+                                });
+
+                                
+
                             });
-                            $("#regimen").kendoComboBox({
-                                filter: "startswith",
-                                dataTextField: "NOMBRE",
-                                dataValueField: "ID",
-                                dataSource: regimen_data,
-                                change: onChange,
-                                noDataTemplate: $("#noDataTemplateregimen").html()
-                            });
+                            </script>
 
-                            function onChange() {
-                                var dropdownlist_regimen = $("#regimen").data("kendoComboBox");
-                                var dropdownlist_area = $("#area").data("kendoComboBox");
-
-                                var selectedDataItem_regimen = dropdownlist_regimen.dataItem();
-                                var selectedDataItem_area = dropdownlist_area.dataItem();
-                                if ((selectedDataItem_area.NOMBRE =='Operativa') && (selectedDataItem_regimen.NOMBRE=='Operativo'||selectedDataItem_regimen.NOMBRE=='Operador')) {
-                                    $('#licenciaContainer').show();
-                                    $('#licenciaVigenciaContainer').show();
-                                    $('#folioExamenMedicoContainer').show();
-                                    $('#examenMedicoContainer').show();
-                                    $('#folioAntiContainer').show();
-                                    $('#fechaAntiContainer').show();
-                                    $('#folioAntecedentesContainer').show();
-
-                                    
-                                } else {
-                                    console.log("No se ha seleccionado ningún elemento.");
-                                    $('#licenciaContainer').hide();
-                                    $('#licenciaVigenciaContainer').hide();
-                                    $('#folioExamenMedicoContainer').hide();
-                                    $('#examenMedicoContainer').hide();
-                                    $('#folioAntiContainer').hide();
-                                    $('#fechaAntiContainer').hide();
-                                    $('#folioAntecedentesContainer').hide();
-                                }
-                            };
-
-                        });
-                        </script>
-
-                    </div>
+                        </div>
 
 
                         <div class="mb-3">

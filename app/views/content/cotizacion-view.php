@@ -597,123 +597,394 @@ $(document).ready(function() {
                             </script>
                             <br>
                             <br>
-                            <div class="col-xxl-6 col-lg-4 col-sm-6">
+
+                            <div class="col-md-12">
                                 <div class="mb-3">
-                                    <label class="form-label" for="material">MATERIAL</label>
-                                    <input class="form-control" id="tipos_material" name="material"
-                                        style="width: 100%;" />
-                                </div>
-                                <script id="noDataTemplatetipos_material" type="text/x-kendo-tmpl">
-                                    <div>No se encontró dentro de la base de datos desea guardar a : - '#: instance.text() #' ?</div>
+                                    <label for="regimen" class="form-label">Material</label>
+
+                                    <div id="grid"></div>
+                                    <input type="hidden" id="materiales" name="materiales">
+                                    <script id="noDataTemplatetipos_material" type="text/x-kendo-tmpl">
+                                        <div>No se encontró dentro de la base de datos desea guardar a : - '#: instance.text() #' ?</div>
                                         <br />
                                     <button class="k-button" onclick="addNewtipos_material('#: instance.element[0].id #', '#: instance.text() #')">¿Agregar nuevo tipo de material? </button>
                                 </script>
-                                <!-- segunda seccion  -->
-                                <script>
-                                var tipos_material = [];
-                                var sampleDataNexttipos_material = 0;
+                                     <script>
+                                    $(document).ready(function() {
 
-                                function getIndexByIdtipos_material(id) {
-                                    var idx, l = tipos_material.length;
-                                    for (var j = 0; j < l; j++) {
-                                        if (tipos_material[j].ID == id) {
-                                            return j;
-                                        }
-                                    }
-                                    return null;
-                                }
+                                        let data = [];
 
-                                function addNewtipos_material(widgetId, value) {
-                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
-                                    var widget = $('#' + widgetId).getKendoComboBox();
-                                    var dataSource = widget.dataSource;
-                                    var id = getIndexByIdtipos_material(sampleDataNexttipos_material);
-                                    if (confirm('¿Está seguro?')) {
-                                        dataSource.add({
-                                            ID: id,
-                                            NOMBRE: value
-                                        });
-                                        dataSource.one('sync', function() {
-                                            widget.close();
-                                        });
-                                        dataSource.sync();
-                                        $.ajax({
-                                            url: crudServiceBaseUrl + "?catalogo_droplist=registrar",
-                                            data: {
-                                                TABLA: 'd_material',
-                                                VALUE: value
-                                            },
-                                            type: 'post',
-                                            success: function(data) {
-                                                alert('la inserción: ' + data);
-                                            }
-                                        });
-                                    }
-                                };
-                                </script>
-                                <script>
-                                $(document).ready(function() {
-                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
-                                    var tipos_material_data = new kendo.data.DataSource({
-                                        transport: {
-                                            read: function(e) {
-                                                $.getJSON(crudServiceBaseUrl +
-                                                    "?catalogo_droplist=leer&TABLA=d_material",
-                                                    function(result) {
-                                                        var data = JSON.stringify(result, null,
-                                                            2);
-                                                        tipos_material = result;
-                                                        console.log(tipos_material);
-                                                        sampleDataNexttipos_material =
-                                                            tipos_material.length;
-                                                        console.log(tipos_material);
-                                                        e.success(tipos_material);
-                                                    });
-                                            },
-                                            create: function(e) {
-                                                e.data.ID = sampleDataNexttipos_material++;
-                                                tipos_material.push(e.data);
-                                                console.log(tipos_material);
-                                                e.success(e.data);
-                                            },
-                                            parameterMap: function(options, operation) {
-                                                if (operation !== "read" && options.models) {
-                                                    return {
-                                                        models: kendo.stringify(options.models)
-                                                    };
-                                                }
-                                            }
-                                        },
-                                        schema: {
-                                            model: {
-                                                id: "ID",
-                                                fields: {
-                                                    ID: {
-                                                        type: "number"
-                                                    },
-                                                    NOMBRE: {
-                                                        type: "string"
+                                        let material = [];
+
+                                        var nextId = data.length + 1;
+
+
+
+                                        var dataSource = new kendo.data.DataSource({
+
+                                            pageSize: 20,
+                                            autoSync: true,
+
+                                            transport: {
+
+                                                create: function(e) {
+
+                                                    e.data.Id = kendo
+                                                .guid(); // Usar GUIDs para IDs únicos
+
+                                                    e.success(e.data);
+
+                                                    material.push(e.data);
+
+                                                    console.log(e.data);
+
+                                                    console.log(material);
+
+                                                    $("#materiales").val(JSON.stringify(material));
+
+                                                },
+
+                                                read: function(e) {
+
+                                                    e.success(data);
+
+                                                    console.log(e.data);
+
+                                                },
+
+                                                read: function(e) {
+
+                                                    e.success(data);
+
+                                                },
+
+                                                update: function(e) {
+
+                                                    e.success(e.data);
+
+                                                    // Actualizar el array referencias
+
+                                                    const index = material.findIndex(item => item
+                                                        .Id === e
+
+                                                        .data.Id);
+
+                                                    if (index !== -1) {
+
+                                                        material[index] = e.data;
+
+                                                        $("#materiales").val(JSON.stringify(
+                                                            material));
+
                                                     }
+
+                                                },
+
+                                            },
+
+                                            schema: {
+
+                                                model: {
+
+                                                    id: "Id",
+
+                                                    fields: {
+
+                                                        MATERIAL: {
+                                                            defaultValue: {
+                                                                ID: 1,
+                                                                NOMBRE: "SELECCIONA UN MATERIAL"
+                                                            }
+                                                        },
+
+
+                                                        PESO: {
+
+                                                            type: "number"
+
+                                                        },
+
+                                                        UNIDAD: {
+
+                                                            type: "string"
+
+                                                        }
+
+                                                    }
+
                                                 }
+
                                             }
+
+                                        });
+
+
+
+                                        $("#grid").kendoGrid({
+
+                                            dataSource: dataSource,
+
+
+
+                                            scrollable: true, // Habilitar scroll
+
+
+
+
+
+                                            toolbar: ["create"],
+
+
+
+                                            columns: [{
+                                                    field: "MATERIAL",
+                                                    title: "material",
+                                                    editor: materialEditor,
+                                                    template: "#=MATERIAL.NOMBRE#"
+                                                },
+
+
+                                                {
+
+                                                    field: "PESO"
+
+                                                },
+
+                                                {
+
+                                                    field: "UNIDAD"
+
+                                                },
+
+                                                {
+
+                                                    command: ["destroy"],
+
+                                                    title: "&nbsp;"
+
+                                                }
+
+                                            ],
+                                            editable: true
+
+                                        });
+
+
+
+                                    });
+
+
+
+
+
+
+
+                                    function materialEditor(container, options) {
+
+                                        var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+
+                                        var tipos_material_data = new kendo.data.DataSource({
+
+                                            transport: {
+
+                                                read: function(e) {
+
+                                                    $.getJSON(crudServiceBaseUrl +
+
+                                                        "?catalogo_droplist=leer&TABLA=d_material",
+
+                                                        function(result) {
+
+                                                            var data = JSON.stringify(result, null,
+
+                                                                2);
+
+                                                            tipos_material = result;
+
+                                                            console.log(tipos_material);
+
+                                                            sampleDataNexttipos_material =
+
+                                                                tipos_material.length;
+
+                                                            console.log(tipos_material);
+
+                                                            e.success(tipos_material);
+
+                                                        });
+
+                                                },
+
+                                                create: function(e) {
+
+                                                    e.data.ID = sampleDataNexttipos_material++;
+
+                                                    tipos_material.push(e.data);
+
+                                                    console.log(tipos_material);
+
+                                                    e.success(e.data);
+
+                                                },
+
+                                                parameterMap: function(options, operation) {
+
+                                                    if (operation !== "read" && options.models) {
+
+                                                        return {
+
+                                                            models: kendo.stringify(options.models)
+
+                                                        };
+
+                                                    }
+
+                                                }
+
+                                            },
+
+                                            schema: {
+
+                                                model: {
+
+                                                    id: "ID",
+
+                                                    fields: {
+
+                                                        ID: {
+
+                                                            type: "number"
+
+                                                        },
+
+                                                        NOMBRE: {
+
+                                                            type: "string"
+
+                                                        }
+
+                                                    }
+
+                                                }
+
+                                            }
+
+                                        });
+
+
+
+                                        var comboBoxId = "materialComboBox_" + options.model.uid;
+
+
+
+                                        $('<input id="' + comboBoxId + '" data-bind="value:' + options.field + '"/>')
+
+                                            .appendTo(container)
+
+                                            .kendoComboBox({
+
+                                                filter: "startswith",
+
+                                                dataTextField: "NOMBRE",
+
+                                                dataValueField: "ID",
+
+                                                dataSource: tipos_material_data,
+
+                                                noDataTemplate: $("#noDataTemplatetipos_material").html()
+
+                                            });
+
+                                    }
+
+
+
+
+
+                                    var tipos_material = [];
+
+                                    var sampleDataNexttipos_material = 0;
+
+
+
+                                    function getIndexByIdtipos_material(id) {
+
+                                        var idx, l = tipos_material.length;
+
+                                        for (var j = 0; j < l; j++) {
+
+                                            if (tipos_material[j].ID == id) {
+
+                                                return j;
+
+                                            }
+
                                         }
-                                    });
-                                    $("#tipos_material").kendoComboBox({
-                                        filter: "startswith",
-                                        dataTextField: "NOMBRE",
-                                        dataValueField: "ID",
-                                        dataSource: tipos_material_data,
-                                        noDataTemplate: $("#noDataTemplatetipos_material").html()
-                                    });
-                                });
-                                </script>
-                            </div>
-                            <div class="col-xxl-6 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="peso">PESO</label>
-                                    <input type="number" class="form-control" id="peso" name="peso" required>
+
+                                        return null;
+
+                                    }
+
+
+
+                                    function addNewtipos_material(widgetId, value) {
+
+                                        var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+
+                                        var widget = $('#' + widgetId).getKendoComboBox();
+
+                                        var dataSource = widget.dataSource;
+
+                                        var id = getIndexByIdtipos_material(sampleDataNexttipos_material);
+
+                                        if (confirm('¿Está seguro?')) {
+
+                                            dataSource.add({
+
+                                                ID: id,
+
+                                                NOMBRE: value
+
+                                            });
+
+                                            dataSource.one('sync', function() {
+
+                                                widget.close();
+
+                                            });
+
+                                            dataSource.sync();
+
+                                            $.ajax({
+
+                                                url: crudServiceBaseUrl + "?catalogo_droplist=registrar",
+
+                                                data: {
+
+                                                    TABLA: 'd_material',
+
+                                                    VALUE: value
+
+                                                },
+
+                                                type: 'post',
+
+                                                success: function(data) {
+
+                                                    alert('la inserción: ' + data);
+
+                                                }
+
+                                            });
+
+                                        }
+
+                                    };
+                                    </script>
                                 </div>
                             </div>
+
+
                             <div class="col-xxl-6 col-lg-4 col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="fechaCarga">FECHA DE CARGA Y DESCARGA <span
