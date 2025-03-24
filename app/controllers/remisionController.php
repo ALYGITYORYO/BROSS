@@ -270,9 +270,15 @@ class remisionController extends mainModel{
 
 $last_id=$this->ejecutarConsulta("SELECT ID FROM `remision` WHERE FOLIO='$folio'");
 $last_id_remi = $last_id->fetch();
+//obtener relacion de vehiculos
+$relacion_id=$this->ejecutarConsulta("SELECT `ID_RELACION` FROM `bross_tracto` WHERE `ID_VEHICULO`=$vehiculo");
+$id_relacion_vehiculos = $relacion_id->fetch();
+
+
+
 $update_cotizacion=$this->ejecutarConsulta("UPDATE `cotizador` SET `ESTATUS` = '".$last_id_remi['ID']."' WHERE `cotizador`.`FOLIO` ='".$folio."'");
 $update_vehiculo=$this->ejecutarConsulta("UPDATE `vehiculos` SET `ESTATUS` = '1' WHERE `vehiculos`.`ID` =".$vehiculo);
-$inser_viaje=$this->ejecutarConsulta("INSERT INTO `viajes` (`ID`, `ID_VEHICULO`, `ID_REMISION`, `ESTAUS`, `COLOR`) VALUES (NULL, '".$vehiculo."', ".$last_id_remi['ID'].", 'VIAJE', 'BLANCO')");
+$inser_viaje=$this->ejecutarConsulta("INSERT INTO `viajes` (`ID`, `ID_VEHICULO`,`ID_RELACION_VEHICULO`, `ID_REMISION`, `ESTAUS`, `COLOR`) VALUES (NULL, '".$vehiculo."',".$id_relacion_vehiculos['ID_RELACION'].", ".$last_id_remi['ID'].", 'VIAJE', 'BLANCO')");
 
     $alerta=[
         "tipo"=>"limpiar",

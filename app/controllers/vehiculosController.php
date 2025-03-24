@@ -49,6 +49,7 @@ namespace app\controllers;
 
             $dolly_bandera=0;
             $remolques_asignados_concat="";
+            //SE ACTUALIZAN REMOLQUES PARA QUE YA NO SELECCIONARLOS
             if (isset($_POST['reolques_asignados']))
             {
                 
@@ -225,8 +226,6 @@ namespace app\controllers;
                     $rutas_archivos[$archivo] = "";
                 }
             }
-
-
                 $vehiculo_datos_reg=[
                     [
                         "campo_nombre"=>"NOVEHICULO",
@@ -421,21 +420,18 @@ namespace app\controllers;
                     ]		
                 ];
                 
-
-
-
-
                 $registrar_vehiculo=$this->guardarDatos("vehiculos",$vehiculo_datos_reg);
                 
-
-                //se ingresa el ID a las relacion de tractos con remolques y dolly
+                $relacion_tracto=0;
+                //se obtiene el ID ingresado a la BD del tracto 
                 if($tipo_vehiculo=="Tracto"){
                 $last_id=$this->ejecutarConsulta("SELECT ID FROM `vehiculos` WHERE NOVEHICULO='$no_vehiculo'");
                 $last_idaux = $last_id->fetch();
-                //$id_relacion=$this->ejecutarConsulta("INSERT INTO `relacion_operador_vehiculo` (`ID`, `ID_TRACTO`, `ID_REMOLQUES`) VALUES (NULL, '".$last_idaux["ID"]."', '".$last_idaux["ID"]."')");
+                $relacion = $this->Get_ID_RELACION();
+                $relacion_tracto=$relacion;
+                $this->ejecutarConsulta("INSERT INTO `bross_tracto`(`ID`, `ID_RELACION`, `ID_VEHICULO`,`TIPO`) VALUES (null,".$relacion.",".$last_idaux["ID"].",'$tipo_vehiculo')");
                 }
 
-            
                 if($operador_asignado_ID!=''){
                     $update_colaborador=$this->ejecutarConsulta("UPDATE `colaborador` SET `ASIGNADO` = '1' WHERE `colaborador`.`ID` =".$operador_asignado_ID);
                     
@@ -449,6 +445,7 @@ namespace app\controllers;
                     if (is_array($reolques_asignados)) {
                         foreach ($reolques_asignados as $valor) {
                             $id_relacion=$this->ejecutarConsulta("INSERT INTO `relacion_operador_vehiculo` (`ID`, `ID_TRACTO`, `ID_REMOLQUES`) VALUES (NULL, '".$last_idaux["ID"]."', '".$valor."')");    
+                            $this->ejecutarConsulta("INSERT INTO `bross_tracto`(`ID`, `ID_RELACION`, `ID_VEHICULO`) VALUES (null,".$relacion_tracto.",".$valor.")");
                         }
                         }
                         else{
@@ -466,6 +463,7 @@ namespace app\controllers;
                 if($dolly_asignado!=""){
                     $update_unidad=$this->ejecutarConsulta("UPDATE `vehiculos` SET `ESTATUS` = '1' WHERE ID='$dolly_asignado_ID'");                             
                     $id_relacion=$this->ejecutarConsulta("INSERT INTO `relacion_operador_vehiculo` (`ID`, `ID_TRACTO`, `ID_REMOLQUES`) VALUES (NULL, '".$last_idaux["ID"]."', '".$dolly_asignado_ID."')");
+                    $this->ejecutarConsulta("INSERT INTO `bross_tracto`(`ID`, `ID_RELACION`, `ID_VEHICULO`) VALUES (null,".$relacion_tracto.",".$dolly_asignado_ID.")");
                 }
     
             
@@ -519,4 +517,18 @@ namespace app\controllers;
                 return json_encode($lista);
                 #SELECT CO.NOMBRE AS OPERADOR, V.NOVEHICULO AS VEHICULO ,V.TIPO_VEHICULO FROM relacion_operador_vehiculo R INNER JOIN vehiculos V ON R.ID_VEHICULO=V.ID INNER JOIN colaborador CO ON R.ID_OPERADOR=CO.ID GROUP BY R.ID_OPERADOR 
             }
+
+            public function Get_ID_RELACION(){
+                $consecutivo=$this->ejecutarConsulta("SELECT `ID_RELACION` FROM `bross_tracto` ORDER BY `ID_RELACION` DESC");
+                if ($consecutivo->rowCount() > 0) {
+                    $fila = $consecutivo->fetch();
+                    $ultimarelacion = $fila['ID_RELACION'];
+                    // Extraer el número y sumarle 1
+                    $nuevoNovehiculo = $ultimarelacion+1;    
+                    return $nuevoNovehiculo;
+                } else {
+                    return 1; // Valor inicial si no hay registros
+                }
+            }
+
         }

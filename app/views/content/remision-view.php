@@ -53,8 +53,7 @@ $(document).ready(function() {
             let data_cotizacion = JSON.parse(response);
             console.log(data_cotizacion);
             if (data_cotizacion.length == 1) {
-                data_set = data_cotizacion[0];            
-               
+                data_set = data_cotizacion[0];
                 $("#folio_id_cotizacion").val(data_set[0].FOLIO);
                 $("#folio_cotizacion").val(data_set[0].FOLIO);
                 $("#cliente").data("kendoComboBox").value(data_set[0].CLIENTE);
@@ -68,35 +67,7 @@ $(document).ready(function() {
                     $("#alContado").prop("checked", true);
                     $('#diasCreditoContainer').hide();
                     $("#containerespacio").show();
-                }
-
-                console.log();
-                $('#estadoInicio').append($('<option>', {
-                    value: data_set[0].PUNTO_INICIO_EDO,
-                    text: data_set[0].PUNTO_INICIO_EDO
-                }));
-                $('#estadoInicio').val(data_set[0].PUNTO_INICIO_EDO);
-
-                $('#ciudadInicio').append($('<option>', {
-                    value: data_set[0].PUNTO_INICIO_CIUDAD,
-                    text: data_set[0].PUNTO_INICIO_CIUDAD
-                }));
-                $('#ciudadInicio').val(data_set[0].PUNTO_INICIO_CIUDAD);
-
-                $('#estadoFinal').append($('<option>', {
-                    value: data_set[0].PUNTO_FINAL_EDO,
-                    text: data_set[0].PUNTO_FINAL_EDO
-                }));
-                $('#estadoFinal').val(data_set[0].PUNTO_FINAL_EDO);
-
-                $('#ciudadFinal').append($('<option>', {
-                    value: data_set[0].PUNTO_FINAL_CIUDAD,
-                    text: data_set[0].PUNTO_FINAL_CIUDAD
-                }));
-                $('#ciudadFinal').val(data_set[0].PUNTO_FINAL_CIUDAD);
-
-                $("#dirinicio").text(data_set[0].DIR_INICIO);
-                $("#dirfinal").text(data_set[0].DIR_FINAL);
+                }            
                 $("#notas").text(data_set[0].NOTAS);
                 $("#diriniciogoogle").text(data_set[0].LINK_INICIO);
                 $("#dirfinalgoogle").text(data_set[0].LINK_FINAL);
@@ -123,7 +94,6 @@ $(document).ready(function() {
                 $('#cp_origen').val(data_set[0].CP_ORIGEN);
                 $('#distancia_origen').val(data_set[0].DISTANCIA_ORIGEN);
 
-
                 // Asignación de datos de destino
                 $('#id_ubicacion_destino').val(data_set[0].ID_DESTINO_DESTINO);
                 $('#calle_destino').val(data_set[0].CALLE_DESTINO);
@@ -137,39 +107,30 @@ $(document).ready(function() {
                 $('#pais_destino').val(data_set[0].PAIS_DESTINO);
                 $('#cp_destino').val(data_set[0].CP_DESTINO);
                 $('#distancia_destino').val(data_set[0].DISTANCIA_DESTINO);
-
-
-// para asignar fechas 
+                // asignar fechas 
                 var dateRangePicker = $("#daterangepicker").data("kendoDateRangePicker");
                 dateRangePicker.range({
                                 start: new Date(data_set[0].FECHA_CARGA+ "T00:00:00"),
                                 end: new Date(data_set[0].FECHA_DESCARGA+ "T00:00:00")
                             })
 
-                            var fechaInicioStr = $("#fechaInicio").val(data_set[0].FECHA_CARGA);
-                            var fechaFinStr =  $("#fechaFin").val(data_set[0].FECHA_DESCARGA);
-                            
-                
-
+                var fechaInicioStr = $("#fechaInicio").val(data_set[0].FECHA_CARGA);
+                var fechaFinStr =  $("#fechaFin").val(data_set[0].FECHA_DESCARGA);
                 var fechaInicio = new Date(data_set[0].FECHA_CARGA+ "T00:00:00");
                 var fechaFin = new Date(data_set[0].FECHA_DESCARGA+ "T00:00:00");
-
                 var diferenciaMilisegundos = fechaFin.getTime() - fechaInicio.getTime();
                 var diferenciaDias = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
                 console.log(fechaInicio);
                 $('.dias').text('Duración de ' + (diferenciaDias+1) + " días");
-                            
-
                 var jsonData =data_set[0].MATERIAL ;
-    var dataToLoad = JSON.parse(jsonData);
+                var dataToLoad = JSON.parse(jsonData);
 
-    // Obtener el DataSource del grid
-    var grid = $("#grid_material").data("kendoGrid");
-    var dataSource = grid.dataSource;
-    dataSource.data(dataToLoad);
-    $("#materiales").val(data_set[0].MATERIAL);
+                // Obtener el DataSource del grid
+                var grid = $("#grid_material").data("kendoGrid");
+                var dataSource = grid.dataSource;
+                dataSource.data(dataToLoad);
+                $("#materiales").val(data_set[0].MATERIAL);
             }
-
         }
     });
 });
@@ -232,14 +193,10 @@ $(document).ready(function() {
                                                                 null,
                                                                 2);
                                                             operador = result;
-
                                                             sampleDataNextoperador = operador
                                                                 .length;
-
                                                             e.success(operador);
-
                                                         });
-
                                                 },
 
                                                 parameterMap: function(options, operation) {
@@ -972,9 +929,6 @@ $(document).ready(function() {
                             </div>
                         </div>
 
-
-
-
                         <div class="col-md-12">
                             <div class="mb-3">
                                 <label for="regimen" class="form-label">Material</label>
@@ -1046,7 +1000,7 @@ $(document).ready(function() {
                                     $("#grid_material").kendoGrid({
                                         dataSource: dataSource,
                                         scrollable: true, // Habilitar scroll
-                                        toolbar: ["create"],
+                                        
                                         columns: [{
                                                 field: "MATERIAL",
                                                 title: "material",
@@ -1058,10 +1012,6 @@ $(document).ready(function() {
                                             },
                                             {
                                                 field: "UNIDAD"
-                                            },
-                                            {
-                                                command: ["destroy"],
-                                                title: "&nbsp;"
                                             }
                                         ],
                                         editable: true
@@ -1169,120 +1119,6 @@ $(document).ready(function() {
                             </div>
                         </div>
                         
-
-                           <!--  <div class="col-xxl-12 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="material">MATERIAL</label>
-                                    <input class="form-control" id="tipos_material" name="material"
-                                        style="width: 100%;" />
-                                </div>
-                                <script id="noDataTemplatetipos_material" type="text/x-kendo-tmpl">
-                                    <div>No se encontró dentro de la base de datos desea guardar a : - '#: instance.text() #' ?</div>
-                                        <br />
-                                    <button class="k-button" onclick="addNewtipos_material('#: instance.element[0].id #', '#: instance.text() #')">¿Agregar nuevo tipo de material? </button>
-                                </script>
-                                segunda seccion  
-                                <script>
-                                var tipos_material = [];
-                                var sampleDataNexttipos_material = 0;
-
-                                function getIndexByIdtipos_material(id) {
-                                    var idx, l = tipos_material.length;
-                                    for (var j = 0; j < l; j++) {
-                                        if (tipos_material[j].ID == id) {
-                                            return j;
-                                        }
-                                    }
-                                    return null;
-                                }
-
-                                function addNewtipos_material(widgetId, value) {
-                                    var crudServiceBaseUrl = "app/Ajax/droplistAjax.php";
-                                    var widget = $('#' + widgetId).getKendoComboBox();
-                                    var dataSource = widget.dataSource;
-                                    var id = getIndexByIdtipos_material(sampleDataNexttipos_material);
-                                    if (confirm('¿Está seguro?')) {
-                                        dataSource.add({
-                                            ID: id,
-                                            NOMBRE: value
-                                        });
-                                        dataSource.one('sync', function() {
-                                            widget.close();
-                                        });
-                                        dataSource.sync();
-                                        $.ajax({
-                                            url: crudServiceBaseUrl + "?catalogo_droplist=registrar",
-                                            data: {
-                                                TABLA: 'd_material',
-                                                VALUE: value
-                                            },
-                                            type: 'post',
-                                            success: function(data) {
-                                                alert('la inserción: ' + data);
-                                            }
-                                        });
-                                    }
-                                };
-                                </script>
-                                <script>
-                                $(document).ready(function() {
-                                    var crudServiceBaseUrl = "app/Ajax/droplistAjax.php";
-                                    var tipos_material_data = new kendo.data.DataSource({
-                                        transport: {
-                                            read: function(e) {
-                                                $.getJSON(crudServiceBaseUrl +
-                                                    "?catalogo_droplist=leer&TABLA=d_material",
-                                                    function(result) {
-                                                        var data = JSON.stringify(result, null,
-                                                            2);
-                                                        tipos_material = result;
-                                                        console.log(tipos_material);
-                                                        sampleDataNexttipos_material =
-                                                            tipos_material.length;
-                                                        console.log(tipos_material);
-                                                        e.success(tipos_material);
-                                                    });
-                                            },
-                                            create: function(e) {
-                                                e.data.ID = sampleDataNexttipos_material++;
-                                                tipos_material.push(e.data);
-                                                console.log(tipos_material);
-                                                e.success(e.data);
-                                            },
-                                            parameterMap: function(options, operation) {
-                                                if (operation !== "read" && options.models) {
-                                                    return {
-                                                        models: kendo.stringify(options.models)
-                                                    };
-                                                }
-                                            }
-                                        },
-                                        schema: {
-                                            model: {
-                                                id: "ID",
-                                                fields: {
-                                                    ID: {
-                                                        type: "number"
-                                                    },
-                                                    NOMBRE: {
-                                                        type: "string"
-                                                    }
-                                                }
-                                            }
-                                        }
-                                    });
-                                    $("#tipos_material").kendoComboBox({
-                                        filter: "startswith",
-                                        dataTextField: "NOMBRE",
-                                        dataValueField: "ID",
-                                        dataSource: tipos_material_data,
-                                        noDataTemplate: $("#noDataTemplatetipos_material").html()
-                                    });
-                                });
-                                </script>
-                            </div> -->
-
-
                             <div class="col-xxl-6 col-lg-4 col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="fechaCarga">FECHA DE CARGA Y DESCARGA <span
