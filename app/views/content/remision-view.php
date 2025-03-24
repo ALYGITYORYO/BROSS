@@ -25,7 +25,7 @@ $(document).ready(function() {
             if (info) {
                 $('#folio_id_remision').val(info);
                 $('#folio_remision').val(info);
-                
+
             } else {
                 // $("#resultado").html("Error: " + response.message);
             }
@@ -42,7 +42,6 @@ $(document).ready(function() {
     var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/remisionAjax.php";
 
     let id = <?=$id;?>;
-    let dataEmp = {};
     $.ajax({
         type: "POST",
         url: crudServiceBaseUrl,
@@ -52,16 +51,18 @@ $(document).ready(function() {
         },
         success: function(response) {
             let data_cotizacion = JSON.parse(response);
+            console.log(data_cotizacion);
             if (data_cotizacion.length == 1) {
-                data_set = data_cotizacion[0];
-                $("#folio_id_cotizacion").val(data_set.FOLIO);
-                $("#folio_cotizacion").val(data_set.FOLIO);
-                $("#cliente").data("kendoComboBox").value(data_set.CLIENTE);
+                data_set = data_cotizacion[0];            
+               
+                $("#folio_id_cotizacion").val(data_set[0].FOLIO);
+                $("#folio_cotizacion").val(data_set[0].FOLIO);
+                $("#cliente").data("kendoComboBox").value(data_set[0].CLIENTE);
 
-                if (data_set.CONDICION == "credito") {
+                if (data_set[0].CONDICION == "credito") {
                     $("#aCredito").prop("checked", true);
                     $('#diasCreditoContainer').show();
-                    $('#diasCredito').val(data_set.DIAS_CREDITO);
+                    $('#diasCredito').val(data_set[0].DIAS_CREDITO);
                     $("#containerespacio").hide();
                 } else {
                     $("#alContado").prop("checked", true);
@@ -69,45 +70,104 @@ $(document).ready(function() {
                     $("#containerespacio").show();
                 }
 
+                console.log();
                 $('#estadoInicio').append($('<option>', {
-                    value: data_set.PUNTO_INICIO_EDO,
-                    text: data_set.PUNTO_INICIO_EDO
+                    value: data_set[0].PUNTO_INICIO_EDO,
+                    text: data_set[0].PUNTO_INICIO_EDO
                 }));
-                $('#estadoInicio').val(data_set.PUNTO_INICIO_EDO);
+                $('#estadoInicio').val(data_set[0].PUNTO_INICIO_EDO);
 
                 $('#ciudadInicio').append($('<option>', {
-                    value: data_set.PUNTO_INICIO_CIUDAD,
-                    text: data_set.PUNTO_INICIO_CIUDAD
+                    value: data_set[0].PUNTO_INICIO_CIUDAD,
+                    text: data_set[0].PUNTO_INICIO_CIUDAD
                 }));
-                $('#ciudadInicio').val(data_set.PUNTO_INICIO_CIUDAD);
+                $('#ciudadInicio').val(data_set[0].PUNTO_INICIO_CIUDAD);
 
                 $('#estadoFinal').append($('<option>', {
-                    value: data_set.PUNTO_FINAL_EDO,
-                    text: data_set.PUNTO_FINAL_EDO
+                    value: data_set[0].PUNTO_FINAL_EDO,
+                    text: data_set[0].PUNTO_FINAL_EDO
                 }));
-                $('#estadoFinal').val(data_set.PUNTO_FINAL_EDO);
+                $('#estadoFinal').val(data_set[0].PUNTO_FINAL_EDO);
 
                 $('#ciudadFinal').append($('<option>', {
-                    value: data_set.PUNTO_FINAL_CIUDAD,
-                    text: data_set.PUNTO_FINAL_CIUDAD
+                    value: data_set[0].PUNTO_FINAL_CIUDAD,
+                    text: data_set[0].PUNTO_FINAL_CIUDAD
                 }));
-                $('#ciudadFinal').val(data_set.PUNTO_FINAL_CIUDAD);
+                $('#ciudadFinal').val(data_set[0].PUNTO_FINAL_CIUDAD);
 
-                $("#dirinicio").text(data_set.DIR_INICIO);
-                $("#dirfinal").text(data_set.DIR_FINAL);
-                $("#notas").text(data_set.NOTAS);
-                $("#linkinicio").text(data_set.LINK_INICIO);
-                $("#linkfinal").text(data_set.LINK_FINAL);
+                $("#dirinicio").text(data_set[0].DIR_INICIO);
+                $("#dirfinal").text(data_set[0].DIR_FINAL);
+                $("#notas").text(data_set[0].NOTAS);
+                $("#diriniciogoogle").text(data_set[0].LINK_INICIO);
+                $("#dirfinalgoogle").text(data_set[0].LINK_FINAL);
 
-                $('#peso').val(data_set.PESO);
-                $('#precio').val(data_set.PRECIO);
-                $("#tipos_material").data("kendoComboBox").value(data_set.MATERIAL);
-                if (data_set.TIPO_FISCAL == "no fiscal") {
+                $('#peso').val(data_set[0].PESO);
+                $('#precio').val(data_set[0].PRECIO);
+                //$("#tipos_material").data("kendoComboBox").value(data_set[0].MATERIAL);
+                if (data_set[0].TIPO_FISCAL == "no fiscal") {
                     $("#nofiscal").prop("checked", true);
                 } else {
                     $("#fiscal").prop("checked", true);
                 }
 
+                $('#id_ubicacion_origen').val(data_set[0].ID_ORIGEN);
+                $('#calle_origen').val(data_set[0].CALLE_ORIGEN);
+                $('#numero_exterior_origen').val(data_set[0].NUM_EXT_ORIGEN);
+                $('#numero_interior_origen').val(data_set[0].NUM_INT_ORIGEN);
+                $('#colonia_origen').val(data_set[0].COLONIA_ORIGEN);
+                $('#localidad_origen').val(data_set[0].LOCALIDAD_ORIGEN);
+                $('#referencia_origen').val(data_set[0].REFERENCIA_ORIGEN);
+                $('#municipio_origen').val(data_set[0].MUNICIPIO_ORIGEN);
+                $('#estado_origen').val(data_set[0].ESTADO_ORIGEN);
+                $('#pais_origen').val(data_set[0].PAIS_ORIGEN);
+                $('#cp_origen').val(data_set[0].CP_ORIGEN);
+                $('#distancia_origen').val(data_set[0].DISTANCIA_ORIGEN);
+
+
+                // Asignación de datos de destino
+                $('#id_ubicacion_destino').val(data_set[0].ID_DESTINO_DESTINO);
+                $('#calle_destino').val(data_set[0].CALLE_DESTINO);
+                $('#numero_exterior_destino').val(data_set[0].NUM_EXT_DESTINO);
+                $('#numero_interior_destino').val(data_set[0].NUM_INT_DESTINO);
+                $('#colonia_destino').val(data_set[0].COLONIA_DESTINO);
+                $('#localidad_destino').val(data_set[0].LOCALIDAD_DESTINO);
+                $('#referencia_destino').val(data_set[0].REFERENCIA_DESTINO);
+                $('#municipio_destino').val(data_set[0].MUNICIPIO_DESTINO);
+                $('#estado_destino').val(data_set[0].ESTADO_DESTINO);
+                $('#pais_destino').val(data_set[0].PAIS_DESTINO);
+                $('#cp_destino').val(data_set[0].CP_DESTINO);
+                $('#distancia_destino').val(data_set[0].DISTANCIA_DESTINO);
+
+
+// para asignar fechas 
+                var dateRangePicker = $("#daterangepicker").data("kendoDateRangePicker");
+                dateRangePicker.range({
+                                start: new Date(data_set[0].FECHA_CARGA+ "T00:00:00"),
+                                end: new Date(data_set[0].FECHA_DESCARGA+ "T00:00:00")
+                            })
+
+                            var fechaInicioStr = $("#fechaInicio").val(data_set[0].FECHA_CARGA);
+                            var fechaFinStr =  $("#fechaFin").val(data_set[0].FECHA_DESCARGA);
+                            
+                
+
+                var fechaInicio = new Date(data_set[0].FECHA_CARGA+ "T00:00:00");
+                var fechaFin = new Date(data_set[0].FECHA_DESCARGA+ "T00:00:00");
+
+                var diferenciaMilisegundos = fechaFin.getTime() - fechaInicio.getTime();
+                var diferenciaDias = diferenciaMilisegundos / (1000 * 60 * 60 * 24);
+                console.log(fechaInicio);
+                $('.dias').text('Duración de ' + (diferenciaDias+1) + " días");
+                            
+
+                var jsonData =data_set[0].MATERIAL ;
+    var dataToLoad = JSON.parse(jsonData);
+
+    // Obtener el DataSource del grid
+    var grid = $("#grid_material").data("kendoGrid");
+    var dataSource = grid.dataSource;
+    dataSource.data(dataToLoad);
+    $("#materiales").val(data_set[0].MATERIAL);
             }
 
         }
@@ -137,7 +197,8 @@ $(document).ready(function() {
                                     <label class="form-label" for="folio">FOLIO COTIZACIÓN</label>
                                     <input type="text" class="form-control" id="folio_id_cotizacion" name="folio_id"
                                         disabled>
-                                    <input type="hidden" class="form-control" id="folio_cotizacion" name="folio_cotizacion">
+                                    <input type="hidden" class="form-control" id="folio_cotizacion"
+                                        name="folio_cotizacion">
                                 </div>
                             </div>
 
@@ -146,7 +207,7 @@ $(document).ready(function() {
                                     <label class="form-label" for="folio">FOLIO REMISIÓN</label>
                                     <input type="text" class="form-control" id="folio_id_remision" name="folio_id"
                                         value="<?php echo $FOLIO; ?>" disabled>
-                                        <input type="hidden" class="form-control" id="folio_remision" name="folio_remision">
+                                    <input type="hidden" class="form-control" id="folio_remision" name="folio_remision">
                                 </div>
                             </div>
 
@@ -540,7 +601,8 @@ $(document).ready(function() {
                                         }
 
                                         $("#vehiculo").val(this.selectedKeyNames());
-                    console.log("The selected product ids are: [" + this.selectedKeyNames().join(", ") + "]");
+                                        console.log("The selected product ids are: [" + this.selectedKeyNames().join(
+                                            ", ") + "]");
                                     }
                                     </script>
 
@@ -623,94 +685,446 @@ $(document).ready(function() {
                                 </div>
                             </div>
 
-                            <div class="col-xxl-3 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label">PUNTO DE INICIO (ESTADO)</label>
-                                    <select class="form-select" id="estadoInicio" name="estadoinicio">
-                                        <option value=""></option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xxl-3 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label">PUNTO DE INICIO (CIUDAD)</label>
-                                    <select class="form-select" id="ciudadInicio" name="ciudadinicio">
-                                        <option>
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xxl-3 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label">PUNTO DE FINAL (ESTADO)</label>
-                                    <select class="form-select" id="estadoFinal" name="estadofinal">
-                                        <option>
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
-                            <div class="col-xxl-3 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label">PUNTO DE FINAL (CIUDAD)</label>
-                                    <select class="form-select" id="ciudadFinal" name="ciudadfinal">
-                                        <option>
-                                        </option>
-                                    </select>
-                                </div>
-                            </div>
 
-                            <div class="col-xxl-6 col-lg-4 col-sm-6">
+
+
+                            <div class="col-xxl-12 col-lg-4 col-sm-6">
                                 <div class="mb-3">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Dirección Inicio</span>
-                                        <textarea class="form-control" id="dirinicio" name="dirinicio"
-                                            aria-label="With textarea"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-6 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Dirección Final</span>
-                                        <textarea class="form-control" id="dirfinal" name="dirfinal"
-                                            aria-label="With textarea"></textarea>
+                                    <div class="card-header">
+                                        <h5 class="card-title text-center">UBICACIONES</h5>
                                     </div>
                                 </div>
                             </div>
 
 
-                            <div class="col-xxl-6 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Link GoogleMaps Inicio</span>
-                                        <textarea class="form-control" id="linkinicio" name="diriniciogoogle"
-                                            aria-label="With textarea"></textarea>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-xxl-6 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <div class="input-group">
-                                        <span class="input-group-text">Link GoogleMaps Final</span>
-                                        <textarea class="form-control" id="linkfinal" name="dirfinalgoogle"
-                                            aria-label="With textarea"></textarea>
-                                    </div>
-                                </div>
-                            </div>
+                            <div class="row gx-3">
+                                <div class="col-sm-12">
+                                    <div class="accordion" id="accordionPanelsStayOpenExample">
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="panelsStayOpen-headingOne">
+                                                <button class="accordion-button" type="button" data-bs-toggle="collapse"
+                                                    data-bs-target="#panelsStayOpen-collapseOne" aria-expanded="true"
+                                                    aria-controls="panelsStayOpen-collapseOne">
+                                                    <h5 class="m-0">UBICACIÓN ORIGEN</h5>
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapseOne"
+                                                class="accordion-collapse collapse show"
+                                                aria-labelledby="panelsStayOpen-headingOne">
+                                                <div class="accordion-body">
 
-                            <div class="col-xxl-6 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="material">MATERIAL</label>
-                                    <input class="form-control" id="tipos_material" name="material"
-                                        style="width: 100%;" />
+                                                    <div class="row gx-3">
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label" for="id_ubicacion_origen">ID
+                                                                    UBICACIÓN</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="id_ubicacion_origen" name="id_ubicacion_origen"
+                                                                    value="OR000000">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="calle_origen">CALLE</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="calle_origen" name="calle_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="numero_exterior_origen">NÚMERO EXTERIOR</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="numero_exterior_origen"
+                                                                    name="numero_exterior_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="numero_interior_origen">NÚMERO INTERIOR</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="numero_interior_origen"
+                                                                    name="numero_interior_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="colonia_origen">COLONIA</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="colonia_origen" name="colonia_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="localidad_origen">LOCALIDAD</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="localidad_origen" name="localidad_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="referencia_origen">REFERENCIA</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="referencia_origen" name="referencia_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="municipio_origen">MUNICIPIO</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="municipio_origen" name="municipio_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="estado_origen">ESTADO</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="estado_origen" name="estado_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label" for="pais_origen">PAÍS</label>
+                                                                <input type="text" class="form-control" id="pais_origen"
+                                                                    name="pais_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label" for="cp_origen">CP</label>
+                                                                <input type="text" class="form-control" id="cp_origen"
+                                                                    name="cp_origen">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="distancia_recorrida_origen">DISTANCIA
+                                                                    RECORRIDA</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="distancia_origen"
+                                                                    name="distancia_recorrida_origen" value="0">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xxl-12 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">Link
+                                                                        GoogleMaps</span>
+                                                                    <textarea class="form-control" id="diriniciogoogle"
+                                                                        name="diriniciogoogle"
+                                                                        aria-label="With textarea"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                        <div class="accordion-item">
+                                            <h2 class="accordion-header" id="panelsStayOpen-headingTwo">
+                                                <button class="accordion-button collapsed" type="button"
+                                                    data-bs-toggle="collapse"
+                                                    data-bs-target="#panelsStayOpen-collapseTwo" aria-expanded="false"
+                                                    aria-controls="panelsStayOpen-collapseTwo">
+                                                    <h5 class="m-0">UBICACIÓN DESTINO</h5>
+                                                </button>
+                                            </h2>
+                                            <div id="panelsStayOpen-collapseTwo" class="accordion-collapse collapse"
+                                                aria-labelledby="panelsStayOpen-headingTwo">
+
+                                                <div class="accordion-body">
+                                                    <div class="row gx-3">
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label" for="id_ubicacion_destino">ID
+                                                                    UBICACIÓN</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="id_ubicacion_destino"
+                                                                    name="id_ubicacion_destino" value="DE000000">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="calle_destino">CALLE</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="calle_destino" name="calle_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="numero_exterior_destino">NÚMERO
+                                                                    EXTERIOR</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="numero_exterior_destino"
+                                                                    name="numero_exterior_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="numero_interior_destino">NÚMERO
+                                                                    INTERIOR</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="numero_interior_destino"
+                                                                    name="numero_interior_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="colonia_destino">COLONIA</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="colonia_destino" name="colonia_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="localidad_destino">LOCALIDAD</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="localidad_destino" name="localidad_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="referencia_destino">REFERENCIA</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="referencia_destino" name="referencia_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="municipio_destino">MUNICIPIO</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="municipio_destino" name="municipio_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="estado_destino">ESTADO</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="estado_destino" name="estado_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="pais_destino">PAÍS</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="pais_destino" name="pais_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label" for="cp_destino">CP</label>
+                                                                <input type="text" class="form-control" id="cp_destino"
+                                                                    name="cp_destino">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="distancia_recorrida_destino">DISTANCIA
+                                                                    RECORRIDA</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="distancia_destino"
+                                                                    name="distancia_recorrida_destino">
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xxl-12 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <div class="input-group">
+                                                                    <span class="input-group-text">Link
+                                                                        GoogleMaps</span>
+                                                                    <textarea class="form-control" id="dirfinalgoogle"
+                                                                        name="dirfinalgoogle"
+                                                                        aria-label="With textarea"></textarea>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+
+
+                                                    </div>
+
+                                                </div>
+                                            </div>
+                                        </div>
+
+
+                                    </div>
                                 </div>
+                            </div>
+                        </div>
+
+
+
+
+                        <div class="col-md-12">
+                            <div class="mb-3">
+                                <label for="regimen" class="form-label">Material</label>
+                                <div id="grid_material"></div>
+                                <input type="hidden" id="materiales" name="materiales">
                                 <script id="noDataTemplatetipos_material" type="text/x-kendo-tmpl">
                                     <div>No se encontró dentro de la base de datos desea guardar a : - '#: instance.text() #' ?</div>
                                         <br />
                                     <button class="k-button" onclick="addNewtipos_material('#: instance.element[0].id #', '#: instance.text() #')">¿Agregar nuevo tipo de material? </button>
                                 </script>
-                                <!-- segunda seccion  -->
-                                <script>
+                                 <script>
+                                $(document).ready(function() {
+                                    let data = [];
+                                    let material = [];
+                                    var nextId = data.length + 1;
+                                    var dataSource = new kendo.data.DataSource({
+                                        pageSize: 20,
+                                        autoSync: true,
+                                        transport: {
+                                            create: function(e) {
+                                                e.data.Id = kendo
+                                                    .guid(); // Usar GUIDs para IDs únicos
+                                                e.success(e.data);
+                                                material.push(e.data);
+                                                console.log(e.data);
+                                                console.log(material);
+                                                $("#materiales").val(JSON.stringify(material));
+                                            },
+                                            read: function(e) {
+                                                e.success(data);
+                                                console.log(e.data);
+                                            },
+                                            read: function(e) {
+                                                e.success(data);
+                                            },
+                                            update: function(e) {
+                                                e.success(e.data);
+                                                // Actualizar el array referencias
+                                                const index = material.findIndex(item => item
+                                                    .Id === e
+                                                    .data.Id);
+                                                if (index !== -1) {
+                                                    material[index] = e.data;
+                                                    $("#materiales").val(JSON.stringify(
+                                                        material));
+                                                }
+                                            },
+                                        },
+                                        schema: {
+                                            model: {
+                                                id: "Id",
+                                                fields: {
+                                                    MATERIAL: {
+                                                        defaultValue: {
+                                                            ID: 1,
+                                                            NOMBRE: "SELECCIONA UN MATERIAL"
+                                                        }
+                                                    },
+                                                    PESO: {
+                                                        type: "number"
+                                                    },
+                                                    UNIDAD: {
+                                                        type: "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                    $("#grid_material").kendoGrid({
+                                        dataSource: dataSource,
+                                        scrollable: true, // Habilitar scroll
+                                        toolbar: ["create"],
+                                        columns: [{
+                                                field: "MATERIAL",
+                                                title: "material",
+                                                editor: materialEditor,
+                                                template: "#=MATERIAL.NOMBRE#"
+                                            },
+                                            {
+                                                field: "PESO"
+                                            },
+                                            {
+                                                field: "UNIDAD"
+                                            },
+                                            {
+                                                command: ["destroy"],
+                                                title: "&nbsp;"
+                                            }
+                                        ],
+                                        editable: true
+                                    });
+                                });
+
+                                function materialEditor(container, options) {
+                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                    var tipos_material_data = new kendo.data.DataSource({
+                                        transport: {
+                                            read: function(e) {
+                                                $.getJSON(crudServiceBaseUrl +
+                                                    "?catalogo_droplist=leer&TABLA=d_material",
+                                                    function(result) {
+                                                        var data = JSON.stringify(result, null,
+                                                            2);
+                                                        tipos_material = result;
+                                                        console.log(tipos_material);
+                                                        sampleDataNexttipos_material =
+                                                            tipos_material.length;
+                                                        console.log(tipos_material);
+                                                        e.success(tipos_material);
+                                                    });
+                                            },
+                                            create: function(e) {
+                                                e.data.ID = sampleDataNexttipos_material++;
+                                                tipos_material.push(e.data);
+                                                console.log(tipos_material);
+                                                e.success(e.data);
+                                            },
+                                            parameterMap: function(options, operation) {
+                                                if (operation !== "read" && options.models) {
+                                                    return {
+                                                        models: kendo.stringify(options.models)
+                                                    };
+                                                }
+                                            }
+                                        },
+                                        schema: {
+                                            model: {
+                                                id: "ID",
+                                                fields: {
+                                                    ID: {
+                                                        type: "number"
+                                                    },
+                                                    NOMBRE: {
+                                                        type: "string"
+                                                    }
+                                                }
+                                            }
+                                        }
+                                    });
+                                    var comboBoxId = "materialComboBox_" + options.model.uid;
+                                    $('<input id="' + comboBoxId + '" data-bind="value:' + options.field + '"/>')
+                                        .appendTo(container)
+                                        .kendoComboBox({
+                                            filter: "startswith",
+                                            dataTextField: "NOMBRE",
+                                            dataValueField: "ID",
+                                            dataSource: tipos_material_data,
+                                            noDataTemplate: $("#noDataTemplatetipos_material").html()
+                                        });
+                                }
                                 var tipos_material = [];
                                 var sampleDataNexttipos_material = 0;
 
@@ -752,9 +1166,67 @@ $(document).ready(function() {
                                     }
                                 };
                                 </script>
+                            </div>
+                        </div>
+                        
+
+                           <!--  <div class="col-xxl-12 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="material">MATERIAL</label>
+                                    <input class="form-control" id="tipos_material" name="material"
+                                        style="width: 100%;" />
+                                </div>
+                                <script id="noDataTemplatetipos_material" type="text/x-kendo-tmpl">
+                                    <div>No se encontró dentro de la base de datos desea guardar a : - '#: instance.text() #' ?</div>
+                                        <br />
+                                    <button class="k-button" onclick="addNewtipos_material('#: instance.element[0].id #', '#: instance.text() #')">¿Agregar nuevo tipo de material? </button>
+                                </script>
+                                segunda seccion  
+                                <script>
+                                var tipos_material = [];
+                                var sampleDataNexttipos_material = 0;
+
+                                function getIndexByIdtipos_material(id) {
+                                    var idx, l = tipos_material.length;
+                                    for (var j = 0; j < l; j++) {
+                                        if (tipos_material[j].ID == id) {
+                                            return j;
+                                        }
+                                    }
+                                    return null;
+                                }
+
+                                function addNewtipos_material(widgetId, value) {
+                                    var crudServiceBaseUrl = "app/Ajax/droplistAjax.php";
+                                    var widget = $('#' + widgetId).getKendoComboBox();
+                                    var dataSource = widget.dataSource;
+                                    var id = getIndexByIdtipos_material(sampleDataNexttipos_material);
+                                    if (confirm('¿Está seguro?')) {
+                                        dataSource.add({
+                                            ID: id,
+                                            NOMBRE: value
+                                        });
+                                        dataSource.one('sync', function() {
+                                            widget.close();
+                                        });
+                                        dataSource.sync();
+                                        $.ajax({
+                                            url: crudServiceBaseUrl + "?catalogo_droplist=registrar",
+                                            data: {
+                                                TABLA: 'd_material',
+                                                VALUE: value
+                                            },
+                                            type: 'post',
+                                            success: function(data) {
+                                                alert('la inserción: ' + data);
+                                            }
+                                        });
+                                    }
+                                };
+                                </script>
                                 <script>
                                 $(document).ready(function() {
-                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                    var crudServiceBaseUrl = "app/Ajax/droplistAjax.php";
                                     var tipos_material_data = new kendo.data.DataSource({
                                         transport: {
                                             read: function(e) {
@@ -808,15 +1280,9 @@ $(document).ready(function() {
                                     });
                                 });
                                 </script>
-                            </div>
+                            </div> -->
 
-                            <div class="col-xxl-6 col-lg-4 col-sm-6">
-                                <div class="mb-3">
-                                    <label class="form-label" for="peso">PESO</label>
-                                    <input type="number" class="form-control" id="peso" name="peso"
-                                        value="<?php echo $PESO; ?>" required>
-                                </div>
-                            </div>
+
                             <div class="col-xxl-6 col-lg-4 col-sm-6">
                                 <div class="mb-3">
                                     <label class="form-label" for="fechaCarga">FECHA DE CARGA Y DESCARGA <span
@@ -824,8 +1290,8 @@ $(document).ready(function() {
                                                 class="ri-arrow-right-s-fill"></i> Duración</span></label>
                                     <div class="k-w-300">
                                         <div id="daterangepicker" class="form-control" title="daterangepicker"></div>
-                                        <input type="date" id="fechaInicio" name="fechaInicio" style="display: none;">
-                                        <input type="date" id="fechaFin" name="fechaFin" style="display: none;">
+                                        <input type="date" id="fechaInicio" name="fechaInicio" style="display: none" >
+                                        <input type="date" id="fechaFin" name="fechaFin" style="display: none" >
                                     </div>
                                     <script>
                                     $(document).ready(function() {
@@ -838,6 +1304,7 @@ $(document).ready(function() {
                                             // Ejemplo: 20 de noviembre de 2023
                                             format: "yyyy/MM/dd",
                                             change: onChange
+                                            
                                         });
 
                                         function onChange() {
@@ -879,6 +1346,13 @@ $(document).ready(function() {
                                         <textarea class="form-control" id="notas" name="notas"
                                             aria-label="With textarea"></textarea>
                                     </div>
+                                </div>
+                            </div>
+
+                            <div class="col-xxl-12 col-lg-4 col-sm-6">
+                                <div class="mb-3">
+                                    <label class="form-label" for="peso">NÚMERO DE VIAJE ASIGNADO POR EL CLIENTE</label>
+                                    <input type="text" class="form-control" id="num_viaje" name="num_viaje">
                                 </div>
                             </div>
 

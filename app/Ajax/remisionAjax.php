@@ -13,6 +13,9 @@
 		if($_POST['remision']=="registrar"){
 			echo $remision->remisionRegistrarController();
 		}
+		if($_POST['remision']=="viajes"){
+			echo $remision->viajesTranscursoController();
+		}
 	}else{
 		session_destroy();
 		header("Location: ".APP_URL."login/");

@@ -255,13 +255,10 @@
                                         dataSource: dataSource,
                                         
                                         scrollable: true, // Habilitar scroll
-                               
-                                
                                         toolbar: ["create"],
                                         
                                         columns: [
                                             { field: "MATERIAL", title: "material",  editor: materialEditor, template: "#=MATERIAL.NOMBRE#" },
-
                                             {
                                                 field: "PESO"
                                             },

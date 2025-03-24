@@ -42,7 +42,7 @@
 				# Lectura datos#
 				
 				$lista = array();
-				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOEMPLADO`,`NOMBRE` FROM `colaborador` WHERE (`AREA`='Operativa' AND `CARGO`='Operador') OR (`AREA`='Operativa' AND `CARGO`='Operativo') AND`ASIGNADO`!=1");			
+				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOEMPLADO`,`NOMBRE` FROM `colaborador` WHERE `AREA`='Operativa' AND `CARGO`='Operativo' AND `ASIGNADO`!=1");			
 				$fila = $drop_list->fetchall();
 				foreach ($fila as $row) {
 					$lista[]= array(
@@ -132,6 +132,28 @@
 				echo json_encode($lista);
 
 		}
+		
+		public function listaCPControlador(){
+			$cp=$_GET["cp"];
+			$lista = array();
+				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`CODIGO`,`ASENTAMIENTO`,`CLAVE`,`C_MUNICIPIO`,`ESTADO` FROM `cp_bd` WHERE `CODIGO`='$cp'");			
+				$fila = $drop_list->fetchall();
+				foreach ($fila as $row) {
+					$lista[]= array(
+						"ID" => $row["ID"],
+						"CODIGO" => $row["CODIGO"],
+						"CLAVE" => $row["CLAVE"],
+						"ESTADO" => $row["ESTADO"],
+						"C_MUNICIPIO" => $row["C_MUNICIPIO"],
+						"ASENTAMIENTO" => $row["ASENTAMIENTO"]
+
+						);
+				}
+	
+				echo json_encode($lista);
+
+		}
+		
 		
 
 		

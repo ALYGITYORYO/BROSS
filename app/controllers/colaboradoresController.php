@@ -14,7 +14,7 @@ $no_empleado =$_POST['no_empleado'];
 $area =$_POST['area_input'];
 $cargo =$_POST['cargo_input'];
 $nombre =$_POST['nombre'];
-$domicilio =$_POST['domicilio'];
+
 $curp =$_POST['curp'];
 $telefono =$_POST['telefono'];
 $ine_id =$_POST['ine_id'];
@@ -28,6 +28,20 @@ $folio_antidoping =$_POST['folio_antidoping'];
 $fecha_examen_antidoping =$_POST['fecha_examen_antidoping'];
 $folio_carta_no_antecedentes =$_POST['folio_carta_no_antecedentes'];
 $referencias =$_POST['referencias'];
+
+//UBICACIONE
+
+$calle = $_POST['calle'];
+$numero_exterior = $_POST['numero_exterior'];
+$numero_interior = $_POST['numero_interior'];
+$colonia = $_POST['colonia'];
+$localidad = $_POST['localidad'];
+$referencia = $_POST['referencia'];
+$municipio = $_POST['municipio'];
+$estado = $_POST['estado'];
+$pais = $_POST['pais'];
+$cp = $_POST['cp'];
+
 
 
 
@@ -224,11 +238,56 @@ $colaboradores_datos_reg=[
 		"campo_marcador"=>":NOMBRE",
 		"campo_valor"=>$nombre
 	],
-	[
-		"campo_nombre"=>"DOMICILIO",
-		"campo_marcador"=>":DOMICILIO",
-		"campo_valor"=>$domicilio
-	],
+				[
+					"campo_nombre" => "CALLE",
+					"campo_marcador" => ":CALLE",
+					"campo_valor" => $calle
+				],
+				[
+					"campo_nombre" => "NUM_EXT",
+					"campo_marcador" => ":NUM_EXT",
+					"campo_valor" => $numero_exterior
+				],
+				[
+					"campo_nombre" => "NUM_INT",
+					"campo_marcador" => ":NUM_INT",
+					"campo_valor" => $numero_interior
+				],
+					[
+					"campo_nombre" => "COLONIA",
+					"campo_marcador" => ":COLONIA",
+					"campo_valor" => $colonia
+				],
+					[
+					"campo_nombre" => "LOCALIDAD",
+					"campo_marcador" => ":LOCALIDAD",
+					"campo_valor" => $localidad
+				],
+					[
+					"campo_nombre" => "REFERENCIA",
+					"campo_marcador" => ":REFERENCIA",
+					"campo_valor" => $referencia
+				],
+					[
+					"campo_nombre" => "MUNICIPIO",
+					"campo_marcador" => ":MUNICIPIO",
+					"campo_valor" => $municipio
+				],
+					[
+					"campo_nombre" => "ESTADO",
+					"campo_marcador" => ":ESTADO",
+					"campo_valor" => $estado
+				],
+					[
+					"campo_nombre" => "PAIS",
+					"campo_marcador" => ":PAIS",
+					"campo_valor" => $pais
+				],
+					[
+					"campo_nombre" => "CP",
+					"campo_marcador" => ":CP",
+					"campo_valor" => $cp
+					],
 	[
 		"campo_nombre"=>"CURP",
 		"campo_marcador"=>":CURP",

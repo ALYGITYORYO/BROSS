@@ -105,7 +105,7 @@
                 </div>
                 <div class="d-flex align-items-end justify-content-between mt-1">
                     <a class="text-primary" href="javascript:void(0);" data-bs-toggle="modal"
-                    data-bs-target="#exampleModalXl_VEHICULOS">
+                        data-bs-target="#exampleModalXl_VEHICULOS">
                         <span>ver más</span>
                         <i class="ri-arrow-right-line ms-1"></i>
                     </a>
@@ -118,7 +118,8 @@
         </div>
     </div>
 
-    <div class="modal fade" id="exampleModalXl_VEHICULOS" tabindex="-1" aria-labelledby="exampleModalXlLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModalXl_VEHICULOS" tabindex="-1" aria-labelledby="exampleModalXlLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -134,260 +135,275 @@
         </div>
     </div>
 
-    
+
     <script>
-                                    $(document).ready(function() {
-                                        var crudServiceBaseUrl =
-                                            "<?php echo APP_URL; ?>app/Ajax/vehiculosAjax.php";
-                                        var dataSource = new kendo.data.DataSource({
-                                            transport: {
-                                                read: function(e) {
-                                                    $.ajax({
-                                                        url: crudServiceBaseUrl,
-                                                        dataType: "json",
-                                                        data: {
-                                                            vehiculosCatalogo: "lista_vehiculos_remision"
-                                                        },
-                                                        type: 'post',
-                                                        success: function(data) {
-                                                            e.success(data);
-                                                        }
-                                                    });
-                                                },
-                                                create: function(e) {
-                                                    e.success(e.data);
-                                                },
-                                                update: function(e) {
+    $(document).ready(function() {
+        var crudServiceBaseUrl =
+            "<?php echo APP_URL; ?>app/Ajax/vehiculosAjax.php";
+        var dataSource = new kendo.data.DataSource({
+            transport: {
+                read: function(e) {
+                    $.ajax({
+                        url: crudServiceBaseUrl,
+                        dataType: "json",
+                        data: {
+                            vehiculosCatalogo: "lista_vehiculos_remision"
+                        },
+                        type: 'post',
+                        success: function(data) {
+                            e.success(data);
+                        }
+                    });
+                },
+                create: function(e) {
+                    e.success(e.data);
+                },
+                update: function(e) {
 
-                                                    e.success(e.data);
-                                                    // on failure
-                                                },
-                                                destroy: function(e) {
-                                                    // on success
-                                                    e.success();
-                                                    // on failure
-                                                }
-                                            },
-                                            error: function(e) {
-                                                // handle data operation error
-                                            },
-                                            pageSize: 5,
-                                            autoSync: true,
-                                            height: 543,
-                                            schema: {
-                                                model: {
-                                                    id: 'ID',
-                                                    fields: {
-                                                        ID: {
-                                                            editable: false,
-                                                            nullable: true
-                                                        },
-                                                        IMG: {
-                                                            type: 'string'
-                                                        },
-                                                        OPERADOR: {
-                                                            type: 'string'
-                                                        },
-                                                        TIPO: {
-                                                            type: 'string'
-                                                        },
-                                                        NOVEHICULO: {
-                                                            type: 'string'
-                                                        },
-                                                        DOBLE_ARTICULADO: {
-                                                            type: 'string'
-                                                        },
-                                                        GPS: {
-                                                            type: 'string'
-                                                        }
-                                                    }
-                                                }
-                                            }
-                                        });
+                    e.success(e.data);
+                    // on failure
+                },
+                destroy: function(e) {
+                    // on success
+                    e.success();
+                    // on failure
+                }
+            },
+            error: function(e) {
+                // handle data operation error
+            },
+            pageSize: 5,
+            autoSync: true,
+            height: 543,
+            schema: {
+                model: {
+                    id: 'ID',
+                    fields: {
+                        ID: {
+                            editable: false,
+                            nullable: true
+                        },
+                        IMG: {
+                            type: 'string'
+                        },
+                        OPERADOR: {
+                            type: 'string'
+                        },
+                        TIPO: {
+                            type: 'string'
+                        },
+                        NOVEHICULO: {
+                            type: 'string'
+                        },
+                        DOBLE_ARTICULADO: {
+                            type: 'string'
+                        },
+                        GPS: {
+                            type: 'string'
+                        }
+                    }
+                }
+            }
+        });
 
-                                        var element = $("#grid_vehiculos").kendoGrid({
-                                            dataSource: dataSource,
-                                            height: 600,
-                                            sortable: true,
-                                            pageable: true,
-                                            detailInit: detailInit,
-                                            columns: [
-                                                {
-                                                    field: "NOVEHICULO",
-                                                    template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: NOVEHICULO #</div>"
-                                                },
-                                                {
-                                                    field: "TIPO",
-                                                },
-                                                {
-                                                    title: "Doble ATICULADO",
-                                                    field: "DOBLE_ARTICULADO",
-                                                },
-                                                {
-                                                    field: "OPERADOR"
-                                                },
-                                                {
-                                                    field: "GPS"
-                                                }
-                                            ]
-                                        });
-                                    });
+        var element = $("#grid_vehiculos").kendoGrid({
+            dataSource: dataSource,
+            height: 600,
+            sortable: true,
+            pageable: true,
+            detailInit: detailInit,
+            columns: [{
+                    field: "NOVEHICULO",
+                    template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: NOVEHICULO #</div>"
+                },
+                {
+                    field: "TIPO",
+                },
+                {
+                    title: "Doble ATICULADO",
+                    field: "DOBLE_ARTICULADO",
+                },
+                {
+                    field: "OPERADOR"
+                },
+                {
+                    field: "GPS"
+                }
+            ]
+        });
+    });
 
-                                    function detailInit(e) {
-                                        var crudServiceBaseUrl1 =
-                                        "<?php echo APP_URL; ?>app/Ajax/vehiculosAjax.php";
-                                        var datadrop = new kendo.data.DataSource({
-														transport: {
-															read: function (e) {
-																$.ajax({
-																	url: crudServiceBaseUrl1,
-                                                                    data:{vehiculosCatalogo:"drillRelacionRemolque"},
-																	dataType: "json",
-																	type: 'post',
-																	success: function(data) {
-																		e.success(data);
-																	}
-																});
-															},
-															create: function (e) {
-																// assign an ID to the new item
-																// on success
-																e.success(e.data);
-															},
-															update: function (e) {
-																// on success
-																e.success();
-																// on failure
-																//e.error("XHR response", "status code", "error message");
-															},
-															destroy: function (e) {
-																// locate item in original datasource and remove it
-																update.splice(getIndexByIdU(e.data.ID), 1);
-																// on success
-																e.success();
-																// on failure
-																//e.error("XHR response", "status code", "error message");
-															}
-														},
-														error: function (e) {
-															// handle data operation error
-															alert("Status: " + e.status + "; Error message: " + e.errorThrown);
-														},
-														autoSync: true,
-														pageSize: 10,
-														filter: { field: "ID", operator: "eq", value: e.data.ID },              
-														schema: {
-															model: {
-																id: "ID",
-																fields: {
-																	ID: {type: 'string' },
-																	IMG: {type: 'string'},
-																	NOVEHICULO: {type: 'string'},
-																	TIPO: {type: 'string'},
-																	TIPO_VEHICULO: {type: 'string'},
-																}
-															}
-														}
-													});
-                                                    
-                                        $("<div/>").appendTo(e.detailCell).kendoGrid({
-                                            dataSource: datadrop,
-                                            scrollable: false,
-                                            sortable: true,
-                                            pageable: true,
-                                            columns: [{                                                    
-                                                    field: "NOVEHICULO",
-                                                    template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: NOVEHICULO #</div>"
-                                                },
-                                                {
-                                                    field: "TIPO",
-                                                    title: "TIPO DE REMOLQUE",
-                                                },
-                                                {
-                                                    field: "TIPO_VEHICULO",
-                                                    title: "REMOLQUE / DOLLY"
-                                                }
-                                            ]
-                                        });
-                                    }
-                                    </script>
+    function detailInit(e) {
+        var crudServiceBaseUrl1 =
+            "<?php echo APP_URL; ?>app/Ajax/vehiculosAjax.php";
+        var datadrop = new kendo.data.DataSource({
+            transport: {
+                read: function(e) {
+                    $.ajax({
+                        url: crudServiceBaseUrl1,
+                        data: {
+                            vehiculosCatalogo: "drillRelacionRemolque"
+                        },
+                        dataType: "json",
+                        type: 'post',
+                        success: function(data) {
+                            e.success(data);
+                        }
+                    });
+                },
+                create: function(e) {
+                    // assign an ID to the new item
+                    // on success
+                    e.success(e.data);
+                },
+                update: function(e) {
+                    // on success
+                    e.success();
+                    // on failure
+                    //e.error("XHR response", "status code", "error message");
+                },
+                destroy: function(e) {
+                    // locate item in original datasource and remove it
+                    update.splice(getIndexByIdU(e.data.ID), 1);
+                    // on success
+                    e.success();
+                    // on failure
+                    //e.error("XHR response", "status code", "error message");
+                }
+            },
+            error: function(e) {
+                // handle data operation error
+                alert("Status: " + e.status + "; Error message: " + e.errorThrown);
+            },
+            autoSync: true,
+            pageSize: 10,
+            filter: {
+                field: "ID",
+                operator: "eq",
+                value: e.data.ID
+            },
+            schema: {
+                model: {
+                    id: "ID",
+                    fields: {
+                        ID: {
+                            type: 'string'
+                        },
+                        IMG: {
+                            type: 'string'
+                        },
+                        NOVEHICULO: {
+                            type: 'string'
+                        },
+                        TIPO: {
+                            type: 'string'
+                        },
+                        TIPO_VEHICULO: {
+                            type: 'string'
+                        },
+                    }
+                }
+            }
+        });
+
+        $("<div/>").appendTo(e.detailCell).kendoGrid({
+            dataSource: datadrop,
+            scrollable: false,
+            sortable: true,
+            pageable: true,
+            columns: [{
+                    field: "NOVEHICULO",
+                    template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: NOVEHICULO #</div>"
+                },
+                {
+                    field: "TIPO",
+                    title: "TIPO DE REMOLQUE",
+                },
+                {
+                    field: "TIPO_VEHICULO",
+                    title: "REMOLQUE / DOLLY"
+                }
+            ]
+        });
+    }
+    </script>
 
 
-                                    <style type="text/css">
-                                    .k-pdf-export .k-clone,
-                                    .k-pdf-export .k-loader-container {
-                                        display: none;
-                                    }
+    <style type="text/css">
+    .k-pdf-export .k-clone,
+    .k-pdf-export .k-loader-container {
+        display: none;
+    }
 
-                                    .customer-photo {
-                                        display: inline-block;
-                                        width: 40px;
-                                        height: 40px;
-                                        border-radius: 50%;
-                                        background-size: 32px 35px;
-                                        background-position: center center;
-                                        vertical-align: middle;
-                                        line-height: 32px;
-                                        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0, 0, 0, .2);
-                                        margin-left: 5px;
-                                    }
+    .customer-photo {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0, 0, 0, .2);
+        margin-left: 5px;
+    }
 
-                                    .customer-name {
-                                        display: inline-block;
-                                        vertical-align: middle;
-                                        line-height: 32px;
-                                        padding-left: 3px;
-                                    }
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
 
-                                    .k-grid tr .checkbox-align {
-                                        text-align: center;
-                                        vertical-align: middle;
-                                    }
+    .k-grid tr .checkbox-align {
+        text-align: center;
+        vertical-align: middle;
+    }
 
-                                    .product-photo {
-                                        display: inline-block;
-                                        width: 32px;
-                                        height: 32px;
-                                        border-radius: 50%;
-                                        background-size: 32px 35px;
-                                        background-position: center center;
-                                        vertical-align: middle;
-                                        line-height: 32px;
-                                        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0, 0, 0, .2);
-                                        margin-right: 5px;
-                                    }
+    .product-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0, 0, 0, .2);
+        margin-right: 5px;
+    }
 
-                                    .product-name {
-                                        display: inline-block;
-                                        vertical-align: middle;
-                                        line-height: 32px;
-                                        padding-left: 3px;
-                                    }
+    .product-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
 
-                                    .k-rating-container .k-rating-item {
-                                        padding: 4px 0;
-                                    }
+    .k-rating-container .k-rating-item {
+        padding: 4px 0;
+    }
 
-                                    .k-rating-container .k-rating-item .k-icon {
-                                        font-size: 16px;
-                                    }
+    .k-rating-container .k-rating-item .k-icon {
+        font-size: 16px;
+    }
 
-                                    .dropdown-country-wrap {
-                                        display: flex;
-                                        flex-wrap: nowrap;
-                                        align-items: center;
-                                        white-space: nowrap;
-                                    }
+    .dropdown-country-wrap {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        white-space: nowrap;
+    }
 
-                                    .dropdown-country-wrap img {
-                                        margin-right: 10px;
-                                    }
+    .dropdown-country-wrap img {
+        margin-right: 10px;
+    }
 
-                                    #grid .k-grid-edit-row>td>.k-rating {
-                                        margin-left: 0;
-                                        width: 100%;
-                                    }
-                                    </style>
+    #grid .k-grid-edit-row>td>.k-rating {
+        margin-left: 0;
+        width: 100%;
+    }
+    </style>
 
     <div class="col-xl-3 col-sm-6 col-12">
         <div class="card mb-3">
@@ -419,7 +435,8 @@
     </div>
 
 
-    <div class="modal fade" id="exampleModalXl_COTIZACIONES" tabindex="-1" aria-labelledby="exampleModalXlLabel" aria-hidden="true">
+    <div class="modal fade" id="exampleModalXl_COTIZACIONES" tabindex="-1" aria-labelledby="exampleModalXlLabel"
+        aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
                 <div class="modal-header">
@@ -490,9 +507,7 @@
                         VIAJE: {
                             type: "string"
                         },
-                        MATERIAL: {
-                            type: "string"
-                        },
+
                         FECHA: {
                             type: "date"
                         },
@@ -507,7 +522,7 @@
                     }
                 }
             }
-           
+
         });
         var element = $("#grid_cotizaciones").kendoGrid({
             dataSource: dataSourceR,
@@ -529,11 +544,7 @@
                     title: "VIAJE",
 
                 },
-                {
-                    field: "MATERIAL",
-                    title: "MATERIAL",
 
-                },
                 {
                     field: "FECHA",
                     title: "FECHA COTIZACION",
@@ -550,7 +561,6 @@
                 {
                     template: '<input style="width: 70%;" type="button" class="btn btn-success  aprovate" id="aprovate#:ID#"  onclick="cotizador(#:ID#);" value="Remisionar">',
                     title: ""
-
                 }
             ],
             editable: true
@@ -594,6 +604,202 @@
 </div>
 <!-- Row ends -->
 
+<div class="row gx-3">
+    <div class="col-sm-12">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="card-title">Estatus de viajes </h5>
+            </div>
+            <div class="card-body">
+
+                <!-- Table starts -->
+                <div class="table-outer">
+                    <div class="table-responsive">
+
+                        <div id="grid_viajes_remisiones"></div>
+
+                        <script type="text/x-kendo-template" id="template">
+                            <div class="tabstrip">
+                    <ul>
+					
+						<li  class="k-state-active">
+                           COMENTARIOS
+												</li>
+												
+                        <li>
+                           PEDIDO
+												</li>
+                        <li>
+                           PAGOS
+												</li>
+											
+
+												</ul>
+												<div>
+                        <div class="COMENTARIOS"></div>
+												</div>
+                    <div>
+                        <div class="PEDIDO"></div>
+												</div>
+                    <div>
+                        <div class="PAGOS"></div>
+												</div>
+												
+
+												</div>
+
+											</script>
+
+
+
+                        <script>
+                    
+
+                        $(document).ready(function() {
+                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/remisionAjax.php";
+                            var grid = $("#grid_viajes_remisiones").kendoGrid({
+                                dataSource: {
+                                    transport: {
+                                        read: function(e) {
+                                            // on success  
+                                            $.ajax({
+                                                url: crudServiceBaseUrl,
+                                                data: {
+                                                    remision: 'viajes'
+                                                },
+                                                dataType: "json",
+                                                type: 'post',
+                                                success: function(dataq) {
+                                                    console.log(dataq);
+                                                    e.success(dataq[0]);
+                                                }
+                                            });
+                                        },
+                                        error: function(e) {
+                                            // handle data operation error
+                                            alert("Status: " + e.status + "; Error message: " + e
+                                                .errorThrown);
+                                        },
+                                    },
+                                    schema: {
+                                        model: {
+                                            fields: {
+                                                ID: {
+                                                    editable: false,
+                                                    nullable: true
+                                                },
+                                                FOLIO: {
+                                                    type: "string"
+                                                },
+                                                CLIENTE: {
+                                                    type: "string"
+                                                },
+                                                ORIGEN: {
+                                                    type: "number"
+                                                },
+                                                DESTINO: {
+                                                    type: "string"
+                                                },
+                                                OPERADOR: {
+                                                    type: "string"
+                                                },
+                                                RZ: {
+                                                    type: "string"
+                                                },
+                                                ESTATUS: {
+                                                    type: "string"
+                                                }
+                                            }
+                                        }
+                                    },
+                                    pageSize: 50,
+
+                                },
+                                height: 450,
+                                //sortable: true, //ordenado
+                                columnMenu: true,
+                                //pageable: true, //foother 
+                                groupable: true, //para agrupar
+                                resizable: true, //columnas reajustables
+                                reorderable: true, //reordenamiento de columnas
+                                filterable: {
+                                    mode: "row"
+                                },
+                                detailTemplate: kendo.template($("#template").html()),
+                                dataBound: function() {
+                                    this.expandRow(this.tbody.find("tr.k-master-row").first());
+                                },
+                                columns: [{
+                                        field: "FOLIO",
+                                        title: "FOLIO"
+                                    },
+                                    {
+                                        field: "CLIENTE",
+                                        title: "CLIENTE"
+                                    },
+                                    {
+                                        field: "ORIGEN",
+                                        title: "ORIGEN"
+                                    },
+                                    {
+                                        field: "DESTINO",
+                                        title: "DESTINO"
+                                    },
+                                    {
+                                        field: "OPERADOR",
+                                        title: "OPERADOR"
+                                    },
+                                    {
+                                        field: "RZ",
+                                        title: "RZ"
+                                    },
+                                    {
+                                        field: "ESTATUS",
+                                        title: "ESTATUS"
+                                    }
+                                ]
+                            }).data("kendoGrid");
+                        });
+
+                         </script>
+
+
+
+
+                    </div>
+                </div>
+                <!-- Table ends -->
+
+                <!-- Modal starts -->
+                <div class="modal fade" id="confirmModalSm" tabindex="-1" aria-labelledby="confirmModalSmLabel"
+                    aria-hidden="true">
+                    <div class="modal-dialog modal-sm">
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <h5 class="modal-title" id="confirmModalSmLabel">
+                                    Confirm
+                                </h5>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                    aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                <div class="d-flex gap-2 justify-content-end">
+                                    <button type="button" class="btn btn-outline-secondary">
+                                        Cancel
+                                    </button>
+                                    <button type="button" class="btn btn-primary">
+                                        Book
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
 
 
 </div>

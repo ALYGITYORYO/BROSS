@@ -435,6 +435,13 @@ namespace app\controllers;
                 //$id_relacion=$this->ejecutarConsulta("INSERT INTO `relacion_operador_vehiculo` (`ID`, `ID_TRACTO`, `ID_REMOLQUES`) VALUES (NULL, '".$last_idaux["ID"]."', '".$last_idaux["ID"]."')");
                 }
 
+            
+                if($operador_asignado_ID!=''){
+                    $update_colaborador=$this->ejecutarConsulta("UPDATE `colaborador` SET `ASIGNADO` = '1' WHERE `colaborador`.`ID` =".$operador_asignado_ID);
+                    
+                    //$id_relacion=$this->ejecutarConsulta("INSERT INTO `relacion_operador_vehiculo` (`ID`, `ID_TRACTO`, `ID_REMOLQUES`) VALUES (NULL, '".$last_idaux["ID"]."', '".$last_idaux["ID"]."')");
+                    }
+
                 if (isset($_POST['reolques_asignados']))
                 {
                     $reolques_asignados = $_POST['reolques_asignados'];

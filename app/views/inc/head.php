@@ -12,11 +12,11 @@
     <script src="<?php echo APP_URL; ?>app/views/js/sweetalert2.all.min.js" ></script>
     
     <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.917/styles/kendo.common.min.css" />
-<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.917/styles/kendo.uniform.min.css" />
-<link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.917/styles/kendo.uniform.mobile.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.917/styles/kendo.uniform.min.css" />
+    <link rel="stylesheet" href="https://kendo.cdn.telerik.com/2019.3.917/styles/kendo.uniform.mobile.min.css" />
 
 
-    <script src="https://kendo.cdn.telerik.com/2019.3.917/js/jquery.min.js"></script>
+<script src="https://kendo.cdn.telerik.com/2019.3.917/js/jquery.min.js"></script>
     <!-- kendo ui -->
     <script src="https://kendo.cdn.telerik.com/2019.3.917/js/kendo.all.min.js"></script>
 

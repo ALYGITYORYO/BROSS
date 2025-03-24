@@ -36,5 +36,9 @@
 		if($_GET['catalogo_droplist']=="leer_cliente"){
 			echo $intdroplist->listaClienteControlador();
 		}
+
+		if($_GET['catalogo_droplist']=="leer_cp"){
+			echo $intdroplist->listaCPControlador();
+		}
 		
 	}

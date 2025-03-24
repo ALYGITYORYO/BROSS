@@ -40,8 +40,9 @@ $(document).ready(function() {
                     <input type="hidden" name="catalogo_colaboradores" value="registrar">
                     <div class="col-md-12">
                         <label for="no_empleado" class="form-label">No. de Empleado</label>
-                        <input type="text" class="form-control" id="no_empleado_folio" name="no_empleado_folio" disabled>
-                        <input type="hidden" class="form-control" id="no_empleado" name="no_empleado" >
+                        <input type="text" class="form-control" id="no_empleado_folio" name="no_empleado_folio"
+                            disabled>
+                        <input type="hidden" class="form-control" id="no_empleado" name="no_empleado">
                         <div class="invalid-feedback">Por favor, ingresa el número de empleado.</div>
                     </div>
                     <!-- AREA -->
@@ -280,7 +281,7 @@ $(document).ready(function() {
                                 var selectedDataItem_area = dropdownlist_area.dataItem();
                                 if ((selectedDataItem_area.NOMBRE == 'Operativa') && (selectedDataItem_cargo
                                         .NOMBRE == 'Operativo' || selectedDataItem_cargo.NOMBRE == 'Operador'
-                                        )) {
+                                    )) {
                                     $('#licenciaContainer').show();
                                     $('#licenciaVigenciaContainer').show();
                                     $('#folioExamenMedicoContainer').show();
@@ -293,7 +294,7 @@ $(document).ready(function() {
                                     $('#fileExamenMedicoContainer').show();
                                     $('#fileAntiContainer').show();
                                     $('#fileAntecedentesContainer').show();
-                                    
+
 
 
                                 } else {
@@ -343,7 +344,7 @@ $(document).ready(function() {
                         <input type="text" class="form-control" id="ine_id" name="ine_id" required>
                         <div class="invalid-feedback">Por favor, ingresa tu ID INE.</div>
                     </div>
-                    
+
                     <!-- file ine colaborador -->
                     <div class="col-md-6">
                         <label for="validationCustom04" class="form-label">INE / PDF (MAX
@@ -354,15 +355,252 @@ $(document).ready(function() {
                         </div>
                     </div>
 
-                    <div class="col-md-4">
+                    <div class="col-md-12">
                         <label for="curp" class="form-label">CURP</label>
                         <input type="text" class="form-control" id="curp" name="curp" required>
                         <div class="invalid-feedback">Por favor, ingresa tu CURP.</div>
                     </div>
-                    <div class="col-md-4">
-                        <label for="domicilio" class="form-label">Domicilio</label>
-                        <input type="text" class="form-control" id="domicilio" name="domicilio" required>
-                        <div class="invalid-feedback">Por favor, ingresa tu domicilio.</div>
+
+
+
+
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="calle">CALLE</label>
+                            <input type="text" class="form-control" id="calle" name="calle">
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="numero_exterior">NÚMERO
+                                EXTERIOR</label>
+                            <input type="text" class="form-control" id="numero_exterior"
+                                name="numero_exterior">
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="numero_interior">NÚMERO
+                                INTERIOR</label>
+                            <input type="text" class="form-control" id="numero_interior"
+                                name="numero_interior">
+                        </div>
+                    </div>
+
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="cp">CP</label>
+                            <div class="input-group">
+                                <input type="text" class="form-control" id="cp" placeholder=""
+                                    name="cp">
+                                <button class="btn btn-outline-secondary text-body" type="button"
+                                    id="busca_codigo_postal">
+                                    Buscar
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                    <script>
+                    $(document).ready(function() {
+                        $('#busca_codigo_postal').click(function() {
+                            var crudServiceBaseUrl =
+                                "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                            var codigoPostal = $('#cp')
+                                .val();
+                            $.ajax({
+                                url: crudServiceBaseUrl,
+                                type: 'GET',
+                                data: {
+                                    cp: codigoPostal,
+                                    catalogo_droplist: 'leer_cp'
+                                },
+                                dataType: 'json',
+                                success: function(
+                                    data) {
+                                    if (data && data
+                                        .length > 0
+                                    ) {
+                                        if (data
+                                            .length >
+                                            2) {
+                                            // Convertir input a select
+                                            var selectHtml =
+                                                '<select id="colonia" class="form-select" name="colonia" >';
+                                            data.forEach(
+                                                function(
+                                                    item
+                                                ) {
+                                                    selectHtml
+                                                        +=
+                                                        '<option value="' +
+                                                        item
+                                                        .ID +
+                                                        '">' +
+                                                        item
+                                                        .CODIGO +
+                                                        ', ' +
+                                                        item
+                                                        .ASENTAMIENTO +
+                                                        '</option>';
+                                                }
+                                            );
+                                            selectHtml
+                                                +=
+                                                '</select>';
+                                            $('#colonia')
+                                                .replaceWith(
+                                                    selectHtml
+                                                );
+
+
+                                            var selectedId =
+                                                $(
+                                                    "#colonia")
+                                                .val();
+                                            var selectedItem =
+                                                data
+                                                .find(
+                                                    item =>
+                                                    item
+                                                    .ID ==
+                                                    selectedId
+                                                );
+                                            $('#localidad')
+                                                .val(
+                                                    selectedItem
+                                                    .CLAVE
+                                                );
+                                            $('#municipio')
+                                                .val(
+                                                    selectedItem
+                                                    .C_MUNICIPIO
+                                                );
+                                            $('#estado')
+                                                .val(
+                                                    selectedItem
+                                                    .ESTADO
+                                                );
+                                            // Asignar evento change al select
+                                            $('#colonia')
+                                                .change(
+                                                    function() {
+                                                        var selectedId =
+                                                            $(
+                                                                "#colonia")
+                                                            .val();
+                                                        var selectedItem =
+                                                            data
+                                                            .find(
+                                                                item =>
+                                                                item
+                                                                .ID ==
+                                                                selectedId
+                                                            );
+                                                        $('#localidad')
+                                                            .val(
+                                                                selectedItem
+                                                                .CLAVE
+                                                            );
+                                                        $('#municipio')
+                                                            .val(
+                                                                selectedItem
+                                                                .C_MUNICIPIO
+                                                            );
+                                                        $('#estado')
+                                                            .val(
+                                                                selectedItem
+                                                                .ESTADO
+                                                            );
+                                                    }
+                                                );
+                                        } else {
+                                            // Rellenar campos directamente
+                                            //fillFields(data[0]);
+
+                                            var selectedItem =
+                                                data[
+                                                    0
+                                                ];
+                                            var selectHtml =
+                                                '<input type="text" class="form-control" id="colonia" name="colonia">';
+                                            $('#colonia')
+                                                .replaceWith(
+                                                    selectHtml
+                                                );
+
+                                            $('#colonia')
+                                                .val(
+                                                    selectedItem
+                                                    .ASENTAMIENTO
+                                                );
+                                            $('#localidad')
+                                                .val(
+                                                    selectedItem
+                                                    .CLAVE
+                                                );
+                                            $('#municipio')
+                                                .val(
+                                                    selectedItem
+                                                    .C_MUNICIPIO
+                                                );
+                                            $('#estado')
+                                                .val(
+                                                    selectedItem
+                                                    .ESTADO
+                                                );
+                                        }
+                                    } else {
+                                        alert(
+                                            'No se encontraron resultados.');
+                                        // Limpiar los campos si no hay resultados
+
+                                    }
+                                },
+                                error: function() {
+                                    alert(
+                                        'Error al realizar la búsqueda.');
+                                }
+                            });
+                        });
+                    });
+                    </script>
+
+
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="colonia">COLONIA</label>
+                            <input type="text" class="form-control" id="colonia" name="colonia">
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="localidad">LOCALIDAD</label>
+                            <input type="text" class="form-control" id="localidad" name="localidad">
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="referencia">REFERENCIA</label>
+                            <input type="text" class="form-control" id="referencia" name="referencia">
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="municipio">MUNICIPIO</label>
+                            <input type="text" class="form-control" id="municipio" name="municipio">
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="estado">ESTADO</label>
+                            <input type="text" class="form-control" id="estado" name="estado">
+                        </div>
+                    </div>
+                    <div class="col-xxl-4 col-lg-4 col-sm-6">
+                        <div class="mb-3">
+                            <label class="form-label" for="pais">PAÍS</label>
+                            <input type="text" class="form-control" id="pais" name="pais" value="MÉX">
+                        </div>
                     </div>
                     <div class="col-md-4">
                         <label for="telefono" class="form-label">Teléfono</label>
@@ -379,7 +617,7 @@ $(document).ready(function() {
                     </div>
 
                     <!-- file licencia colaborador -->
-                    <div class="col-md-4"  id="fileLicenciaContainer" style="display: none;">
+                    <div class="col-md-4" id="fileLicenciaContainer" style="display: none;">
                         <label for="licencia_file" class="form-label">Licencia / PDF (MAX
                             5MB)</label>
                         <input class="form-control" type="file" id="licencia_file" name="file_licencia" accept=".pdf">
@@ -402,7 +640,8 @@ $(document).ready(function() {
                     <div class="col-md-4" id="fileExamenMedicoContainer" style="display: none;">
                         <label for="file_medico" class="form-label">Examen Medico / PDF (MAX
                             5MB)</label>
-                        <input class="form-control" type="file" id="file_medico" name="file_examen_medico" accept=".pdf">
+                        <input class="form-control" type="file" id="file_medico" name="file_examen_medico"
+                            accept=".pdf">
                         <div class="invalid-feedback">
                             Se verificará!
                         </div>

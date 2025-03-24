@@ -737,11 +737,8 @@ $(document).ready(function() {
                                                     operador = result;
                                                     sampleDataNextoperador = operador.length;
                                                     e.success(operador);
-
                                                 });
-
                                         },
-
                                         parameterMap: function(options, operation) {
                                             if (operation !== "read" && options.models) {
                                                 return {
@@ -768,7 +765,6 @@ $(document).ready(function() {
                                     }
                                 });
                                 $("#operador_asignado").kendoComboBox({
-
                                     template: '<span class="ID">#= NOEMPLADO #</span> #= NOMBRE #',
                                     dataTextField: "NOMBRE",
                                     dataValueField: "ID",
