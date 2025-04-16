@@ -6,8 +6,23 @@
 	
 	use app\controllers\viajesController;
 	if(isset($_POST['viajesControllers'])){
-		$remision = new viajesController();
+		$viajes = new viajesController();
 		if($_POST['viajesControllers']=="viajes"){
-			echo $remision->viajesGetController();
+			echo $viajes->viajesGetController();
+		}
+
+		if($_POST['viajesControllers']=="leer"){
+			echo $viajes->viajesModuloController();
+		}
+		if($_POST['viajesControllers']=="drillVehiculos"){
+			echo $viajes->vehiculos_drill();
+		}
+
+		if($_POST['viajesControllers']=="drillimg"){
+			echo $viajes->imagen_drill();
+		}
+
+		if($_POST['viajesControllers']=="incidenciadrill"){
+			echo $viajes->incidencia_drill();
 		}
 	}

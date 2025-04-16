@@ -55,36 +55,218 @@
                             <div class="invalid-feedback">Por favor, ingresa el número exterior.</div>
                         </div>
 
-                        <div class="col-md-3">
-                            <label for="colonia" class="form-label">Colonia</label>
-                            <input type="text" class="form-control" id="colonia" name="colonia" required>
-                            <div class="invalid-feedback">Por favor, ingresa la colonia.</div>
-                        </div>
+                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label" for="cp_origen">CP</label>
+                                                                <div class="input-group">
+                                                                    <input type="text" class="form-control"
+                                                                        id="cp_origen" placeholder="" name="cp_origen">
+                                                                    <button class="btn btn-outline-secondary text-body"
+                                                                        type="button" id="busca_codigo_postal">
+                                                                        Buscar
+                                                                    </button>
+                                                                </div>
+                                                            </div>
 
-                        <div class="col-md-3">
-                            <label for="municipio" class="form-label">Municipio</label>
-                            <input type="text" class="form-control" id="municipio" name="municipio" required>
-                            <div class="invalid-feedback">Por favor, ingresa el municipio.</div>
-                        </div>
+                                                            <script>
+                                                            $(document).ready(function() {
+                                                                $('#busca_codigo_postal').click(function() {
+                                                                    var crudServiceBaseUrl =
+                                                                        "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
+                                                                    var codigoPostal = $('#cp_origen')
+                                                                        .val();
+                                                                    $.ajax({
+                                                                        url: crudServiceBaseUrl,
+                                                                        type: 'GET',
+                                                                        data: {
+                                                                            cp: codigoPostal,
+                                                                            catalogo_droplist: 'leer_cp'
+                                                                        },
+                                                                        dataType: 'json',
+                                                                        success: function(
+                                                                        data) {
+                                                                            if (data && data
+                                                                                .length > 0
+                                                                                ) {
+                                                                                if (data
+                                                                                    .length >
+                                                                                    2) {
+                                                                                    // Convertir input a select
+                                                                                    var selectHtml =
+                                                                                        '<select id="colonia" class="form-select" name="colonia" >';
+                                                                                    data.forEach(
+                                                                                        function(
+                                                                                            item
+                                                                                            ) {
+                                                                                            selectHtml
+                                                                                                +=
+                                                                                                '<option value="' +
+                                                                                                item
+                                                                                                .ID +
+                                                                                                '">' +
+                                                                                                item
+                                                                                                .CODIGO +
+                                                                                                ', ' +
+                                                                                                item
+                                                                                                .ASENTAMIENTO +
+                                                                                                '</option>';
+                                                                                        }
+                                                                                        );
+                                                                                    selectHtml
+                                                                                        +=
+                                                                                        '</select>';
+                                                                                    $('#colonia')
+                                                                                        .replaceWith(
+                                                                                            selectHtml
+                                                                                            );
 
-                        <div class="col-md-3">
-                            <label for="estado" class="form-label">Estado</label>
-                            <input type="text" class="form-control" id="estado" name="estado" required>
-                            <div class="invalid-feedback">Por favor, ingresa la estado.</div>
-                        </div>
 
-                        <div class="col-md-3">
-                            <label for="ciudad" class="form-label">Ciudad</label>
-                            <input type="text" class="form-control" id="ciudad" name="ciudad" required>
-                            <div class="invalid-feedback">Por favor, ingresa la ciudad.</div>
-                        </div>
+                                                                                    var selectedId =
+                                                                                        $(
+                                                                                            "#colonia")
+                                                                                        .val();
+                                                                                    var selectedItem =
+                                                                                        data
+                                                                                        .find(
+                                                                                            item =>
+                                                                                            item
+                                                                                            .ID ==
+                                                                                            selectedId
+                                                                                            );
+                                                                                    $('#ciudad')
+                                                                                        .val(
+                                                                                            selectedItem
+                                                                                            .CIUDAD
+                                                                                            );
+                                                                                    $('#municipio')
+                                                                                        .val(
+                                                                                            selectedItem
+                                                                                            .MUNICIPIO
+                                                                                            );
+                                                                                    $('#estado')
+                                                                                        .val(
+                                                                                            selectedItem
+                                                                                            .ESTADO
+                                                                                            );
+                                                                                    // Asignar evento change al select
+                                                                                    $('#colonia')
+                                                                                        .change(
+                                                                                            function() {
+                                                                                                var selectedId =
+                                                                                                    $(
+                                                                                                        "#colonia")
+                                                                                                    .val();
+                                                                                                var selectedItem =
+                                                                                                    data
+                                                                                                    .find(
+                                                                                                        item =>
+                                                                                                        item
+                                                                                                        .ID ==
+                                                                                                        selectedId
+                                                                                                        );
+                                                                                                $('#municipio')
+                                                                                                    .val(
+                                                                                                        selectedItem
+                                                                                                        .MUNICIPIO
+                                                                                                        );
+                                                                                                        $('#ciudad')
+                                                                                                    .val(
+                                                                                                        selectedItem
+                                                                                                        .CIUDAD
+                                                                                                        );
+                                                                                                $('#estado')
+                                                                                                    .val(
+                                                                                                        selectedItem
+                                                                                                        .ESTADO
+                                                                                                        );
+                                                                                            }
+                                                                                            );
+                                                                                } else {
+                                                                                    // Rellenar campos directamente
+                                                                                    //fillFields(data[0]);
 
+                                                                                    var selectedItem =
+                                                                                        data[
+                                                                                            0
+                                                                                            ];
+                                                                                    var selectHtml =
+                                                                                        '<input type="text" class="form-control" id="colonia" name="colonia">';
+                                                                                    $('#colonia')
+                                                                                        .replaceWith(
+                                                                                            selectHtml
+                                                                                            );
 
-                        <div class="col-md-3">
-                            <label for="cp" class="form-label">Código Postal</label>
-                            <input type="text" class="form-control" id="cp" name="cp" required>
-                            <div class="invalid-feedback">Por favor, ingresa la cp.</div>
-                        </div>
+                                                                                    $('#colonia')
+                                                                                        .val(
+                                                                                            selectedItem
+                                                                                            .ASENTAMIENTO
+                                                                                            );
+                                                                                    $('#municipio')
+                                                                                        .val(
+                                                                                            selectedItem
+                                                                                            .MUNICIPIO
+                                                                                            );
+                                                                                    $('#estado')
+                                                                                        .val(
+                                                                                            selectedItem
+                                                                                            .ESTADO
+                                                                                            );
+                                                                                            $('#ciudad')
+                                                                                        .val(
+                                                                                            selectedItem
+                                                                                            .CIUDAD
+                                                                                            );
+                                                                                }
+                                                                            } else {
+                                                                                alert(
+                                                                                    'No se encontraron resultados.');
+                                                                                // Limpiar los campos si no hay resultados
+
+                                                                            }
+                                                                        },
+                                                                        error: function() {
+                                                                            alert(
+                                                                                'Error al realizar la búsqueda.');
+                                                                        }
+                                                                    });
+                                                                });
+                                                            });
+                                                            </script>
+                                                        </div>
+
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="colonia">COLONIA</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="colonia" name="colonia">
+                                                            </div>
+                                                        </div>
+                                                        
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="ciudad">CIUDAD</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="ciudad" name="ciudad">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="municipio">MUNICIPIO</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="municipio" name="municipio">
+                                                            </div>
+                                                        </div>
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="estado">ESTADO</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="estado" name="estado">
+                                                            </div>
+                                                        </div>
 
 
                         <div class="col-md-3">
@@ -131,7 +313,7 @@
                             }
 
                             function addNewregimen(widgetId, value) {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var widget = $('#' + widgetId).getKendoComboBox();
                                 var dataSource = widget.dataSource;
                                 var id = getIndexByIdregimen(sampleDataNextregimen);
@@ -160,7 +342,7 @@
                             </script>
                             <script>
                             $(document).ready(function() {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var regimen_data = new kendo.data.DataSource({
                                     transport: {
                                         read: function(e) {

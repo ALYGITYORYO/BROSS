@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function() {
-    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/getID.php";
+    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/getID.php";
     $.ajax({
         url: crudServiceBaseUrl + "?variable=get_ID", // Archivo PHP que contiene los datos
         type: "GET", // Método HTTP (GET o POST)
@@ -76,7 +76,7 @@ $(document).ready(function() {
                             }
 
                             function addNewtipos_vehiculos(widgetId, value) {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var widget = $('#' + widgetId).getKendoComboBox();
                                 var dataSource = widget.dataSource;
                                 var id = getIndexByIdtipos_vehiculos(sampleDataNexttipos_vehiculos);
@@ -105,7 +105,7 @@ $(document).ready(function() {
                             </script>
                             <script>
                             $(document).ready(function() {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var tipos_vehiculos_data = new kendo.data.DataSource({
                                     transport: {
                                         read: function(e) {
@@ -305,7 +305,7 @@ $(document).ready(function() {
                             }
 
                             function addNewtipos_remolques(widgetId, value) {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var widget = $('#' + widgetId).getKendoComboBox();
                                 var dataSource = widget.dataSource;
                                 var id = getIndexByIdtipos_remolques(sampleDataNexttipos_remolques);
@@ -334,7 +334,7 @@ $(document).ready(function() {
                             </script>
                             <script>
                             $(document).ready(function() {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var tipos_remolques_data = new kendo.data.DataSource({
                                     transport: {
                                         read: function(e) {
@@ -568,7 +568,7 @@ $(document).ready(function() {
                             <script>
                             $(document).ready(function() {
                                 var operador = [];
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var operador_data = new kendo.data.DataSource({
                                     transport: {
                                         read: function(e) {
@@ -726,7 +726,7 @@ $(document).ready(function() {
                             <script>
                             $(document).ready(function() {
                                 var operador = [];
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var operador_data = new kendo.data.DataSource({
                                     transport: {
                                         read: function(e) {
@@ -817,7 +817,7 @@ $(document).ready(function() {
                             <script>
                             $(document).ready(function() {
                                 var operador = [];
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var operador_data = new kendo.data.DataSource({
                                     transport: {
                                         read: function(e) {
@@ -887,7 +887,7 @@ $(document).ready(function() {
                                 </div>
                                 <script>
                                 $(document).ready(function() {
-                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
 
                                     var customerTemplate =
                                         '<span class="k-state-default" style="background-image: url(\'<?php echo APP_URL;?>#:data.FOTO#\')"></span>' +
@@ -1101,7 +1101,7 @@ $(document).ready(function() {
                                 <script>
                                 $(document).ready(function() {
                                     var operador = [];
-                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                     var operador_data = new kendo.data.DataSource({
                                         transport: {
                                             read: function(e) {

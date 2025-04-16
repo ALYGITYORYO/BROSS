@@ -45,7 +45,7 @@
                             }
 
                             function addNewCUENTA(widgetId, value) {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var widget = $('#' + widgetId).getKendoComboBox();
                                 var dataSource = widget.dataSource;
                                 var id = getIndexByIdCUENTA(sampleDataNextCUENTA);
@@ -74,7 +74,7 @@
                             </script>
                             <script>
                             $(document).ready(function() {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var cuenta_data = new kendo.data.DataSource({
 
                                     transport: {
@@ -227,7 +227,7 @@
                         }
 
                         function addNewregimen(widgetId, value) {
-                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                             var widget = $('#' + widgetId).getKendoComboBox();
                             var dataSource = widget.dataSource;
                             var id = getIndexByIdregimen(sampleDataNextregimen);
@@ -256,7 +256,7 @@
                         </script>
                         <script>
                         $(document).ready(function() {
-                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                             var regimen_data = new kendo.data.DataSource({
                                 transport: {
                                     read: function(e) {

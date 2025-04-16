@@ -16,7 +16,7 @@ if (strpos($requestUri, 'ID=') !== false) {
 
 <script>
 $(document).ready(function() {
-    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/getID.php";
+    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/getID.php";
     $.ajax({
         url: crudServiceBaseUrl + "?variable=remisionGet_ID", // Archivo PHP que contiene los datos
         type: "GET", // Método HTTP (GET o POST)
@@ -39,7 +39,7 @@ $(document).ready(function() {
 
 <script>
 $(document).ready(function() {
-    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/remisionAjax.php";
+    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/remisionAjax.php";
 
     let id = <?=$id;?>;
     $.ajax({
@@ -182,7 +182,7 @@ $(document).ready(function() {
                                     $(document).ready(function() {
                                         var operador = [];
                                         var crudServiceBaseUrl =
-                                            "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                            "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                         var operador_data = new kendo.data.DataSource({
                                             transport: {
                                                 read: function(e) {
@@ -329,7 +329,7 @@ $(document).ready(function() {
                                     <script>
                                     $(document).ready(function() {
                                         var crudServiceBaseUrl =
-                                            "<?php echo APP_URL; ?>app/Ajax/vehiculosAjax.php";
+                                            "<?php echo APP_URL; ?>app/ajax/vehiculosAjax.php";
                                         var dataSource = new kendo.data.DataSource({
                                             transport: {
                                                 read: function(e) {
@@ -430,7 +430,7 @@ $(document).ready(function() {
 
                                     function detailInit(e) {
                                         var crudServiceBaseUrl1 =
-                                            "<?php echo APP_URL; ?>app/Ajax/vehiculosAjax.php";
+                                            "<?php echo APP_URL; ?>app/ajax/vehiculosAjax.php";
                                         var datadrop = new kendo.data.DataSource({
                                             transport: {
                                                 read: function(e) {
@@ -1019,7 +1019,7 @@ $(document).ready(function() {
                                 });
 
                                 function materialEditor(container, options) {
-                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                     var tipos_material_data = new kendo.data.DataSource({
                                         transport: {
                                             read: function(e) {
@@ -1089,7 +1089,7 @@ $(document).ready(function() {
                                 }
 
                                 function addNewtipos_material(widgetId, value) {
-                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                     var widget = $('#' + widgetId).getKendoComboBox();
                                     var dataSource = widget.dataSource;
                                     var id = getIndexByIdtipos_material(sampleDataNexttipos_material);
@@ -1223,7 +1223,7 @@ $(document).ready(function() {
                                     $(document).ready(function() {
                                         var operador = [];
                                         var crudServiceBaseUrl =
-                                            "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                            "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                         var operador_data = new kendo.data.DataSource({
                                             transport: {
                                                 read: function(e) {

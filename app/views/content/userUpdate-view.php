@@ -22,7 +22,7 @@
                             </script>
                             <script>
                             $(document).ready(function() {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var dataSource = new kendo.data.DataSource({
                                     batch: true,
                                     transport: {
@@ -111,7 +111,7 @@
                             </script>
                             <script>
                             $(document).ready(function() {
-                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                 var dataSource = new kendo.data.DataSource({
                                     batch: true,
                                     transport: {
@@ -279,7 +279,7 @@
                                 var tipos_material = [];
                                 var sampleDataNexttipos_material = 0;
                                 function materialEditor(container, options) {
-                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                     var tipos_material_data = new kendo.data.DataSource({
                                         transport: {
                                             read: function(e) {
@@ -370,7 +370,7 @@ $('<input id="' + comboBoxId + '" data-bind="value:' + options.field + '"/>')
                                 }
 
                                 function addNewtipos_material(widgetId, value) {
-                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                                     var widget = $('#' + widgetId).getKendoComboBox();
                                     var dataSource = widget.dataSource;
                                     var id = getIndexByIdtipos_material(sampleDataNexttipos_material);

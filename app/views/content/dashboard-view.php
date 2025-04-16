@@ -100,7 +100,7 @@
                     </div>
                     <div class="d-flex flex-column">
                         <h2 class="lh-1"><?php  echo $vehiculos; ?></h2>
-                        <p class="m-0">Vehiculos</p>
+                        <p class="m-0">Vehículos</p>
                     </div>
                 </div>
                 <div class="d-flex align-items-end justify-content-between mt-1">
@@ -139,7 +139,7 @@
     <script>
     $(document).ready(function() {
         var crudServiceBaseUrl =
-            "<?php echo APP_URL; ?>app/Ajax/vehiculosAjax.php";
+            "<?php echo APP_URL; ?>app/ajax/vehiculosAjax.php";
         var dataSource = new kendo.data.DataSource({
             transport: {
                 read: function(e) {
@@ -211,7 +211,7 @@
             height: 600,
             sortable: true,
             pageable: true,
-            detailInit: detailInit,
+            detailInit: detailInit_v,
             columns: [{
                     field: "NOVEHICULO",
                     template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: NOVEHICULO #</div>"
@@ -233,9 +233,9 @@
         });
     });
 
-    function detailInit(e) {
+    function detailInit_v(e) {
         var crudServiceBaseUrl1 =
-            "<?php echo APP_URL; ?>app/Ajax/vehiculosAjax.php";
+            "<?php echo APP_URL; ?>app/ajax/vehiculosAjax.php";
         var datadrop = new kendo.data.DataSource({
             transport: {
                 read: function(e) {
@@ -248,6 +248,7 @@
                         type: 'post',
                         success: function(data) {
                             e.success(data);
+                            
                         }
                     });
                 },
@@ -455,7 +456,7 @@
 
     <script>
     $(document).ready(function() {
-        var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/cotizadorAjax.php";
+        var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/cotizadorAjax.php";
         var dataSourceR = new kendo.data.DataSource({
             transport: {
                 read: function(e) {
@@ -619,44 +620,45 @@
                         <div id="grid_viajes_remisiones"></div>
 
                         <script type="text/x-kendo-template" id="template">
-                            <div class="tabstrip">
-                    <ul>
-					
-						<li  class="k-state-active">
-                           COMENTARIOS
-												</li>
-												
-                        <li>
-                           PEDIDO
-												</li>
-                        <li>
-                           PAGOS
-												</li>
-											
+                                        <div class="tabstrip">
+                                        <ul>
 
-												</ul>
-												<div>
-                        <div class="COMENTARIOS"></div>
-												</div>
-                    <div>
-                        <div class="PEDIDO"></div>
-												</div>
-                    <div>
-                        <div class="PAGOS"></div>
-												</div>
-												
+                                        <li  class="k-state-active">
+                                            VEHÍCULOS
+                                        </li>
+                                        <li>
+                                            FOTOS
+                                        </li>
+                                        <li>
+                                            DATOS
+                                        </li>
+                                        <li>
+                                            INCIDENCIAS
+                                        </li>					
 
-												</div>
+                                        </ul>
+                                        <div>
+                                            <div class="VEHICULOS"></div>
+                                        </div>
+                                        <div>
+                                            <div class="FOTOS"></div>
+                                        </div>
+                                        <div>
+                                            <div class="DATOS"></div>
+                                        </div>
+                                        <div>
+                                            <div class="DATOS"></div>
+                                        </div>
+
+                                        </div>
 
 											</script>
 
 
 
                         <script>
-                    
-
                         $(document).ready(function() {
-                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/remisionAjax.php";
+                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/viajesAjax.php";
                             var grid = $("#grid_viajes_remisiones").kendoGrid({
                                 dataSource: {
                                     transport: {
@@ -665,13 +667,14 @@
                                             $.ajax({
                                                 url: crudServiceBaseUrl,
                                                 data: {
-                                                    remision: 'viajes'
+                                                    viajesControllers: 'leer'
                                                 },
                                                 dataType: "json",
                                                 type: 'post',
                                                 success: function(dataq) {
-                                                    console.log(dataq);
+                                                    
                                                     e.success(dataq[0]);
+                                                    console.log(dataq[0]);
                                                 }
                                             });
                                         },
@@ -688,6 +691,10 @@
                                                     editable: false,
                                                     nullable: true
                                                 },
+                                                ID_VEHI: {
+                                                    editable: false,
+                                                    nullable: true
+                                                },
                                                 FOLIO: {
                                                     type: "string"
                                                 },
@@ -695,7 +702,7 @@
                                                     type: "string"
                                                 },
                                                 ORIGEN: {
-                                                    type: "number"
+                                                    type: "string"
                                                 },
                                                 DESTINO: {
                                                     type: "string"
@@ -751,17 +758,130 @@
                                     },
                                     {
                                         field: "RZ",
-                                        title: "RZ"
+                                        title: "RAZON SOCIAL"
                                     },
                                     {
                                         field: "ESTATUS",
                                         title: "ESTATUS"
                                     }
-                                ]
+                                ],
+                                detailInit: detailInit,
+
                             }).data("kendoGrid");
                         });
 
-                         </script>
+
+                        function detailInit(e) {
+                            
+                            var drill_vehiculos = "<?php echo APP_URL; ?>app/ajax/viajesAjax.php";
+                            var vehiculos_tab = new kendo.data.DataSource({
+                                transport: {
+                                    read: function(e) {
+                                        $.ajax({
+                                            url: drill_vehiculos,
+                                            data: {
+                                                viajesControllers: "drillVehiculos"
+                                            },
+                                            dataType: "json",
+                                            type: 'post',
+                                            success: function(data) {                                                
+                                                e.success(data);                                                
+                                                console.log(data);
+                                            }
+                                        });
+                                    },
+                                    create: function(e) {
+                                        // on success
+                                        e.success(e.data);
+                                    },
+                                    update: function(e) {
+                                        // locate item in original datasource and update it
+                                        
+                                        // on success
+                                        e.success();
+                                        // on failure
+                                        //e.error("XHR response", "status code", "error message");
+                                    },
+                                    destroy: function(e) {
+                                        // locate item in original datasource and remove it
+                                        
+                                        // on success
+                                        e.success();
+                                        // on failure
+                                        //e.error("XHR response", "status code", "error message");
+                                    }
+                                },
+                                error: function(e) {
+                                    // handle data operation error
+                                    alert("Status: " + e.status + "; Error message: " + e.errorThrown);
+                                },
+                                autoSync: true,
+                                pageSize: 10,                                
+                                filter: {
+                                    field: "ID_RELACION",
+                                    operator: "eq",
+                                    value: e.data.ID_VEHI
+                                },
+                                schema: {
+                                    model: {
+                                        id: "ID",
+                                        fields: {
+                                            IMG: {
+                                                type: "string",
+                                            },
+                                            FOLIO: {
+                                                type: "string",
+                                            },
+                                            TIPO_VEHICULO: {
+                                                type: "string",
+                                            }
+                                        }
+                                    }
+                                }
+                            });
+
+
+                            var detailRow = e.detailRow;
+                            var detailRow2 = e.detailRow;
+
+
+                            detailRow.find(".tabstrip").kendoTabStrip({
+                                animation: {
+                                    open: {
+                                        effects: "fadeIn"
+                                    }
+                                }
+                            });
+                            detailRow2.find(".tabstrip").kendoTabStrip({
+													animation: {
+														open: {
+															effects: "fadeIn"
+														}
+													}
+												});
+
+
+
+                            detailRow.find(".VEHICULOS").kendoGrid({
+                                dataSource: vehiculos_tab,
+                                scrollable: false,
+                                sortable: true,
+                                pageable: true,
+                                columns: 
+                                [
+                                    {
+                                    field: "FOLIO",
+                                    template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: FOLIO #</div>"
+                                },               
+                                {
+                                    field: "TIPO_VEHICULO",
+                                    title: "VEHICULO"
+                                }
+                                ]
+                            });
+                        }
+
+                        </script>
 
 
 

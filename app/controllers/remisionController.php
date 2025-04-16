@@ -278,7 +278,7 @@ $id_relacion_vehiculos = $relacion_id->fetch();
 
 $update_cotizacion=$this->ejecutarConsulta("UPDATE `cotizador` SET `ESTATUS` = '".$last_id_remi['ID']."' WHERE `cotizador`.`FOLIO` ='".$folio."'");
 $update_vehiculo=$this->ejecutarConsulta("UPDATE `vehiculos` SET `ESTATUS` = '1' WHERE `vehiculos`.`ID` =".$vehiculo);
-$inser_viaje=$this->ejecutarConsulta("INSERT INTO `viajes` (`ID`, `ID_VEHICULO`,`ID_RELACION_VEHICULO`, `ID_REMISION`, `ESTAUS`, `COLOR`) VALUES (NULL, '".$vehiculo."',".$id_relacion_vehiculos['ID_RELACION'].", ".$last_id_remi['ID'].", 'VIAJE', 'BLANCO')");
+$inser_viaje=$this->ejecutarConsulta("INSERT INTO `viajes` (`ID`, `ID_VEHICULO`,`ID_RELACION_VEHICULO`, `ID_REMISION`, `ESTATUS`, `COLOR`) VALUES (NULL, '".$vehiculo."',".$id_relacion_vehiculos['ID_RELACION'].", ".$last_id_remi['ID'].", 'VIAJE', 'BLANCO')");
 
     $alerta=[
         "tipo"=>"limpiar",

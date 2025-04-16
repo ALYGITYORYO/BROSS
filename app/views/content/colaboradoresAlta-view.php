@@ -1,6 +1,6 @@
 <script>
 $(document).ready(function() {
-    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/getID.php";
+    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/getID.php";
     $.ajax({
         url: crudServiceBaseUrl + "?variable=colaboradorGet_ID", // Archivo PHP que contiene los datos
         type: "GET", // Método HTTP (GET o POST)
@@ -74,7 +74,7 @@ $(document).ready(function() {
                         }
 
                         function addNewarea(widgetId, value) {
-                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                             var widget = $('#' + widgetId).getKendoComboBox();
                             var dataSource = widget.dataSource;
                             var id = getIndexByIdarea(sampleDataNextarea);
@@ -103,7 +103,7 @@ $(document).ready(function() {
                         </script>
                         <script>
                         $(document).ready(function() {
-                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                             var area_data = new kendo.data.DataSource({
 
                                 transport: {
@@ -190,7 +190,7 @@ $(document).ready(function() {
                         }
 
                         function addNewcargo(widgetId, value) {
-                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                             var widget = $('#' + widgetId).getKendoComboBox();
                             var dataSource = widget.dataSource;
                             var id = getIndexByIdcargo(sampleDataNextcargo);
@@ -219,7 +219,7 @@ $(document).ready(function() {
                         </script>
                         <script>
                         $(document).ready(function() {
-                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                            var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                             var cargo_data = new kendo.data.DataSource({
                                 transport: {
                                     read: function(e) {
@@ -404,7 +404,7 @@ $(document).ready(function() {
                     $(document).ready(function() {
                         $('#busca_codigo_postal').click(function() {
                             var crudServiceBaseUrl =
-                                "<?php echo APP_URL; ?>app/Ajax/droplistAjax.php";
+                                "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
                             var codigoPostal = $('#cp')
                                 .val();
                             $.ajax({

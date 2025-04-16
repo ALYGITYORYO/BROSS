@@ -136,7 +136,7 @@
 		public function listaCPControlador(){
 			$cp=$_GET["cp"];
 			$lista = array();
-				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`CODIGO`,`ASENTAMIENTO`,`CLAVE`,`C_MUNICIPIO`,`ESTADO` FROM `cp_bd` WHERE `CODIGO`='$cp'");			
+				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`CODIGO`,`ASENTAMIENTO`,`CLAVE`,`C_MUNICIPIO`,`ESTADO`,`MUNICIPIO`,`CIUDAD` FROM `cp_bd` WHERE `CODIGO`='$cp'");			
 				$fila = $drop_list->fetchall();
 				foreach ($fila as $row) {
 					$lista[]= array(
@@ -145,6 +145,8 @@
 						"CLAVE" => $row["CLAVE"],
 						"ESTADO" => $row["ESTADO"],
 						"C_MUNICIPIO" => $row["C_MUNICIPIO"],
+						"MUNICIPIO" => $row["MUNICIPIO"],
+						"CIUDAD" => $row["CIUDAD"],
 						"ASENTAMIENTO" => $row["ASENTAMIENTO"]
 
 						);
