@@ -16,11 +16,17 @@
 
 		if($_POST['catalogo_colaboradores']=="eliminar"){
 			echo $intcolaboradores->eliminarUsuarioControlador();
+		}	
+		if($_POST['catalogo_colaboradores']=="listar"){
+			echo $intcolaboradores->listarColaboradorControlador();
 		}
-
+		if($_POST['catalogo_colaboradores']=="leercolaborador"){
+			echo $intcolaboradores->leerColaboradorControlador();
+		}
 		if($_POST['catalogo_colaboradores']=="actualizar"){
-			echo $intcolaboradores->actualizarUsuarioControlador();
-		}		
+			echo $intcolaboradores->acualizarColaboradorControlador();
+		}			
+
 		
 	}else{
 		session_destroy();

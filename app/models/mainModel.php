@@ -36,7 +36,6 @@
 		public function limpiarCadena($cadena){
 
 			$palabras=["<script>","</script>","<script src","<script type=","SELECT * FROM","SELECT "," SELECT ","DELETE FROM","INSERT INTO","DROP TABLE","DROP DATABASE","TRUNCATE TABLE","SHOW TABLES","SHOW DATABASES","<?php","?>","--","^","<",">","==","=",";","::"];
-
 			$cadena=trim($cadena);
 			$cadena=stripslashes($cadena);
 
@@ -135,7 +134,6 @@
 			$sql->bindParam($condicion["condicion_marcador"],$condicion["condicion_valor"]);
 
 			$sql->execute();
-
 			return $sql;
 		}
 

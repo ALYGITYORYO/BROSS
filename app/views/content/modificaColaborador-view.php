@@ -1,21 +1,240 @@
+
+<?php 
+
+use app\controllers\remisionController;
+
+$requestUri = $_SERVER['REQUEST_URI'];
+if (strpos($requestUri, 'ID=') !== false) {
+    $parts = explode('ID=', $requestUri);
+    $id = explode('&', $parts[1])[0];
+   // echo "El ID es: " . $id;
+} else {
+    echo "ID no encontrado.";
+}
+
+?>
+
+
 <script>
 $(document).ready(function() {
-    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/getID.php";
+    var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/colaboradoresAjax.php";
+
+    let id = <?=$id;?>;
     $.ajax({
-        url: crudServiceBaseUrl + "?variable=colaboradorGet_ID", // Archivo PHP que contiene los datos
-        type: "GET", // Método HTTP (GET o POST)
-        success: function(info) {
-            // Manejar la respuesta del servidor
-            if (info) {
-                $('#no_empleado_folio').val(info);
-                $('#no_empleado').val(info);
-            } else {
-                // $("#resultado").html("Error: " + response.message);
+        type: "POST",
+        url: crudServiceBaseUrl,
+        data: {
+            catalogo_colaboradores: "leercolaborador",
+            ID: id
+        },
+        success: function(response) {
+            let data_cliente = JSON.parse(response);
+            // console.log(data_cliente);
+            if (data_cliente.length == 1) {
+
+                data_set = data_cliente[0];
+
+                $('#id_empleado').val("<?=$id;?>");
+
+                $('#nombre').val(data_set[0].NOMBRE);
+                $('#rfc').val(data_set[0].RFC);
+                $('#calle').val(data_set[0].CALLE);
+                $('#numero_interior').val(data_set[0].NUM_INT);
+                $('#numero_exterior').val(data_set[0].NUM_EXT);
+                $('#cp').val(data_set[0].CP);
+                $('#colonia').val(data_set[0].COLONIA);
+                $('#ciudad').val(data_set[0].CIUDAD);
+                $('#municipio').val(data_set[0].MUNICIPIO);
+                $('#estado').val(data_set[0].ESTADO);
+                $('#localidad').val(data_set[0].LOCALIDAD);
+                $('#referencia').val(data_set[0].REFERENCIA);
+                $('#correo').val(data_set[0].CORREO);
+                $('#telefono').val(data_set[0].TELEFONO);
+                $('#no_empleado_folio').val(data_set[0].NOEMPLEADO);
+                $('#no_empleado').val(data_set[0].NOEMPLEADO);
+                $('#ine_id').val(data_set[0].INE_ID);
+                $('#curp').val(data_set[0].CURP);
+                $('#pais').val(data_set[0].PAIS);
+                $('#referencias').val(data_set[0].REFERENCIAS);
+
+                $("#area").data("kendoComboBox").value(data_set[0].AREA);
+                $("#cargo").data("kendoComboBox").value(data_set[0].CARGO);
+
+                if(data_set[0].AREA=="Operativa"&&data_set[0].CARGO=="Operador")
+                {
+                    $('#licenciaContainer').show();
+                    $('#licenciaVigenciaContainer').show();
+                    $('#folioExamenMedicoContainer').show();
+                    $('#examenMedicoContainer').show();
+                    $('#folioAntiContainer').show();
+                    $('#fechaAntiContainer').show();
+                    $('#folioAntecedentesContainer').show();
+
+                    $('#fileLicenciaContainer').show();
+                    $('#fileExamenMedicoContainer').show();
+                    $('#fileAntiContainer').show();
+                    $('#fileAntecedentesContainer').show();
+
+                    $('#folio_licencia_federal').val(data_set[0].FOLIO_LICENCIA);
+                    $('#vigencia_licencia_federal').val(data_set[0].FECHA_LICENCIA);
+                    $('#folio_examen_medico').val(data_set[0].FOLIO_EXAMENMEDICO);
+                    $('#fecha_examen_medico').val(data_set[0].FECHA_EXAMEN);
+                    $('#folio_antidoping').val(data_set[0].FOLIO_ANTIDOPPING);
+                    $('#fecha_examen_antidoping').val(data_set[0].FECHA_ANTIDOPPING);
+                    $('#folio_carta_no_antecedentes').val(data_set[0].FOLIO_ANTECEDENTES);
+
+
+                    if (data_set[0].LICENCIA_FILE!="") 
+                    {
+                        $('#licenciaFileContainer').html(`
+                            <div class="d-flex align-items-center">
+                                <a class="btn btn-success me-2" onclick="descargarArchivo('${data_set[0].LICENCIA_FILE}')">Descargar</a>
+                                <a class="btn btn-warning" onclick="mostrarInputFile('licencia')">Cambiar</a>                               
+                            </div>`);
+                    } else 
+                    {
+                        $('#licenciaFileContainer').html(`
+                        
+                               <input class="form-control" type="file" id="licencia_file" name="file_licencia" accept=".pdf">
+                        <div class="invalid-feedback">
+                            Se verificará!
+                        </div>
+                        `);
+                    }
+
+                    // Para EXAMEN MÉDICO
+                    if (data_set[0].EXAMEN_FILE != "") {
+                        $('#examenMedicoFileContainer').html(`
+                            <div class="d-flex align-items-center">
+                                <a class="btn btn-success me-2" onclick="descargarArchivo('${data_set[0].EXAMEN_FILE}')">Descargar</a>
+                                <a class="btn btn-warning" onclick="mostrarInputFile('examenMedico')">Cambiar</a>
+                            </div>
+                        `);
+                    } else {
+                        $('#examenMedicoFileContainer').html(`
+                            <input class="form-control" type="file" id="file_medico" name="file_examen_medico" accept=".pdf">
+                            <div class="invalid-feedback">
+                                Se verificará!
+                            </div>
+                        `);
+                    }
+
+                    // Para EXAMEN ANTIDOPING
+                    if (data_set[0].ANTIDOPING_FILE != "") {
+                        $('#examenAntidoFileContainer').html(`
+                            <div class="d-flex align-items-center">
+                                <a class="btn btn-success me-2" onclick="descargarArchivo('${data_set[0].ANTIDOPING_FILE}')">Descargar</a>
+                                <a class="btn btn-warning" onclick="mostrarInputFile('examenAntido')">Cambiar</a>
+                            </div>
+                        `);
+                    } else {
+                        $('#examenAntidoFileContainer').html(`
+                            <input class="form-control" type="file" id="formFile" name="file_examen_antidoping" accept=".pdf">
+                            <div class="invalid-feedback">
+                                Se verificará!
+                            </div>
+                        `);
+                    }
+
+                    // Para CARTA DE ANTECEDENTES
+                    if (data_set[0].ANTECEDENTES_FILE != "") {
+                        $('#antecedentesFileContainer').html(`
+                            <div class="d-flex align-items-center">
+                                <a class="btn btn-success me-2" onclick="descargarArchivo('${data_set[0].ANTECEDENTES_FILE}')">Descargar</a>
+                                <a class="btn btn-warning" onclick="mostrarInputFile('antecedentes')">Cambiar</a>
+                            </div>
+                        `);
+                    } else {
+                        $('#antecedentesFileContainer').html(`
+                            <input class="form-control" type="file" id="formFile" name="file_carta_antecedentes" accept=".pdf">
+                            <div class="invalid-feedback">
+                                Se verificará!
+                            </div>
+                        `);
+                    }
+
+
+                    
+                }else{
+                    $('#licenciaContainer').hide();
+                    $('#licenciaVigenciaContainer').hide();
+                    $('#folioExamenMedicoContainer').hide();
+                    $('#examenMedicoContainer').hide();
+                    $('#folioAntiContainer').hide();
+                    $('#fechaAntiContainer').hide();
+                    $('#folioAntecedentesContainer').hide();
+
+                    $('#fileLicenciaContainer').hide();
+                    $('#fileExamenMedicoContainer').hide();
+                    $('#fileAntiContainer').hide();
+                    $('#fileAntecedentesContainer').hide();
+                }
+
+
+               
+                var jsonData = data_set[0].REFERENCIAS;
+                if(jsonData==""){
+
+                }
+                else{
+                    var dataToLoad = JSON.parse(jsonData);
+                
+                // Obtener el DataSource del grid
+                var grid = $("#grid").data("kendoGrid");
+                var dataSource = grid.dataSource;
+                dataSource.data(dataToLoad);
+                }
+                
+
+                if (data_set[0].FOTO!="") 
+                {
+                    $('#fotoContainer').html(`
+                        <div class="d-flex align-items-center">
+                            <a class="btn btn-success me-2" onclick="descargarFoto('${data_set[0].FOTO}','${data_set[0].NOEMPLEADO}')">Descargar</a>
+                            <a class="btn btn-warning" onclick="mostrarInputFile('foto')">Cambiar</a>                            
+                        </div>`);
+                } else {
+                    $('#fotoContainer').html(`
+                       
+                            <input class="form-control" type="file" id="formFile" name="foto" accept=".jpg, .png, .jpeg">
+                        <div class="invalid-feedback">
+                            Se verificará!
+                        </div>
+                    `);
+                }
+
+                if (data_set[0].INE!="") 
+                {
+                    $('#ineContainer').html(`
+                        <div class="d-flex align-items-center">
+                            <a class="btn btn-success me-2" onclick="descargarArchivo('${data_set[0].INE}')">Descargar</a>
+                            <a class="btn btn-warning" onclick="mostrarInputFile('ine')">Cambiar</a>
+                            
+                        </div>`);
+                } else {
+                    $('#ineContainer').html(`
+                       
+                            <input class="form-control" type="file" id="formFile" name="file_ine" accept=".pdf">
+                        <div class="invalid-feedback">
+                            Se verificará!
+                        </div>
+                    `);
+                }
+
+                
+                
             }
         }
     });
+
+   
+    
+
+
+
 });
 </script>
+
 
 <!-- Row starts -->
 <div class="row gx-3">
@@ -25,7 +244,7 @@ $(document).ready(function() {
             <div class="card-body">
 
                 <div class="card-header">
-                    <h5 class="card-title">Agregar colaboradores</h5>
+                    <h5 class="card-title">Modifica colaborador</h5>
                 </div>
 
                 <div class="col-sm-12">
@@ -37,12 +256,13 @@ $(document).ready(function() {
                 <form class="row g-3 needs-validation FormularioAjax"
                     action="<?php echo APP_URL; ?>app/ajax/colaboradoresAjax.php" method="POST" autocomplete="off"
                     id="form_colaboradores" enctype="multipart/form-data">
-                    <input type="hidden" name="catalogo_colaboradores" value="registrar">
+                    <input type="hidden" name="catalogo_colaboradores" value="actualizar">
                     <div class="col-md-12">
                         <label for="no_empleado" class="form-label">No. de Empleado</label>
                         <input type="text" class="form-control" id="no_empleado_folio" name="no_empleado_folio"
                             disabled>
-                        <input type="hidden" class="form-control" id="no_empleado" name="no_empleado">
+                            <input type="hidden" class="form-control" id="id_empleado" name="id_empleado">
+                            <input type="hidden" class="form-control" id="no_empleado" name="no_empleado">
                         <div class="invalid-feedback">Por favor, ingresa el número de empleado.</div>
                     </div>
                     <!-- AREA -->
@@ -113,9 +333,7 @@ $(document).ready(function() {
                                             function(result) {
                                                 var data = JSON.stringify(result, null, 2);
                                                 area = result;
-                                                console.log(area);
                                                 sampleDataNextarea = area.length;
-                                                console.log(area);
                                                 e.success(area);
 
                                             });
@@ -124,7 +342,6 @@ $(document).ready(function() {
                                     create: function(e) {
                                         e.data.ID = sampleDataNextarea++;
                                         area.push(e.data);
-                                        console.log(area);
                                         e.success(e.data);
                                     },
                                     parameterMap: function(options, operation) {
@@ -228,9 +445,9 @@ $(document).ready(function() {
                                             function(result) {
                                                 var data = JSON.stringify(result, null, 2);
                                                 cargo = result;
-                                                console.log(cargo);
+                                                
                                                 sampleDataNextcargo = cargo.length;
-                                                console.log(cargo);
+                                                
                                                 e.success(cargo);
 
                                             });
@@ -239,7 +456,7 @@ $(document).ready(function() {
                                     create: function(e) {
                                         e.data.ID = sampleDataNextcargo++;
                                         cargo.push(e.data);
-                                        console.log(cargo);
+                                        
                                         e.success(e.data);
                                     },
                                     parameterMap: function(options, operation) {
@@ -298,7 +515,7 @@ $(document).ready(function() {
 
 
                                 } else {
-                                    console.log("No se ha seleccionado ningún elemento.");
+                                    //console.log("No se ha seleccionado ningún elemento.");
                                     $('#licenciaContainer').hide();
                                     $('#licenciaVigenciaContainer').hide();
                                     $('#folioExamenMedicoContainer').hide();
@@ -322,7 +539,7 @@ $(document).ready(function() {
                     <!-- SECCION DATOS PERSONALES -->
                     <div class="col-md-6">
                         <label for="nombre" class="form-label">Nombre</label>
-                        <input type="text" class="form-control" id="nombre" name="nombre" required pattern="[a-zA-Z\s]+"
+                        <input type="text" class="form-control" id="nombre" name="nombre" required 
                             minlength="3">
                         <div class="invalid-feedback">Por favor, ingresa tu nombre. (Solo letras y espacios, min. 3
                             caracteres)
@@ -333,9 +550,8 @@ $(document).ready(function() {
                     <div class="col-md-6">
                         <label for="validationCustom04" class="form-label">Foto del Colaborador / JPG, JPEG, PNG. (MAX
                             5MB)</label>
-                        <input class="form-control" type="file" id="formFile" name="foto" accept=".jpg, .png, .jpeg">
-                        <div class="invalid-feedback">
-                            Se verificará!
+                        <div id="fotoContainer">
+                            <!-- Aquí se cargará dinámicamente el input file o los botones -->
                         </div>
                     </div>
 
@@ -349,10 +565,61 @@ $(document).ready(function() {
                     <div class="col-md-6">
                         <label for="validationCustom04" class="form-label">INE / PDF (MAX
                             5MB)</label>
-                        <input class="form-control" type="file" id="formFile" name="file_ine" accept=".pdf">
-                        <div class="invalid-feedback">
-                            Se verificará!
-                        </div>
+                            <div id="ineContainer">
+                            <!-- Aquí se cargará dinámicamente el input file o los botones -->
+                            </div>
+
+                            <script>                 
+                                    // Funciones globales
+                                    function descargarFoto(ruta,carpeta) {
+                                        
+                                        // En un caso real, esto redirigiría a un script PHP que maneje la descarga
+                                        window.open('<?php echo APP_URL; ?>app/views/fotos/'+carpeta+'/'+ encodeURIComponent(ruta), '_blank');
+                                    }
+
+                                    function descargarArchivo(ruta) {
+                                        
+                                        let rutaNormalizada = ruta.replace(/\.\.\//g, '');                                
+                                        // Reemplazar múltiples "/" por uno solo
+                                        rutaNormalizada = rutaNormalizada.replace(/\/+/g, '/');
+                                        // En un caso real, esto redirigiría a un script PHP que maneje la descarga
+                                        window.open('<?php echo APP_URL; ?>app/'+rutaNormalizada, '_blank');
+                                    }
+                                    
+
+
+                                    function mostrarInputFile(tipo) {
+                                        if (tipo === 'foto') {
+                                            $('#fotoContainer').html(`
+                                                 <input class="form-control" type="file" id="formFile" name="foto" accept=".jpg, .png, .jpeg">
+                                            `);
+                                        } else if (tipo === 'ine') {
+                                            $('#ineContainer').html(`
+                                                 <input class="form-control" type="file" id="formFile" name="file_ine" accept=".pdf">
+                                            `);
+                                        }
+                                        else if (tipo === 'licencia') {
+                                            $('#licenciaFileContainer').html(`
+                                                 <input class="form-control" type="file" id="licencia_file" name="file_licencia" accept=".pdf">
+                                            `);
+                                        }
+                                        else if (tipo === 'examenMedico') {
+                                            $('#examenMedicoFileContainer').html(`
+                                                 <input class="form-control" type="file" id="file_medico" name="file_examen_medico" accept=".pdf">
+                                            `);
+                                        }
+                                        else if (tipo === 'examenAntido') {
+                                            $('#examenAntidoFileContainer').html(`
+                                                 <input class="form-control" type="file" id="formFile" name="file_examen_antidoping" accept=".pdf">
+                                            `);
+                                        }
+                                        else if (tipo === 'antecedentes') {
+                                            $('#antecedentesFileContainer').html(`
+                                                 <input class="form-control" type="file" id="formFile" name="file_carta_antecedentes" accept=".pdf">
+                                            `);
+                                        }
+                                    }
+                            </script>
                     </div>
 
                     <div class="col-md-6">
@@ -365,7 +632,6 @@ $(document).ready(function() {
                         <input type="text" class="form-control" id="rfc" name="rfc" required>
                         <div class="invalid-feedback">Por favor, ingresa tu RFC.</div>
                     </div>
-
 
 
 
@@ -604,7 +870,7 @@ $(document).ready(function() {
                     <div class="col-xxl-4 col-lg-4 col-sm-6">
                         <div class="mb-3">
                             <label class="form-label" for="pais">PAÍS</label>
-                            <input type="text" class="form-control" id="pais" name="pais" value="MÉX">
+                            <input type="text" class="form-control" id="pais" name="pais" >
                         </div>
                     </div>
                     <div class="col-md-4">
@@ -625,10 +891,12 @@ $(document).ready(function() {
                     <div class="col-md-4" id="fileLicenciaContainer" style="display: none;">
                         <label for="licencia_file" class="form-label">Licencia / PDF (MAX
                             5MB)</label>
-                        <input class="form-control" type="file" id="licencia_file" name="file_licencia" accept=".pdf">
-                        <div class="invalid-feedback">
-                            Se verificará!
-                        </div>
+                        
+
+                        <div id="licenciaFileContainer">
+                            <!-- Aquí se cargará dinámicamente el input file o los botones -->
+                            </div>
+
                     </div>
 
                     <div class="col-md-4" id="licenciaVigenciaContainer" style="display: none;">
@@ -645,11 +913,10 @@ $(document).ready(function() {
                     <div class="col-md-4" id="fileExamenMedicoContainer" style="display: none;">
                         <label for="file_medico" class="form-label">Examen Medico / PDF (MAX
                             5MB)</label>
-                        <input class="form-control" type="file" id="file_medico" name="file_examen_medico"
-                            accept=".pdf">
-                        <div class="invalid-feedback">
-                            Se verificará!
-                        </div>
+                       
+                        <div id="examenMedicoFileContainer">
+                            <!-- Aquí se cargará dinámicamente el input file o los botones -->
+                            </div>
                     </div>
 
                     <div class="col-md-4" id="examenMedicoContainer" style="display: none;">
@@ -664,11 +931,10 @@ $(document).ready(function() {
                     <div class="col-md-4" id="fileAntiContainer" style="display: none;">
                         <label for="validationCustom04" class="form-label">Examen Antidoping / PDF (MAX
                             5MB)</label>
-                        <input class="form-control" type="file" id="formFile" name="file_examen_antidoping"
-                            accept=".pdf">
-                        <div class="invalid-feedback">
-                            Se verificará!
-                        </div>
+                       
+                        <div id="examenAntidoFileContainer">
+                            <!-- Aquí se cargará dinámicamente el input file o los botones -->
+                            </div>
                     </div>
 
                     <div class="col-md-4" id="fechaAntiContainer" style="display: none;">
@@ -687,11 +953,10 @@ $(document).ready(function() {
                     <div class="col-md-6" id="fileAntecedentesContainer" style="display: none;">
                         <label for="validationCustom04" class="form-label">Carta No Antecedentes Penales / PDF (MAX
                             5MB)</label>
-                        <input class="form-control" type="file" id="formFile" name="file_carta_antecedentes"
-                            accept=".pdf">
-                        <div class="invalid-feedback">
-                            Se verificará!
-                        </div>
+                        
+                        <div id="antecedentesFileContainer">
+                            <!-- Aquí se cargará dinámicamente el input file o los botones -->
+                            </div>
                     </div>
 
                     <!-- REFERENCIAS -->
@@ -701,40 +966,53 @@ $(document).ready(function() {
                         <input type="hidden" id="referencias" name="referencias">
                         <script>
                         $(document).ready(function() {
-                            let data = []; // Datos iniciales del grid
-                            let referencias = []; // Array para guardar las referencias
+                            function getreferenciasData() {
+                                    let data = $("#referencias").val();
+                                    return data ? JSON.parse(data) : [];
+                                }
+
+                                function setreferenciasData(data) {
+                                    $("#referencias").val(JSON.stringify(data));
+                                }
+
+
+                                function generateNewId(data) {
+                                    // Encuentra el ID más alto y suma 1
+                                    const maxId = data.reduce((max, item) => Math.max(max, item.Id || 0), 0);
+                                    return maxId + 1;
+                                }
+
+
                             var dataSource = new kendo.data.DataSource({
                                 pageSize: 20, // Opcional: paginación
                                 transport: {
                                     create: function(e) {
-                                        if (e.data.models) {
-                                                //batch editing
-                                                for (var i = 0; i < e.data.models.length; i++) {
-                                                    e.data.models[i].Id = nextId++;
-                                                }
-                                                e.success(e.data.models);
-                                            } else {
-                                                e.data.Id = nextId++;
-                                                e.success(e.data);
-                                            }
+                                            var referencias = getreferenciasData();
+                                            // Asignar nuevo ID único
+                                            e.data.Id = generateNewId(referencias);
                                             referencias.push(e.data);
-                                            console.log(e.data);
-                                            console.log(referencias);
-                                            $("#referencias").val(JSON.stringify(referencias));
-                                    },
-                                    read: function(e) {
-                                        e.success(data);
-                                    },
-                                    update: function(e) {
-                                        e.success(e.data);
-                                        // Actualizar el array referencias
-                                        const index = referencias.findIndex(item => item.Id === e
-                                            .data.Id);
-                                        if (index !== -1) {
-                                            referencias[index] = e.data;
-                                            $("#referencias").val(JSON.stringify(referencias));
+                                            setreferenciasData(referencias);
+                                            e.success(e.data);
+                                        },
+                                        read: function(e) {
+
+
                                         }
-                                    },
+                                        ,
+                                        update: function(e) {
+                                            // Actualizar registro
+                                            var referencias = getreferenciasData();
+                                           
+                                            var index = referencias.findIndex(item => item.Id === e
+                                                .data.Id);
+                                            if (index !== -1) {
+                                                referencias[index] = e.data;
+                                                setreferenciasData(referencias);
+                                                e.success();
+                                            } else {
+                                                e.error("Registro no encontrado");
+                                            }
+                                        },
                                     destroy: function(e) {
                                         e.success(e.data);
                                         // Eliminar del array referencias

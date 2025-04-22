@@ -57,10 +57,10 @@
 
                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                                             <div class="mb-3">
-                                                                <label class="form-label" for="cp_origen">CP</label>
+                                                                <label class="form-label" for="cp">CP</label>
                                                                 <div class="input-group">
                                                                     <input type="text" class="form-control"
-                                                                        id="cp_origen" placeholder="" name="cp_origen">
+                                                                        id="cp" placeholder="" name="cp">
                                                                     <button class="btn btn-outline-secondary text-body"
                                                                         type="button" id="busca_codigo_postal">
                                                                         Buscar
@@ -73,7 +73,7 @@
                                                                 $('#busca_codigo_postal').click(function() {
                                                                     var crudServiceBaseUrl =
                                                                         "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
-                                                                    var codigoPostal = $('#cp_origen')
+                                                                    var codigoPostal = $('#cp')
                                                                         .val();
                                                                     $.ajax({
                                                                         url: crudServiceBaseUrl,
@@ -475,20 +475,21 @@
                                             console.log(e.data);
                                         },
                                         update: function(e) {
-                                            if (e.data.models) {
-                                                //batch editing
-                                                e.success(e.data.models);
-                                            } else {
-                                                e.success(e.data);
-                                            }
+                                            e.success(e.data);
+                                        // Actualizar el array domicilios
+                                        const index = domicilios.findIndex(item => item.Id === e
+                                            .data.Id);
+                                        if (index !== -1) {
+                                            domicilios[index] = e.data;
+                                            $("#domicilios").val(JSON.stringify(domicilios));
+                                        }
                                         },
                                         destroy: function(e) {
-                                            if (e.data.models) {
-                                                //batch editing
-                                                e.success(e.data.models);
-                                            } else {
-                                                e.success(e.data);
-                                            }
+                                            e.success(e.data);
+                                        // Eliminar del array domicilios
+                                        domicilios = domicilios.filter(item => item.Id !== e.data
+                                            .Id);
+                                        $("#domicilios").val(JSON.stringify(domicilios));
                                         }
                                     },
                                     schema: {

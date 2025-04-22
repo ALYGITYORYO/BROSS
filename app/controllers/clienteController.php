@@ -113,8 +113,6 @@
 			return json_encode($alerta);
 		}
 
-
-
 		/*----------  Controlador listar usuario  ----------*/
 		public function listarUsuarioControlador($pagina,$registros,$url,$busqueda){
 
@@ -235,5 +233,161 @@
 			return $tabla;
 		}
 
+		public function listaClientesControlador(){
+
+			$drop_list=$this->ejecutarConsulta("SELECT * FROM `clientes`");			
+			while($fila = $drop_list->fetchall()) {
+				$lista[] = $fila;
+			}
+	
+			return json_encode($lista);
+		}
+
+		public function DrillClientesOpeControlador(){
+			$lista = array();                
+			$drop_list=$this->ejecutarConsulta("SELECT `ID`,`DOMICILIOS` FROM `clientes` WHERE 1;");			
+			$fila = $drop_list->fetchall();
+			foreach ($fila as $row) {
+				$lista[]= array(
+					"ID" => $row["ID"],
+					"DOMICILIOS" => $row["DOMICILIOS"]				                                           
+					);
+			}
+			return json_encode($lista);
+		}
+
+		public function leerclienteControlador(){
+			$ID=$_POST["ID"];
+			$lista = array();
+			$drop_list=$this->ejecutarConsulta("SELECT * FROM `clientes` WHERE ID=".$ID);			
+			while($fila = $drop_list->fetchall()) {
+				$lista[] = $fila;
+			}
+			return json_encode($lista);
+		}
+
+		public function actualizarClientesControllers(){
+			
+			# Almacenando datos#
+
+			$id =$_POST['id_cliente'];
+			$nombre =$_POST['nombre'];
+			$rfc =$_POST['rfc'];
+			$calle =$_POST['calle'];
+			$numero_interior =$_POST['numero_interior'];
+			$numero_exterior =$_POST['numero_exterior'];
+			$colonia =$_POST['colonia'];
+			$municipio =$_POST['municipio'];
+			$ciudad =$_POST['ciudad'];
+			$estado =$_POST['estado'];
+			$cp =$_POST['cp'];
+			$regimen =$_POST['regimen_input'];
+			$correo =$_POST['correo'];
+			$telefono =$_POST['telefono'];
+			$domicilios =$_POST['domicilios'];
+			$credito =$_POST['diasCredito'];
+			$condiciones =$_POST['condiciones'];
+			
+            $cliente_datos_update=[
+				[
+					"campo_nombre"=>"NOMBRE",
+					"campo_marcador"=>":NOMBRE",
+					"campo_valor"=>$nombre
+				],
+				[
+					"campo_nombre"=>"RFC",
+					"campo_marcador"=>":RFC",
+					"campo_valor"=>$rfc
+				]
+				,
+				[
+					"campo_nombre"=>"CALLE",
+					"campo_marcador"=>":CALLE",
+					"campo_valor"=>$calle
+				],
+				[
+					"campo_nombre"=>"NUM_INT",
+					"campo_marcador"=>":NUM_INT",
+					"campo_valor"=>$numero_interior
+				],
+				[
+					"campo_nombre"=>"NUM_EXT",
+					"campo_marcador"=>":NUM_EXT",
+					"campo_valor"=>$numero_exterior
+				],[
+					"campo_nombre"=>"COLONIA",
+					"campo_marcador"=>":COLONIA",
+					"campo_valor"=>$colonia
+				],[
+					"campo_nombre"=>"MUNICIPIO",
+					"campo_marcador"=>":MUNICIPIO",
+					"campo_valor"=>$municipio
+				],[
+					"campo_nombre"=>"CIUDAD",
+					"campo_marcador"=>":CIUDAD",
+					"campo_valor"=>$ciudad
+				],[
+					"campo_nombre"=>"ESTADO",
+					"campo_marcador"=>":ESTADO",
+					"campo_valor"=>$estado
+				],[
+					"campo_nombre"=>"CP",
+					"campo_marcador"=>":CP",
+					"campo_valor"=>$cp
+				],
+				[
+					"campo_nombre"=>"REGIMEN",
+					"campo_marcador"=>":REGIMEN",
+					"campo_valor"=>$regimen
+				],
+				[
+					"campo_nombre"=>"CORREO",
+					"campo_marcador"=>":CORREO",
+					"campo_valor"=>$correo
+				],[
+					"campo_nombre"=>"TELEFONO",
+					"campo_marcador"=>":TELEFONO",
+					"campo_valor"=>$telefono
+				],
+				[
+					"campo_nombre"=>"CONDICIONES",
+					"campo_marcador"=>":CONDICIONES",
+					"campo_valor"=>$condiciones
+				],
+				[
+					"campo_nombre"=>"CREDITO",
+					"campo_marcador"=>":CREDITO",
+					"campo_valor"=>$credito
+				],
+				[
+					"campo_nombre"=>"DOMICILIOS",
+					"campo_marcador"=>":DOMICILIOS",
+					"campo_valor"=>$domicilios
+				]
+			];
+			$condicion=[
+				"condicion_campo"=>"ID",
+				"condicion_marcador"=>":ID",
+				"condicion_valor"=>$id
+			];
+
+			if($this->actualizarDatos("clientes",$cliente_datos_update,$condicion)){
+				$alerta=[
+					"tipo"=>"recargar",
+					"titulo"=>"Cliente actualizado",
+					"texto"=>"Los datos del cliente ".$nombre." se actualizaron correctamente",
+					"icono"=>"success"
+				];
+			}else{
+				$alerta=[
+					"tipo"=>"simple",
+					"titulo"=>"Ocurrió un error inesperado",
+					"texto"=>"No hemos podido actualizar los datos del Cliente ".$nombre." , por favor intente nuevamente",
+					"icono"=>"error"
+				];
+			}
+
+			return json_encode($alerta);
+		}
 
 	}

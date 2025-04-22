@@ -30,10 +30,10 @@
 
 		/*----------       ID COLABORADOR            ----------*/
 		public function colaboradorGetIDControlador(){
-			$consecutivo=$this->ejecutarConsulta("SELECT `ID`,`NOEMPLADO` FROM colaborador ORDER BY `ID` DESC");
+			$consecutivo=$this->ejecutarConsulta("SELECT `ID`,`NOEMPLEADO` FROM colaborador ORDER BY `ID` DESC");
             if ($consecutivo->rowCount() > 0) {
                 $fila = $consecutivo->fetch();
-                $ultimoNovehiculo = $fila['NOEMPLADO'];
+                $ultimoNovehiculo = $fila['NOEMPLEADO'];
 
                 // Extraer el número y sumarle 1
                 $numero = intval(ltrim(substr($ultimoNovehiculo, 2), '0')) + 1; //Elimina "BR" y los 0 a la izquierda.

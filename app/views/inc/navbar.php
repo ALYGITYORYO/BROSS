@@ -33,7 +33,7 @@
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="ri-stethoscope-line"></i>
+                        <i class="ri-terminal-window-line"></i>
                         <span class="menu-text">Catálogos</span>
                     </a>
                     <ul class="treeview-menu">
@@ -60,7 +60,7 @@
 
                 <li class="treeview">
                     <a href="#">
-                        <i class="ri-stethoscope-line"></i>
+                        <i class="ri-road-map-line"></i>
                         <span class="menu-text">Modulos</span>
                     </a>
                     <ul class="treeview-menu">
@@ -72,6 +72,25 @@
                         </li>
                     </ul>
                 </li>
+
+                <li class="treeview">
+                    <a href="#">
+                        <i class="ri-notification-badge-line"></i>
+                        <span class="menu-text">Vistas</span>
+                    </a>
+                    <ul class="treeview-menu">
+                        <li>
+                        <a href="<?php echo APP_URL; ?>listColaboradores">Colaboradores</a>
+                        </li>
+                        <li>
+                        <a href="<?php echo APP_URL; ?>listClientes">Clientes</a>
+                        </li>
+                        <li>
+                        <a href="<?php echo APP_URL; ?>listVehiculos">Vehiculos</a>
+                        </li>
+                    </ul>
+                </li>
+
             </ul>
         </div>
         <!-- Sidebar menu ends -->

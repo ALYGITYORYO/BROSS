@@ -18,9 +18,19 @@
 			echo $intcliente->eliminarUsuarioControlador();
 		}
 
+		if($_POST['catalogo_cliente']=="leercliente"){
+			echo $intcliente->leerclienteControlador();
+		}
+
 		if($_POST['catalogo_cliente']=="actualizar"){
-			echo $intcliente->actualizarUsuarioControlador();
+			echo $intcliente->actualizarClientesControllers();
 		}		
+		if($_POST['catalogo_cliente']=="lista_clientes"){
+			echo $intcliente->listaClientesControlador();
+		}	
+		if($_POST['catalogo_cliente']=="drillRelacionOperativo"){
+			echo $intcliente->DrillClientesOpeControlador();
+		}	
 		
 	}else{
 		session_destroy();

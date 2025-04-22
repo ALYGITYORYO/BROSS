@@ -11,6 +11,8 @@
       $clientes=$item['CLIENTES'];
       $cotizaciones=$item['COTIZACIONES'];
       $vehiculos=$item['VEHICULOS'];
+      $colaboradores=$item['COLABORADORES'];
+
   }
 	?>
 <!-- Row starts -->
@@ -26,17 +28,20 @@
                     <h5>Pendientes de hoy.</h5>
                     <div class="mt-4 d-flex gap-3">
                         <div class="d-flex align-items-center">
-                            <div class="icon-box lg bg-arctic rounded-3 me-3">
-                                <i class="ri-surgical-mask-line fs-4"></i>
-                            </div>
-                            <div class="d-flex flex-column">
-                                <h2 class="m-0 lh-1">9</h2>
-                                <p class="m-0">Entregados</p>
-                            </div>
+                            <a href="<?php echo APP_URL; ?>listColaboradores">
+                                <div class="icon-box lg bg-arctic rounded-3 me-3">
+                                    <i class="ri-walk-line fs-4"></i>
+                                </div>
+                            </a>
+                                <div class="d-flex flex-column">
+                                    <h2 class="m-0 lh-1"><?php  echo $colaboradores; ?></h2>
+                                    <p class="m-0">Colaboradores</p>
+                                </div>
+                            
                         </div>
                         <div class="d-flex align-items-center">
                             <div class="icon-box lg bg-lime rounded-3 me-3">
-                                <i class="ri-lungs-line fs-4"></i>
+                                <i class="ri-surgical-mask-line fs-4"></i>
                             </div>
                             <div class="d-flex flex-column">
                                 <h2 class="m-0 lh-1">3</h2>
@@ -77,13 +82,17 @@
                     </div>
                 </div>
                 <div class="d-flex align-items-end justify-content-between mt-1">
-                    <a class="text-success" href="javascript:void(0);">
-                        <span>ver más</span>
+                    <a class="text-success" href="javascript:void(0);" data-bs-toggle="modal"
+                        data-bs-target="#exampleModalXl_CLIENTES">
+                        <span>Vista rapida</span>
                         <i class="ri-arrow-right-line text-success ms-1"></i>
                     </a>
                     <div class="text-end">
                         <p class="mb-0 text-success">.</p>
-                        <span class="badge bg-success-subtle text-success small">este mes</span>
+                        <a href="<?php echo APP_URL; ?>listClientes" class="btn btn-outline-success btn-sm rounded-5"
+                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Vista Clientes">
+                            <i class="ri-edit-box-line"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -106,12 +115,15 @@
                 <div class="d-flex align-items-end justify-content-between mt-1">
                     <a class="text-primary" href="javascript:void(0);" data-bs-toggle="modal"
                         data-bs-target="#exampleModalXl_VEHICULOS">
-                        <span>ver más</span>
+                        <span>Vista rapida</span>
                         <i class="ri-arrow-right-line ms-1"></i>
                     </a>
                     <div class="text-end">
-                        <p class="mb-0 text-primary">+30%</p>
-                        <span class="badge bg-primary-subtle text-primary small">este mes</span>
+                        <p class="mb-0 text-primary">.</p>
+                        <a href="<?php echo APP_URL; ?>listClientes" class="btn btn-outline-info btn-sm rounded-5"
+                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Vista Vehiculos">
+                            <i class="ri-edit-box-line"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -134,6 +146,221 @@
             </div>
         </div>
     </div>
+
+
+    <div class="modal fade" id="exampleModalXl_CLIENTES" tabindex="-1" aria-labelledby="exampleModalXlLabel"
+        aria-hidden="true">
+        <div class="modal-dialog modal-xl">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="exampleModalXlLabel">
+                        Clientes
+                    </h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id=grid_clientes></div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script>
+        $(document).ready(function() {
+            var crudServiceBaseUrl =
+                "<?php echo APP_URL; ?>app/ajax/clienteAjax.php";
+            var dataSource = new kendo.data.DataSource({
+                transport: {
+                    read: function(e) {
+                        $.ajax({
+                            url: crudServiceBaseUrl,
+                            dataType: "json",
+                            data: {
+                                catalogo_cliente: "lista_clientes"
+                            },
+                            type: 'post',
+                            success: function(data) {
+
+                                e.success(data[0]);
+                            }
+                        });
+                    },
+                    create: function(e) {
+                        e.success(e.data);
+                    },
+                    update: function(e) {
+
+                        e.success(e.data);
+                        // on failure
+                    },
+                    destroy: function(e) {
+                        // on success
+                        e.success();
+                        // on failure
+                    }
+                },
+                error: function(e) {
+                    // handle data operation error
+                },
+                pageSize: 5,
+                autoSync: true,
+                height: 543,
+                schema: {
+                    model: {
+                        id: 'ID',
+                        fields: {
+                            ID: {
+                                editable: false,
+                                nullable: true
+                            },
+                            NOMBRE: {
+                                type: 'string'
+                            },
+                            RFC: {
+                                type: 'string'
+                            },
+                            ESTADO: {
+                                type: 'string'
+                            },
+                            REGIMEN: {
+                                type: 'string'
+                            },
+                            TELEFONO: {
+                                type: 'string'
+                            }
+                        }
+                    }
+                }
+            });
+
+            var element = $("#grid_clientes").kendoGrid({
+                dataSource: dataSource,
+                sortable: true,
+                pageable: true,
+                detailInit: detailInit_cliente,
+                columns: [{
+                        field: "NOMBRE",
+                    },
+                    {
+                        field: "RFC",
+                    },
+                    {
+                        field: "ESTADO"
+                    },
+                    {
+                        field: "REGIMEN"
+                    },
+                    {
+                        field: "TELEFONO",
+                        title: "TELÉFONO"
+                    }
+                ]
+            });
+        });
+
+        function detailInit_cliente(e) {
+            var crudServiceBaseUrl1 =
+                "<?php echo APP_URL; ?>app/ajax/clienteAjax.php";
+            var datadrop = new kendo.data.DataSource({
+                transport: {
+                    read: function(e) {
+                        $.ajax({
+                            url: crudServiceBaseUrl1,
+                            data: {
+                                catalogo_cliente: "drillRelacionOperativo"
+                            },
+                            dataType: "json",
+                            type: 'post',
+                            success: function(data) {
+                                console.log(data);
+                                alert(data);
+                                e.success(data);
+
+                            }
+                        });
+                    },
+                    create: function(e) {
+                        // assign an ID to the new item
+                        // on success
+                        e.success(e.data);
+                    },
+                    update: function(e) {
+                        // on success
+                        e.success();
+                        // on failure
+                        //e.error("XHR response", "status code", "error message");
+                    },
+                    destroy: function(e) {
+                        // locate item in original datasource and remove it
+                        update.splice(getIndexByIdU(e.data.ID), 1);
+                        // on success
+                        e.success();
+                        // on failure
+                        //e.error("XHR response", "status code", "error message");
+                    }
+                },
+                error: function(e) {
+                    // handle data operation error
+                    alert("Status: " + e.status + "; Error message: " + e.errorThrown);
+                },
+                autoSync: true,
+                pageSize: 10,
+                filter: {
+                    field: "ID",
+                    operator: "eq",
+                    value: e.data.ID
+                },
+                schema: {
+                    model: {
+                        id: "ID",
+                        fields: {
+                            id: {
+                                type: 'string'
+                            },
+                            domicilioOperativo: {
+                                type: 'string'
+                            },
+                            contacto: {
+                                type: 'string'
+                            },
+                            telefono: {
+                                type: 'string'
+                            },
+                            correoElectronico: {
+                                type: 'string'
+                            },
+                        }
+                    }
+                }
+            });
+
+            var domicilios = e.data.DOMICILIOS ? JSON.parse(e.data.DOMICILIOS) : [];
+            $("<div/>").appendTo(e.detailCell).kendoGrid({
+                dataSource: domicilios,
+                scrollable: false,
+                sortable: true,
+                pageable: true,
+                columns: [
+
+                    {
+                        field: "domicilioOperativo",
+                        title: "OPERACIÓN",
+                    }, {
+                        field: "contacto",
+                        title: "CONTACTO",
+                    }, {
+                        field: "telefono",
+                        title: "TELÉFONO",
+                    },
+                    {
+                        field: "correoElectronico",
+                        title: "CORREO"
+                    }
+                ]
+            });
+        }
+    </script>
+
 
 
     <script>
@@ -208,13 +435,12 @@
 
         var element = $("#grid_vehiculos").kendoGrid({
             dataSource: dataSource,
-            height: 600,
             sortable: true,
             pageable: true,
             detailInit: detailInit_v,
             columns: [{
                     field: "NOVEHICULO",
-                    template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: NOVEHICULO #</div>"
+                    template: "<div class='product-photo' style='background-image: url(<?php echo APP_URL; ?>#:data.IMG#);'></div><div class='product-name'>#: NOVEHICULO #</div>"
                 },
                 {
                     field: "TIPO",
@@ -248,7 +474,7 @@
                         type: 'post',
                         success: function(data) {
                             e.success(data);
-                            
+
                         }
                     });
                 },
@@ -330,81 +556,7 @@
     </script>
 
 
-    <style type="text/css">
-    .k-pdf-export .k-clone,
-    .k-pdf-export .k-loader-container {
-        display: none;
-    }
 
-    .customer-photo {
-        display: inline-block;
-        width: 40px;
-        height: 40px;
-        border-radius: 50%;
-        background-size: 32px 35px;
-        background-position: center center;
-        vertical-align: middle;
-        line-height: 32px;
-        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0, 0, 0, .2);
-        margin-left: 5px;
-    }
-
-    .customer-name {
-        display: inline-block;
-        vertical-align: middle;
-        line-height: 32px;
-        padding-left: 3px;
-    }
-
-    .k-grid tr .checkbox-align {
-        text-align: center;
-        vertical-align: middle;
-    }
-
-    .product-photo {
-        display: inline-block;
-        width: 32px;
-        height: 32px;
-        border-radius: 50%;
-        background-size: 32px 35px;
-        background-position: center center;
-        vertical-align: middle;
-        line-height: 32px;
-        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0, 0, 0, .2);
-        margin-right: 5px;
-    }
-
-    .product-name {
-        display: inline-block;
-        vertical-align: middle;
-        line-height: 32px;
-        padding-left: 3px;
-    }
-
-    .k-rating-container .k-rating-item {
-        padding: 4px 0;
-    }
-
-    .k-rating-container .k-rating-item .k-icon {
-        font-size: 16px;
-    }
-
-    .dropdown-country-wrap {
-        display: flex;
-        flex-wrap: nowrap;
-        align-items: center;
-        white-space: nowrap;
-    }
-
-    .dropdown-country-wrap img {
-        margin-right: 10px;
-    }
-
-    #grid .k-grid-edit-row>td>.k-rating {
-        margin-left: 0;
-        width: 100%;
-    }
-    </style>
 
     <div class="col-xl-3 col-sm-6 col-12">
         <div class="card mb-3">
@@ -423,12 +575,15 @@
                 <div class="d-flex align-items-end justify-content-between mt-1">
                     <a class="text-danger" href="javascript:void(0);" data-bs-toggle="modal"
                         data-bs-target="#exampleModalXl_COTIZACIONES">
-                        <span>ver más</span>
+                        <span>Vista rapida</span>
                         <i class="ri-arrow-right-line ms-1"></i>
                     </a>
                     <div class="text-end">
-                        <p class="mb-0 text-danger">+60%</p>
-                        <span class="badge bg-danger-subtle text-danger small">este mes</span>
+                        <p class="mb-0 text-danger">.</p>
+                        <a href="<?php echo APP_URL; ?>listClientes" class="btn btn-outline-danger btn-sm rounded-5"
+                            data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Vista Cotizaciones">
+                            <i class="ri-edit-box-line"></i>
+                        </a>
                     </div>
                 </div>
             </div>
@@ -620,7 +775,7 @@
                         <div id="grid_viajes_remisiones"></div>
 
                         <script type="text/x-kendo-template" id="template">
-                                        <div class="tabstrip">
+                            <div class="tabstrip">
                                         <ul>
 
                                         <li  class="k-state-active">
@@ -672,7 +827,7 @@
                                                 dataType: "json",
                                                 type: 'post',
                                                 success: function(dataq) {
-                                                    
+
                                                     e.success(dataq[0]);
                                                     console.log(dataq[0]);
                                                 }
@@ -772,7 +927,7 @@
 
 
                         function detailInit(e) {
-                            
+
                             var drill_vehiculos = "<?php echo APP_URL; ?>app/ajax/viajesAjax.php";
                             var vehiculos_tab = new kendo.data.DataSource({
                                 transport: {
@@ -784,8 +939,8 @@
                                             },
                                             dataType: "json",
                                             type: 'post',
-                                            success: function(data) {                                                
-                                                e.success(data);                                                
+                                            success: function(data) {
+                                                e.success(data);
                                                 console.log(data);
                                             }
                                         });
@@ -796,7 +951,7 @@
                                     },
                                     update: function(e) {
                                         // locate item in original datasource and update it
-                                        
+
                                         // on success
                                         e.success();
                                         // on failure
@@ -804,7 +959,7 @@
                                     },
                                     destroy: function(e) {
                                         // locate item in original datasource and remove it
-                                        
+
                                         // on success
                                         e.success();
                                         // on failure
@@ -816,7 +971,7 @@
                                     alert("Status: " + e.status + "; Error message: " + e.errorThrown);
                                 },
                                 autoSync: true,
-                                pageSize: 10,                                
+                                pageSize: 10,
                                 filter: {
                                     field: "ID_RELACION",
                                     operator: "eq",
@@ -853,12 +1008,12 @@
                                 }
                             });
                             detailRow2.find(".tabstrip").kendoTabStrip({
-													animation: {
-														open: {
-															effects: "fadeIn"
-														}
-													}
-												});
+                                animation: {
+                                    open: {
+                                        effects: "fadeIn"
+                                    }
+                                }
+                            });
 
 
 
@@ -867,20 +1022,17 @@
                                 scrollable: false,
                                 sortable: true,
                                 pageable: true,
-                                columns: 
-                                [
+                                columns: [{
+                                        field: "FOLIO",
+                                        template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: FOLIO #</div>"
+                                    },
                                     {
-                                    field: "FOLIO",
-                                    template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: FOLIO #</div>"
-                                },               
-                                {
-                                    field: "TIPO_VEHICULO",
-                                    title: "VEHICULO"
-                                }
+                                        field: "TIPO_VEHICULO",
+                                        title: "VEHICULO"
+                                    }
                                 ]
                             });
                         }
-
                         </script>
 
 
@@ -922,6 +1074,83 @@
 </div>
 
 
+
+<style type="text/css">
+    .k-pdf-export .k-clone,
+    .k-pdf-export .k-loader-container {
+        display: none;
+    }
+
+    .customer-photo {
+        display: inline-block;
+        width: 40px;
+        height: 40px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0, 0, 0, .2);
+        margin-left: 5px;
+    }
+
+    .customer-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+
+    .k-grid tr .checkbox-align {
+        text-align: center;
+        vertical-align: middle;
+    }
+
+    .product-photo {
+        display: inline-block;
+        width: 32px;
+        height: 32px;
+        border-radius: 50%;
+        background-size: 32px 35px;
+        background-position: center center;
+        vertical-align: middle;
+        line-height: 32px;
+        box-shadow: inset 0 0 1px #999, inset 0 0 10px rgba(0, 0, 0, .2);
+        margin-right: 5px;
+    }
+
+    .product-name {
+        display: inline-block;
+        vertical-align: middle;
+        line-height: 32px;
+        padding-left: 3px;
+    }
+
+    .k-rating-container .k-rating-item {
+        padding: 4px 0;
+    }
+
+    .k-rating-container .k-rating-item .k-icon {
+        font-size: 16px;
+    }
+
+    .dropdown-country-wrap {
+        display: flex;
+        flex-wrap: nowrap;
+        align-items: center;
+        white-space: nowrap;
+    }
+
+    .dropdown-country-wrap img {
+        margin-right: 10px;
+    }
+
+    #grid .k-grid-edit-row>td>.k-rating {
+        margin-left: 0;
+        width: 100%;
+    }
+    </style>
+    
 </div>
 <!-- App body ends -->
 
