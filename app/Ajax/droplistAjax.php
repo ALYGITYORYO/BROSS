@@ -32,6 +32,9 @@
 			echo $intdroplist->listaDollyControlador();
 		}
 		
+		if($_GET['catalogo_droplist']=="leer_tracto"){
+			echo $intdroplist->listaTractoControlador();
+		}
 		
 		if($_GET['catalogo_droplist']=="leer_cliente"){
 			echo $intdroplist->listaClienteControlador();

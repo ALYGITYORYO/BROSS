@@ -65,7 +65,10 @@
                     </a>
                     <ul class="treeview-menu">
                         <li>
-                        <a href="<?php echo APP_URL; ?>cotizacion">Modulo Cotización</a>
+                        <a href="<?php echo APP_URL; ?>vehiculosLogistica"> Logística de Vehículos </a>
+                        </li>
+                        <li>
+                        <a href="<?php echo APP_URL; ?>remision">Modulo Remisión</a>
                         </li>
                         <li>
                         <a href="<?php echo APP_URL; ?>remision">Modulo Remisión</a>
@@ -88,6 +91,10 @@
                         <li>
                         <a href="<?php echo APP_URL; ?>listVehiculos">Vehiculos</a>
                         </li>
+                        <li>
+                        <a href="<?php echo APP_URL; ?>listLogistica">Logística Vehículos</a>
+                        </li>
+
                     </ul>
                 </li>
 
@@ -98,7 +105,7 @@
         <!-- Sidebar contact starts -->
         <div class="sidebar-contact">
             <p class="fw-light mb-1 text-nowrap text-truncate">Contact</p>
-            <h5 class="m-0 lh-1 text-nowrap text-truncate">0987654321</h5>
+            <h5 class="m-0 lh-1 text-nowrap text-truncate">4437841152</h5>
             <i class="ri-phone-line"></i>
         </div>
         <!-- Sidebar contact ends -->

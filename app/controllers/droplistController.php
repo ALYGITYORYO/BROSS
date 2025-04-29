@@ -42,13 +42,13 @@
 				# Lectura datos#
 				
 				$lista = array();
-				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOEMPLADO`,`NOMBRE` FROM `colaborador` WHERE `AREA`='Operativa' AND `CARGO`='Operativo' AND `ASIGNADO`!=1");			
+				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOEMPLEADO`,`NOMBRE` FROM `colaborador` WHERE `AREA`='Operativa' AND `CARGO`='Operador' AND `ASIGNADO`!=1");			
 				$fila = $drop_list->fetchall();
 				foreach ($fila as $row) {
 					$lista[]= array(
 						"ID" => $row["ID"],
 						"NOMBRE" => $row["NOMBRE"],
-						"NOEMPLADO" => $row["NOEMPLADO"]
+						"NOEMPLEADO" => $row["NOEMPLEADO"]
 						);
 				}
 	
@@ -78,13 +78,15 @@
 		public function listaRemolqueControlador(){
 
 			$lista = array();
-				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOVEHICULO`,`TIPO_REMOLQUE`,`FOTO_UNIDAD` FROM `vehiculos` WHERE `TIPO_VEHICULO`='REMOLQUE' AND `ESTATUS`!=1");			
+				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOVEHICULO`,`TIPO_REMOLQUE`,`FOTO_UNIDAD`,`PLACAS`,`SERIE` FROM `vehiculos` WHERE `TIPO_VEHICULO`='REMOLQUE' AND `ESTATUS`!=1");			
 				$fila = $drop_list->fetchall();
 				foreach ($fila as $row) {
 					$lista[]= array(
 						"ID" => $row["ID"],
 						"NOMBRE" => $row["NOVEHICULO"],
 						"TIPO_REMOLQUE" => $row["TIPO_REMOLQUE"],
+						"PLACAS" => $row["PLACAS"],
+						"SERIE" => $row["SERIE"],
 						"FOTO" => $row["FOTO_UNIDAD"]
 						
 
@@ -98,14 +100,15 @@
 		public function listaDollyControlador(){
 
 			$lista = array();
-				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOVEHICULO` FROM `vehiculos` WHERE `TIPO_VEHICULO`='DOLLY' AND `ESTATUS`!=1");			
+				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOVEHICULO`,`PLACAS`,`SERIE`,`FOTO_UNIDAD` FROM `vehiculos` WHERE `TIPO_VEHICULO`='DOLLY' AND `ESTATUS`!=1");			
 				$fila = $drop_list->fetchall();
 				foreach ($fila as $row) {
 					$lista[]= array(
 						"ID" => $row["ID"],
-						"NOMBRE" => $row["NOVEHICULO"]
-						
-
+						"PLACAS" => $row["PLACAS"],
+						"SERIE" => $row["SERIE"],
+						"IMG" => $row["FOTO_UNIDAD"],
+						"NOMBRE" => $row["NOVEHICULO"]			
 						);
 				}
 	
@@ -113,6 +116,25 @@
 
 		}
 		
+		public function listaTractoControlador(){
+
+			$lista = array();
+				$drop_list=$this->ejecutarConsulta("SELECT `ID`,`NOVEHICULO`,`PLACAS`,`SERIE`,`FOTO_UNIDAD` FROM `vehiculos` WHERE `TIPO_VEHICULO`='Tracto' AND `ESTATUS`!=1");			
+				$fila = $drop_list->fetchall();
+				foreach ($fila as $row) {
+					$lista[]= array(
+						"ID" => $row["ID"],
+						"PLACAS" => $row["PLACAS"],
+						"SERIE" => $row["SERIE"],
+						"IMG" => $row["FOTO_UNIDAD"],
+						"NOMBRE" => $row["NOVEHICULO"]			
+						);
+				}
+	
+				echo json_encode($lista);
+
+		}		
+
 		public function listaClienteControlador(){
 
 			$lista = array();

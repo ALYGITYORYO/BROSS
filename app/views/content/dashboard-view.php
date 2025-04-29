@@ -104,12 +104,12 @@
                 <div class="d-flex align-items-center">
                     <div class="p-2 border border-primary rounded-circle me-3">
                         <div class="icon-box md bg-primary-subtle rounded-5">
-                            <i class="ri-lungs-line fs-4 text-primary"></i>
+                            <i class="ri-truck-line fs-4 text-primary"></i>
                         </div>
                     </div>
                     <div class="d-flex flex-column">
                         <h2 class="lh-1"><?php  echo $vehiculos; ?></h2>
-                        <p class="m-0">Vehículos</p>
+                        <p class="m-0">Vehículos c/ Remolque </p>
                     </div>
                 </div>
                 <div class="d-flex align-items-end justify-content-between mt-1">
@@ -120,7 +120,7 @@
                     </a>
                     <div class="text-end">
                         <p class="mb-0 text-primary">.</p>
-                        <a href="<?php echo APP_URL; ?>listClientes" class="btn btn-outline-info btn-sm rounded-5"
+                        <a href="<?php echo APP_URL; ?>listLogistica" class="btn btn-outline-info btn-sm rounded-5"
                             data-bs-toggle="tooltip" data-bs-placement="top" data-bs-title="Vista Vehiculos">
                             <i class="ri-edit-box-line"></i>
                         </a>
@@ -374,7 +374,7 @@
                         url: crudServiceBaseUrl,
                         dataType: "json",
                         data: {
-                            vehiculosCatalogo: "lista_vehiculos_remision"
+                            vehiculosCatalogo: "lista_vehiculos_logistica"
                         },
                         type: 'post',
                         success: function(data) {
@@ -416,16 +416,16 @@
                         OPERADOR: {
                             type: 'string'
                         },
-                        TIPO: {
+                        TRACTO: {
                             type: 'string'
                         },
-                        NOVEHICULO: {
+                        PLACAS: {
                             type: 'string'
                         },
-                        DOBLE_ARTICULADO: {
+                        SERIE: {
                             type: 'string'
                         },
-                        GPS: {
+                        DOBLE: {
                             type: 'string'
                         }
                     }
@@ -439,21 +439,21 @@
             pageable: true,
             detailInit: detailInit_v,
             columns: [{
-                    field: "NOVEHICULO",
-                    template: "<div class='product-photo' style='background-image: url(<?php echo APP_URL; ?>#:data.IMG#);'></div><div class='product-name'>#: NOVEHICULO #</div>"
+                    field: "TRACTO",
+                    template: "<div class='product-photo' style='background-image: url(<?php echo APP_URL; ?>#:data.IMG#);'></div><div class='product-name'>#: TRACTO #</div>"
                 },
                 {
-                    field: "TIPO",
+                    field: "OPERADOR",
+                },
+                {                 
+                    field: "PLACAS"
                 },
                 {
-                    title: "Doble ATICULADO",
-                    field: "DOBLE_ARTICULADO",
+                    field: "SERIE"
                 },
                 {
-                    field: "OPERADOR"
-                },
-                {
-                    field: "GPS"
+                    field: "DOBLE",
+                    title:"Doble articulado"
                 }
             ]
         });
@@ -468,7 +468,7 @@
                     $.ajax({
                         url: crudServiceBaseUrl1,
                         data: {
-                            vehiculosCatalogo: "drillRelacionRemolque"
+                            vehiculosCatalogo: "drillRelacionRemolqueLog"
                         },
                         dataType: "json",
                         type: 'post',
@@ -525,9 +525,12 @@
                         TIPO: {
                             type: 'string'
                         },
-                        TIPO_VEHICULO: {
+                        SERIE: {
                             type: 'string'
                         },
+                        PLACAS: {
+                            type: 'string'
+                        }
                     }
                 }
             }
@@ -543,12 +546,16 @@
                     template: "<div class='product-photo' style='background-image: url(http://localhost:8080/BROSS/#:data.IMG#);'></div><div class='product-name'>#: NOVEHICULO #</div>"
                 },
                 {
-                    field: "TIPO",
-                    title: "TIPO DE REMOLQUE",
+                    field: "PLACAS",
+                   
                 },
                 {
-                    field: "TIPO_VEHICULO",
-                    title: "REMOLQUE / DOLLY"
+                    field: "SERIE",
+                   
+                },
+                {
+                    field: "TIPO",
+                    title: "TIPO DE REMOLQUE",
                 }
             ]
         });

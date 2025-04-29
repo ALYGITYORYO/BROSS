@@ -24,10 +24,29 @@
 
 		if($_POST['vehiculosCatalogo']=="lista_vehiculos_remision"){
 			echo $vehiculosOBJ->remisionListaControlador();
+		}	
+		if($_POST['vehiculosCatalogo']=="lista_vehiculos_logistica"){
+			echo $vehiculosOBJ->listLogisticaControlador();
 		}		
 		
 		if($_POST['vehiculosCatalogo']=="drillRelacionRemolque"){
 			echo $vehiculosOBJ->remisionRmolqueDrill();
 		}	
+		if($_POST['vehiculosCatalogo']=="drillRelacionRemolqueLog"){
+			echo $vehiculosOBJ->logisticaRemolqueDrill();
+		}	
+		if($_POST['vehiculosCatalogo']=="listar"){
+			echo $vehiculosOBJ->listavehiculosControlador();
+		}
+		if($_POST['vehiculosCatalogo']=="leerVehiculo"){
+			echo $vehiculosOBJ->leerVehiculoControlador();
+		}
+		if($_POST['vehiculosCatalogo']=="actualizar"){
+			echo $vehiculosOBJ->actualizarVehiculoControlador();
+		}
+
+		if($_POST['vehiculosCatalogo']=="eliminarLogV"){
+			echo $vehiculosOBJ->borrarLogVControlador();
+		}
 		
 	}

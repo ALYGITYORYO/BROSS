@@ -110,6 +110,31 @@
             return $sql;
 		}
 
+			/*---------- Funcion seleccionar datoDuplicado ----------*/
+			public function datoDuplicado($tipo,$tabla,$campo,$id){
+				$tipo=$this->limpiarCadena($tipo);
+				$tabla=$this->limpiarCadena($tabla);
+				$campo=$this->limpiarCadena($campo);
+				$id=$this->limpiarCadena($id);
+				$variable=":".$campo;
+				$resultado = false;
+				if($tipo=="Unico"){
+					$sql=$this->conectar()->prepare("SELECT * FROM $tabla WHERE $campo=$variable and ESTATUS='Alta'");
+					$sql->bindParam($variable,$id);
+					$sql->execute();
+        			if ($sql->fetch()) { // Si encuentra al menos una fila
+            		$resultado = true;
+        			}
+				}elseif($tipo=="Normal"){
+					$sql=$this->conectar()->prepare("SELECT $campo FROM $tabla");
+				}elseif($tipo=="condicion"){
+					$sql=$this->conectar()->prepare("SELECT $campo FROM $tabla where  $campo=:ID and ESTATUS!='Alta'  ");
+				}
+				$sql->execute();
+				
+				return $resultado;
+			}
+	
 
 		/*----------  Funcion para ejecutar una consulta UPDATE preparada  ----------*/
 		protected function actualizarDatos($tabla,$datos,$condicion){

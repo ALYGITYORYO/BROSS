@@ -506,7 +506,6 @@ $(document).ready(function() {
                                     $('#folioAntiContainer').show();
                                     $('#fechaAntiContainer').show();
                                     $('#folioAntecedentesContainer').show();
-
                                     $('#fileLicenciaContainer').show();
                                     $('#fileExamenMedicoContainer').show();
                                     $('#fileAntiContainer').show();
@@ -523,7 +522,6 @@ $(document).ready(function() {
                                     $('#folioAntiContainer').hide();
                                     $('#fechaAntiContainer').hide();
                                     $('#folioAntecedentesContainer').hide();
-
                                     $('#fileLicenciaContainer').hide();
                                     $('#fileExamenMedicoContainer').hide();
                                     $('#fileAntiContainer').hide();
