@@ -68,7 +68,7 @@
                         <a href="<?php echo APP_URL; ?>vehiculosLogistica"> Logística de Vehículos </a>
                         </li>
                         <li>
-                        <a href="<?php echo APP_URL; ?>remision">Modulo Remisión</a>
+                        <a href="<?php echo APP_URL; ?>cotizacion">Modulo cotización</a>
                         </li>
                         <li>
                         <a href="<?php echo APP_URL; ?>remision">Modulo Remisión</a>

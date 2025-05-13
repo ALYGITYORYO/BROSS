@@ -25,16 +25,12 @@
 			# Lectura datos#
 			$tabla = $_GET['TABLA'];
 			$lista = array();
-			$drop_list=$this->ejecutarConsulta("SELECT * FROM `$tabla`");			
-			$fila = $drop_list->fetchall();
-			foreach ($fila as $row) {
-				$lista[]= array(
-					"ID" => $row["ID"],
-					"NOMBRE" => $row["NOMBRE"],
-					);
-			}
+			$drop_list=$this->ejecutarConsulta("SELECT * FROM `$tabla`");						
+			 while($fila = $drop_list->fetchall()) {
+            $lista[] = $fila;
+        }
 
-			echo json_encode($lista);
+        return json_encode($lista);
 		}
 
 

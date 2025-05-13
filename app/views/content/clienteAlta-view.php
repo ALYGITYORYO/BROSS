@@ -20,16 +20,37 @@
                     id="form_cliente" enctype="multipart/form-data">
                     <input type="hidden" name="catalogo_cliente" value="registrar">
                     <div class="row g-3">
-                        <div class="col-md-6">
-                            <label for="nombre" class="form-label">Nombre</label>
-                            <input type="text" class="form-control" id="nombre" name="nombre">
+                        <div class="col-md-4">
+                            <label for="nombre" class="form-label">Nombre(s)</label>
+                            <input type="text" class="form-control" id="nombre" name="nombre" required>
                             <div class="invalid-feedback">Por favor, ingresa tu nombre. (Solo letras y espacios, min. 3
+                                caracteres)</div>
+                        </div>
+                        <div class="col-md-4">
+                            <label for="apepat" class="form-label">Apellido Paterno</label>
+                            <input type="text" class="form-control" id="apepat" name="apepat" required>
+                            <div class="invalid-feedback">Por favor, ingresa tu apellido paterno. (Solo letras y espacios, min. 3
+                                caracteres)</div>
+                        </div>
+
+
+                         <div class="col-md-4">
+                            <label for="apemat" class="form-label">Apellido Materno</label>
+                            <input type="text" class="form-control" id="apemat" name="apemat">
+                            <div class="invalid-feedback">Por favor, ingresa tu apellido materno. (Solo letras y espacios, min. 3
+                                caracteres)</div>
+                        </div>
+
+                         <div class="col-md-6">
+                            <label for="razon" class="form-label">Razon social</label>
+                            <input type="text" class="form-control" id="razon" name="razon" required>
+                            <div class="invalid-feedback">Por favor, ingresa tu apellido materno. (Solo letras y espacios, min. 3
                                 caracteres)</div>
                         </div>
 
                         <div class="col-md-6">
                             <label for="rfc" class="form-label">RFC</label>
-                            <input type="text" class="form-control" id="rfc" name="rfc">
+                            <input type="text" class="form-control" id="rfc" name="rfc" required>
                             <div class="invalid-feedback">Por favor, ingresa un RFC válido. (Ej. AAA010101AAA)</div>
                         </div>
 
@@ -50,8 +71,7 @@
 
                         <div class="col-md-3">
                             <label for="numero_exterior" class="form-label">Número Exterior</label>
-                            <input type="text" class="form-control" id="numero_exterior" name="numero_exterior"
-                                >
+                            <input type="text" class="form-control" id="numero_exterior" name="numero_exterior">
                             <div class="invalid-feedback">Por favor, ingresa el número exterior.</div>
                         </div>
 
@@ -60,7 +80,7 @@
                                                                 <label class="form-label" for="cp">CP</label>
                                                                 <div class="input-group">
                                                                     <input type="text" class="form-control"
-                                                                        id="cp" placeholder="" name="cp">
+                                                                        id="cp" placeholder="" name="cp" required>
                                                                     <button class="btn btn-outline-secondary text-body"
                                                                         type="button" id="busca_codigo_postal">
                                                                         Buscar
@@ -237,34 +257,43 @@
                                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                                             <div class="mb-3">
                                                                 <label class="form-label"
-                                                                    for="colonia">COLONIA</label>
+                                                                    for="colonia">Colonia</label>
                                                                 <input type="text" class="form-control"
-                                                                    id="colonia" name="colonia">
+                                                                    id="colonia" name="colonia" required>
                                                             </div>
                                                         </div>
                                                         
                                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                                             <div class="mb-3">
                                                                 <label class="form-label"
-                                                                    for="ciudad">CIUDAD</label>
+                                                                    for="ciudad">Ciudad</label>
                                                                 <input type="text" class="form-control"
-                                                                    id="ciudad" name="ciudad">
+                                                                    id="ciudad" name="ciudad" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                                             <div class="mb-3">
                                                                 <label class="form-label"
-                                                                    for="municipio">MUNICIPIO</label>
+                                                                    for="municipio">Municipio</label>
                                                                 <input type="text" class="form-control"
-                                                                    id="municipio" name="municipio">
+                                                                    id="municipio" name="municipio" required>
                                                             </div>
                                                         </div>
                                                         <div class="col-xxl-3 col-lg-4 col-sm-6">
                                                             <div class="mb-3">
                                                                 <label class="form-label"
-                                                                    for="estado">ESTADO</label>
+                                                                    for="localidad">Localidad</label>
                                                                 <input type="text" class="form-control"
-                                                                    id="estado" name="estado">
+                                                                    id="localidad" name="localidad" required>
+                                                            </div>
+                                                        </div>
+
+                                                        <div class="col-xxl-3 col-lg-4 col-sm-6">
+                                                            <div class="mb-3">
+                                                                <label class="form-label"
+                                                                    for="estado">Esatado</label>
+                                                                <input type="text" class="form-control"
+                                                                    id="estado" name="estado" required>
                                                             </div>
                                                         </div>
 
@@ -272,14 +301,14 @@
                         <div class="col-md-3">
 
                             <label for="correo" class="form-label">Correo Electrónico</label>
-                            <input type="email" class="form-control" id="correo" name="correo">
+                            <input type="email" class="form-control" id="correo" name="correo" required>
                             <div class="invalid-feedback">Por favor, ingresa un correo electrónico válido.</div>
                         </div>
 
                         <div class="col-md-3">
 
                             <label for="correo" class="form-label">Teléfono</label>
-                            <input type="text" class="form-control" id="telefono" name="telefono">
+                            <input type="text" class="form-control" id="telefono" name="telefono" required>
                             <div class="invalid-feedback">Por favor, ingresa un teléfono.</div>
                         </div>
 
@@ -289,7 +318,7 @@
                             <div class="k-d-flex k-justify-content-center">
                                 <div class="k-w-300">
                                     <label for="regimen">Régimen</label>
-                                    <input class="form-control" id="regimen" name="regimen" style="width: 100%;" />
+                                    <input class="form-control" id="regimen" name="regimen" required style="width: 100%;" />
                                 </div>
                             </div>
                             <script id="noDataTemplateregimen" type="text/x-kendo-tmpl">
@@ -349,13 +378,17 @@
                                             $.getJSON(crudServiceBaseUrl +
                                                 "?catalogo_droplist=leer&TABLA=d_regimen",
                                                 function(result) {
-                                                    var data = JSON.stringify(result, null, 2);
-                                                    regimen = result;
-                                                    console.log(regimen);
-                                                    sampleDataNextregimen = regimen.length;
+                                                    //var data = JSON.stringify(result[0], null, 2);     
+                                                                                                   
+                                                    var data = result[0];
+                                                    console.log(data);
+                                                    regimen = data.map(item => ({
+                                                    ID: item.ID,
+                                                    NOMBRE: item.NOMBRE,
+                                                    CODIGO: item.CODIGO
+                                                    }));
                                                     console.log(regimen);
                                                     e.success(regimen);
-
                                                 });
 
                                         },
@@ -363,7 +396,7 @@
                                             e.data.ID = sampleDataNextregimen++;
                                             regimen.push(e.data);
                                             console.log(regimen);
-                                            e.success(e.data);
+                                            e.success(regimen);
                                         },
                                         parameterMap: function(options, operation) {
                                             if (operation !== "read" && options.models) {
@@ -375,12 +408,15 @@
                                     },
                                     schema: {
                                         model: {
-                                            id: "ID",
+                                            ID: "ID",
                                             fields: {
                                                 ID: {
                                                     type: "number"
                                                 },
                                                 NOMBRE: {
+                                                    type: "string"
+                                                },
+                                                CODIGO: {
                                                     type: "string"
                                                 }
                                             }
@@ -389,10 +425,10 @@
                                 });
                                 $("#regimen").kendoComboBox({
                                     filter: "startswith",
-                                    dataTextField: "NOMBRE",
+                                    dataTextField: "CODIGO",
                                     dataValueField: "ID",
-                                    dataSource: regimen_data,
-                                  
+                                    template: '<span class="ID">#= CODIGO #</span> #= NOMBRE #',
+                                    dataSource: regimen_data,    
                                     noDataTemplate: $("#noDataTemplateregimen").html()
                                 });
 
@@ -404,8 +440,129 @@
                         </div>
 
 
+                        <div class="col-md-12">
+                            <div class="k-d-flex k-justify-content-center">
+                                <div class="k-w-300">
+                                    <label for="usocfdi">Uso de CFDI</label>
+                                    <input class="form-control" id="usocfdi" required name="usocfdi" style="width: 100%;" />
+                                </div>
+                            </div>
+                        </div>
+                        <script>
+                            var usocfdi = [];
+                            var sampleDataNextusocfdi = 0;
+
+                            function getIndexByIdusocfdi(id) {
+                                var idx, l = usocfdi.length;
+                                for (var j = 0; j < l; j++) {
+                                    if (usocfdi[j].ID == id) {
+                                        return j;
+                                    }
+                                }
+                                return null;
+                            }
+
+                            function addNewusocfdi(widgetId, value) {
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
+                                var widget = $('#' + widgetId).getKendoComboBox();
+                                var dataSource = widget.dataSource;
+                                var id = getIndexByIdusocfdi(sampleDataNextusocfdi);
+                                if (confirm('¿Está seguro?')) {
+                                    dataSource.add({
+                                        ID: id,
+                                        NOMBRE: value
+                                    });
+                                    dataSource.one('sync', function() {
+                                        widget.close();
+                                    });
+                                    dataSource.sync();
+                                    $.ajax({
+                                        url: crudServiceBaseUrl + "?catalogo_droplist=registrar",
+                                        data: {
+                                            TABLA: 'd_usocfdi',
+                                            VALUE: value
+                                        },
+                                        type: 'post',
+                                        success: function(data) {
+                                            alert('la inserción: ' + data);
+                                        }
+                                    });
+                                }
+                            };
+                            </script>
+<script>
+                            $(document).ready(function() {
+                                var crudServiceBaseUrl = "<?php echo APP_URL; ?>app/ajax/droplistAjax.php";
+                                var usocfdi_data = new kendo.data.DataSource({
+                                    transport: {
+                                        read: function(e) {
+                                            $.getJSON(crudServiceBaseUrl +
+                                                "?catalogo_droplist=leer&TABLA=d_ucfdi",
+                                                function(result) {
+                                                    //var data = JSON.stringify(result[0], null, 2);     
+                                                                                                   
+                                                    var data = result[0];
+                                                    console.log(data);
+                                                    usocfdi = data.map(item => ({
+                                                    ID: item.ID,
+                                                    NOMBRE: item.NOMBRE,
+                                                    CODIGO: item.CODIGO
+                                                    }));
+                                                    console.log(usocfdi);
+                                                    e.success(usocfdi);
+                                                });
+
+                                        },
+                                        create: function(e) {
+                                            e.data.ID = sampleDataNextusocfdi++;
+                                            usocfdi.push(e.data);
+                                            console.log(usocfdi);
+                                            e.success(usocfdi);
+                                        },
+                                        parameterMap: function(options, operation) {
+                                            if (operation !== "read" && options.models) {
+                                                return {
+                                                    models: kendo.stringify(options.models)
+                                                };
+                                            }
+                                        }
+                                    },
+                                    schema: {
+                                        model: {
+                                            ID: "ID",
+                                            fields: {
+                                                ID: {
+                                                    type: "number"
+                                                },
+                                                NOMBRE: {
+                                                    type: "string"
+                                                },
+                                                CODIGO: {
+                                                    type: "string"
+                                                }
+                                            }
+                                        }
+                                    }
+                                });
+                                $("#usocfdi").kendoComboBox({
+                                    filter: "startswith",
+                                    dataTextField: "CODIGO",
+                                    dataValueField: "ID",
+                                    template: '<span class="ID">#= CODIGO #</span> #= NOMBRE #',
+                                    dataSource: usocfdi_data,    
+                                    noDataTemplate: $("#noDataTemplateusocfdi").html()
+                                });
+
+                                
+
+                            });
+                            </script>
+                     
+
+                        
+
                         <div class="mb-3">
-                            <label class="form-label">Ccondiciones de ventas pactada
+                            <label class="form-label">Condiciones de ventas pactada
                                 <span class="text-danger">*</span></label>
                             <div class="m-0">
                                 <div class="form-check form-check-inline">

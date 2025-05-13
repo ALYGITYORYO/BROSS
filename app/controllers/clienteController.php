@@ -10,6 +10,9 @@
 
 			# Almacenando datos#
 			$nombre =$_POST['nombre'];
+			$apepat =$_POST['apepat'];
+			$apemat =$_POST['apemat'];
+			$razon =$_POST['razon'];
 			$rfc =$_POST['rfc'];
 			$calle =$_POST['calle'];
 			$numero_interior =$_POST['numero_interior'];
@@ -18,19 +21,110 @@
 			$municipio =$_POST['municipio'];
 			$ciudad =$_POST['ciudad'];
 			$estado =$_POST['estado'];
+			$localidad =$_POST['localidad'];
 			$cp =$_POST['cp'];
 			$regimen =$_POST['regimen_input'];
+			$usocfdi =$_POST['usocfdi_input'];
 			$correo =$_POST['correo'];
 			$telefono =$_POST['telefono'];
 			$domicilios =$_POST['domicilios'];
 			$credito =$_POST['diasCredito'];
 			$condiciones =$_POST['condiciones'];
 			
+
+			//API PARA INGRESAR A FACTURACION 
+			$curl = curl_init();
+
+			curl_setopt_array($curl, array(
+			CURLOPT_URL => 'https://sandbox.factura.com/api/v1/clients/create',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',			
+			CURLOPT_POSTFIELDS => json_encode(array(
+				"rfc" => $rfc,
+				"razons" => $razon,
+				"codpos" => $cp, 
+				"email" => $correo,
+				"usocfdi" => $usocfdi,
+				"regimen" => $regimen,
+				"calle" => $calle,
+				"numero_exterior" => $numero_exterior,
+				"numero_interior" => $numero_interior,
+				"colonia" => $colonia,
+				"ciudad" => $ciudad,
+				"delegacion" => $municipio, 
+				"localidad" => $localidad, 
+				"estado" => $estado,
+				"pais" => "MEX", 
+				"numregidtrib" => "", // Este valor parece ser estático
+				"nombre" => $nombre,
+				"apellidos" => $apepat." ".$apemat, 
+				"telefono" => $telefono,
+				"email2" => "", // Este valor parece ser estático
+				"email3" => "" // Este valor parece ser estático
+			)),
+
+			CURLOPT_HTTPHEADER => array(
+				'Content-Type: application/json',
+				'F-PLUGIN: 9d4095c8f7ed5785cb14c0e3b033eeb8252416ed',
+				'F-Api-Key:JDJ5JDEwJGJoanluQ25KRjJOMERFb1N1MURYN3VYYk1mQTlOZkxoREhlSkZwcDM4b2xmU2dLbGdQSFR5',
+    			'F-Secret-Key:JDJ5JDEwJG9uSE5xZEJUQnVEbWtDZzRCcGVja2VnVmtNS0VqWC83U0NSc2RCV0g1L2NjcGRIREJSVEtl'
+			),
+			));
+
+			$response = curl_exec($curl);
+
+			curl_close($curl);
+
+			$response = curl_exec($curl);
+			curl_close($curl);
+
+			// Decodificar la respuesta JSON a un array asociativo de PHP
+			$data = json_decode($response, true);
+
+			// Verificar si la decodificación fue exitosa y si el UID existe en la respuesta
+			if ($data['status']=='success' && isset($data)) {
+				// Imprimir el UID
+				$uid= $data['Data']['UID'];
+			} else {
+				$alerta=[
+						"tipo"=>"simple",
+						"titulo"=>"Ocurrió un error inesperado",
+						"texto"=>"No pudimos conectarnos a la API de facturas",
+						"icono"=>"error"
+					];
+					return json_encode($alerta);
+					exit();
+			}
+
+
+
             $cliente_datos_reg=[
 				[
 					"campo_nombre"=>"NOMBRE",
 					"campo_marcador"=>":NOMBRE",
 					"campo_valor"=>$nombre
+				],[
+					"campo_nombre"=>"RAZON",
+					"campo_marcador"=>":RAZON",
+					"campo_valor"=>$razon
+				],[
+					"campo_nombre"=>"APEPAT",
+					"campo_marcador"=>":APEPAT",
+					"campo_valor"=>$apepat
+				],[
+					"campo_nombre"=>"APEMAT",
+					"campo_marcador"=>":APEMAT",
+					"campo_valor"=>$apemat
+				],
+				[
+					"campo_nombre"=>"UID",
+					"campo_marcador"=>":UID",
+					"campo_valor"=>$uid
 				],
 				[
 					"campo_nombre"=>"RFC",
@@ -43,6 +137,7 @@
 					"campo_marcador"=>":CALLE",
 					"campo_valor"=>$calle
 				],
+				
 				[
 					"campo_nombre"=>"NUM_INT",
 					"campo_marcador"=>":NUM_INT",
@@ -64,11 +159,17 @@
 					"campo_nombre"=>"CIUDAD",
 					"campo_marcador"=>":CIUDAD",
 					"campo_valor"=>$ciudad
-				],[
+				],
+				[
 					"campo_nombre"=>"ESTADO",
 					"campo_marcador"=>":ESTADO",
 					"campo_valor"=>$estado
 				],[
+					"campo_nombre"=>"LOCALIDAD",
+					"campo_marcador"=>":LOCALIDAD",
+					"campo_valor"=>$localidad
+				],
+				[
 					"campo_nombre"=>"CP",
 					"campo_marcador"=>":CP",
 					"campo_valor"=>$cp
@@ -78,6 +179,12 @@
 					"campo_marcador"=>":REGIMEN",
 					"campo_valor"=>$regimen
 				],
+				[
+					"campo_nombre"=>"USO_CFDI",
+					"campo_marcador"=>":USO_CFDI",
+					"campo_valor"=>$usocfdi
+				],
+
 				[
 					"campo_nombre"=>"CORREO",
 					"campo_marcador"=>":CORREO",
@@ -104,13 +211,20 @@
 				]
 			];
 			$registrar_usuario=$this->guardarDatos("clientes",$cliente_datos_reg);
+			
+			
+
+			
+			//echo $response;
 			$alerta=[
 				"tipo"=>"limpiar",
 				"titulo"=>"Usuario registrado",
-				"texto"=>"El cliente ".$nombre." se registro con exito",
+				"texto"=>"El cliente ".$razon." se registro con exito con el UID: ".$uid,
 				"icono"=>"success"
 			];
+
 			return json_encode($alerta);
+
 		}
 
 		/*----------  Controlador listar usuario  ----------*/
@@ -269,9 +383,12 @@
 		public function actualizarClientesControllers(){
 			
 			# Almacenando datos#
-
+			$curl = curl_init();
 			$id =$_POST['id_cliente'];
 			$nombre =$_POST['nombre'];
+			$apemat =$_POST['apemat'];
+			$apepat =$_POST['apepat'];
+			$razon =$_POST['razon'];
 			$rfc =$_POST['rfc'];
 			$calle =$_POST['calle'];
 			$numero_interior =$_POST['numero_interior'];
@@ -280,19 +397,175 @@
 			$municipio =$_POST['municipio'];
 			$ciudad =$_POST['ciudad'];
 			$estado =$_POST['estado'];
+			$localidad =$_POST['localidad'];
 			$cp =$_POST['cp'];
 			$regimen =$_POST['regimen_input'];
+			$usocfdi =$_POST['usocfdi_input'];
 			$correo =$_POST['correo'];
 			$telefono =$_POST['telefono'];
 			$domicilios =$_POST['domicilios'];
 			$credito =$_POST['diasCredito'];
 			$condiciones =$_POST['condiciones'];
+			$uid=$_POST['uid'];
+			if($uid!=""){
+				
+				curl_setopt_array($curl, array(
+				CURLOPT_URL => 'https://sandbox.factura.com/api/v1/clients/'.$uid.'/update',
+				CURLOPT_RETURNTRANSFER => true,
+				CURLOPT_ENCODING => '',
+				CURLOPT_MAXREDIRS => 10,
+				CURLOPT_TIMEOUT => 0,
+				CURLOPT_FOLLOWLOCATION => true,
+				CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+				CURLOPT_CUSTOMREQUEST => 'POST',
+				CURLOPT_POSTFIELDS => json_encode(array(
+				
+				"rfc" => $rfc,
+				"razons" => $razon,
+				"codpos" => $cp, 
+				"email" => $correo,
+				"usocfdi" => $usocfdi,
+				"regimen" => $regimen,
+				"calle" => $calle,
+				"numero_exterior" => $numero_exterior,
+				"numero_interior" => $numero_interior,
+				"colonia" => $colonia,
+				"ciudad" => $ciudad,
+				"delegacion" => $municipio, 
+				"localidad" => $localidad, 
+				"estado" => $estado,
+				"pais" => "MEX", 
+				"numregidtrib" => "", // Este valor parece ser estático
+				"nombre" => $nombre,
+				"apellidos" => $apepat." ".$apemat, 
+				"telefono" => $telefono,
+				"email2" => "", // Este valor parece ser estático
+				"email3" => "" // Este valor parece ser estático
+			    )),
+				CURLOPT_HTTPHEADER => array(
+					'Content-Type: application/json',
+					'F-PLUGIN: 9d4095c8f7ed5785cb14c0e3b033eeb8252416ed',
+					'F-Api-Key:JDJ5JDEwJGJoanluQ25KRjJOMERFb1N1MURYN3VYYk1mQTlOZkxoREhlSkZwcDM4b2xmU2dLbGdQSFR5',
+    				'F-Secret-Key:JDJ5JDEwJG9uSE5xZEJUQnVEbWtDZzRCcGVja2VnVmtNS0VqWC83U0NSc2RCV0g1L2NjcGRIREJSVEtl'
+				),
+				));
+
+				$response = curl_exec($curl);
+
+			curl_close($curl);
+
+			$response = curl_exec($curl);
+			curl_close($curl);
+
+			// Decodificar la respuesta JSON a un array asociativo de PHP
+			$data = json_decode($response, true);
+
+			// Verificar si la decodificación fue exitosa y si el UID existe en la respuesta
+			if ($data['status']=='error') {
 			
+				$alerta=[
+						"tipo"=>"simple",
+						"titulo"=>"Ocurrió un error inesperado",
+						"texto"=>$data['Data'],
+						"icono"=>"error"
+					];
+					return json_encode($alerta);
+					exit();
+			}
+				
+			}
+			else{
+
+			curl_setopt_array($curl, array(
+			CURLOPT_URL => 'https://sandbox.factura.com/api/v1/clients/create',
+			CURLOPT_RETURNTRANSFER => true,
+			CURLOPT_ENCODING => '',
+			CURLOPT_MAXREDIRS => 10,
+			CURLOPT_TIMEOUT => 0,
+			CURLOPT_FOLLOWLOCATION => true,
+			CURLOPT_HTTP_VERSION => CURL_HTTP_VERSION_1_1,
+			CURLOPT_CUSTOMREQUEST => 'POST',			
+			CURLOPT_POSTFIELDS => json_encode(array(
+				"rfc" => $rfc,
+				"razons" => $razon,
+				"codpos" => $cp, 
+				"email" => $correo,
+				"usocfdi" => $usocfdi,
+				"regimen" => $regimen,
+				"calle" => $calle,
+				"numero_exterior" => $numero_exterior,
+				"numero_interior" => $numero_interior,
+				"colonia" => $colonia,
+				"ciudad" => $ciudad,
+				"delegacion" => $municipio, 
+				"localidad" => $localidad, 
+				"estado" => $estado,
+				"pais" => "MEX", 
+				"numregidtrib" => "", // Este valor parece ser estático
+				"nombre" => $nombre,
+				"apellidos" => $apepat." ".$apemat, 
+				"telefono" => $telefono,
+				"email2" => "", // Este valor parece ser estático
+				"email3" => "" // Este valor parece ser estático
+			)),
+
+			CURLOPT_HTTPHEADER => array(
+				'Content-Type: application/json',
+				'F-PLUGIN: 9d4095c8f7ed5785cb14c0e3b033eeb8252416ed',
+				'F-Api-Key:JDJ5JDEwJGJoanluQ25KRjJOMERFb1N1MURYN3VYYk1mQTlOZkxoREhlSkZwcDM4b2xmU2dLbGdQSFR5',
+    			'F-Secret-Key:JDJ5JDEwJG9uSE5xZEJUQnVEbWtDZzRCcGVja2VnVmtNS0VqWC83U0NSc2RCV0g1L2NjcGRIREJSVEtl'
+			),
+			));
+
+			$response = curl_exec($curl);
+
+			curl_close($curl);
+
+			
+
+			// Decodificar la respuesta JSON a un array asociativo de PHP
+			$data = json_decode($response, true);
+
+			// Verificar si la decodificación fue exitosa y si el UID existe en la respuesta
+			if ($data['status']=='success' && isset($data)) {
+				// Imprimir el UID
+				$uid= $data['Data']['UID'];
+			} else {
+				$alerta=[
+						"tipo"=>"simple",
+						"titulo"=>"Ocurrió un error inesperado",
+						"texto"=>"No pudimos conectarnos a la API de facturas". $data['Data'],
+						"icono"=>"error"
+					];
+					return json_encode($alerta);
+					exit();
+			}
+
+
+
+			}
             $cliente_datos_update=[
 				[
 					"campo_nombre"=>"NOMBRE",
 					"campo_marcador"=>":NOMBRE",
 					"campo_valor"=>$nombre
+				],[
+					"campo_nombre"=>"RAZON",
+					"campo_marcador"=>":RAZON",
+					"campo_valor"=>$razon
+				],[
+					"campo_nombre"=>"APEPAT",
+					"campo_marcador"=>":APEPAT",
+					"campo_valor"=>$apepat
+				],[
+					"campo_nombre"=>"APEMAT",
+					"campo_marcador"=>":APEMAT",
+					"campo_valor"=>$apemat
+				],
+				[
+					"campo_nombre"=>"UID",
+					"campo_marcador"=>":UID",
+					"campo_valor"=>$uid
 				],
 				[
 					"campo_nombre"=>"RFC",
@@ -305,6 +578,7 @@
 					"campo_marcador"=>":CALLE",
 					"campo_valor"=>$calle
 				],
+				
 				[
 					"campo_nombre"=>"NUM_INT",
 					"campo_marcador"=>":NUM_INT",
@@ -326,11 +600,17 @@
 					"campo_nombre"=>"CIUDAD",
 					"campo_marcador"=>":CIUDAD",
 					"campo_valor"=>$ciudad
-				],[
+				],
+				[
 					"campo_nombre"=>"ESTADO",
 					"campo_marcador"=>":ESTADO",
 					"campo_valor"=>$estado
 				],[
+					"campo_nombre"=>"LOCALIDAD",
+					"campo_marcador"=>":LOCALIDAD",
+					"campo_valor"=>$localidad
+				],
+				[
 					"campo_nombre"=>"CP",
 					"campo_marcador"=>":CP",
 					"campo_valor"=>$cp
@@ -340,6 +620,12 @@
 					"campo_marcador"=>":REGIMEN",
 					"campo_valor"=>$regimen
 				],
+				[
+					"campo_nombre"=>"USO_CFDI",
+					"campo_marcador"=>":USO_CFDI",
+					"campo_valor"=>$usocfdi
+				],
+
 				[
 					"campo_nombre"=>"CORREO",
 					"campo_marcador"=>":CORREO",
@@ -375,7 +661,7 @@
 				$alerta=[
 					"tipo"=>"recargar",
 					"titulo"=>"Cliente actualizado",
-					"texto"=>"Los datos del cliente ".$nombre." se actualizaron correctamente",
+					"texto"=>"Los datos del cliente ".$razon." se actualizaron correctamente con el UID: ".$uid,
 					"icono"=>"success"
 				];
 			}else{
